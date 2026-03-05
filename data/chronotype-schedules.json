@@ -1,0 +1,71 @@
+{
+  "morning": {
+    "label": "Morning Type",
+    "icon": "sun-rise",
+    "wakeTime": "06:00",
+    "sleepTime": "22:00",
+    "trainingWindow": { "start": "08:00", "end": "11:00" },
+    "windows": {
+      "training": {
+        "breakfast":    { "time": "07:00", "share": 0.28, "class": "A", "label": "Breakfast" },
+        "postWorkout":  { "time": "11:30", "share": 0.30, "class": "A", "label": "Post-Workout" },
+        "afternoon":    { "time": "15:00", "share": 0.17, "class": "A", "label": "Afternoon Snack" },
+        "dinner":       { "time": "18:30", "share": 0.17, "class": "B", "label": "Dinner" },
+        "preSleep":     { "time": "21:30", "share": 0.08, "class": "B", "label": "Pre-Sleep" }
+      },
+      "rest": {
+        "breakfast":    { "time": "07:00", "share": 0.30, "class": "A", "label": "Breakfast" },
+        "lunch":        { "time": "12:00", "share": 0.22, "class": "A", "label": "Lunch" },
+        "afternoon":    { "time": "15:30", "share": 0.22, "class": "D", "label": "Afternoon Snack" },
+        "dinner":       { "time": "18:30", "share": 0.18, "class": "B", "label": "Dinner" },
+        "preSleep":     { "time": "21:30", "share": 0.08, "class": "B", "label": "Pre-Sleep" }
+      }
+    }
+  },
+  "intermediate": {
+    "label": "Intermediate Type",
+    "icon": "sun",
+    "wakeTime": "07:30",
+    "sleepTime": "23:00",
+    "trainingWindow": { "start": "10:00", "end": "13:00" },
+    "windows": {
+      "training": {
+        "breakfast":    { "time": "08:30", "share": 0.25, "class": "A", "label": "Breakfast" },
+        "postWorkout":  { "time": "13:30", "share": 0.30, "class": "A", "label": "Post-Workout" },
+        "afternoon":    { "time": "16:30", "share": 0.17, "class": "A", "label": "Afternoon Snack" },
+        "dinner":       { "time": "19:30", "share": 0.20, "class": "B", "label": "Dinner" },
+        "preSleep":     { "time": "22:30", "share": 0.08, "class": "B", "label": "Pre-Sleep" }
+      },
+      "rest": {
+        "breakfast":    { "time": "08:30", "share": 0.28, "class": "A", "label": "Breakfast" },
+        "lunch":        { "time": "13:00", "share": 0.24, "class": "A", "label": "Lunch" },
+        "afternoon":    { "time": "16:30", "share": 0.22, "class": "D", "label": "Afternoon Snack" },
+        "dinner":       { "time": "19:30", "share": 0.18, "class": "B", "label": "Dinner" },
+        "preSleep":     { "time": "22:30", "share": 0.08, "class": "B", "label": "Pre-Sleep" }
+      }
+    }
+  },
+  "evening": {
+    "label": "Evening Type",
+    "icon": "moon",
+    "wakeTime": "09:30",
+    "sleepTime": "01:00",
+    "trainingWindow": { "start": "15:00", "end": "19:00" },
+    "windows": {
+      "training": {
+        "brunch":       { "time": "10:30", "share": 0.19, "class": "A", "label": "Brunch" },
+        "lunch":        { "time": "13:30", "share": 0.23, "class": "A", "label": "Lunch" },
+        "postWorkout":  { "time": "19:30", "share": 0.30, "class": "A", "label": "Post-Workout" },
+        "eveningSnack": { "time": "21:30", "share": 0.17, "class": "D", "label": "Evening Snack" },
+        "preSleep":     { "time": "00:30", "share": 0.11, "class": "B", "label": "Pre-Sleep" }
+      },
+      "rest": {
+        "brunch":       { "time": "10:30", "share": 0.25, "class": "A", "label": "Brunch" },
+        "lunch":        { "time": "14:00", "share": 0.25, "class": "A", "label": "Lunch" },
+        "afternoon":    { "time": "17:30", "share": 0.22, "class": "D", "label": "Afternoon Snack" },
+        "dinner":       { "time": "21:00", "share": 0.18, "class": "B", "label": "Dinner" },
+        "preSleep":     { "time": "00:30", "share": 0.10, "class": "B", "label": "Pre-Sleep" }
+      }
+    }
+  }
+}

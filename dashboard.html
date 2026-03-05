@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChronoProtein — My Daily Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/design-system.css">
+<style>
+  .dash-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+  }
+
+  .dash-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .dash-header h1 {
+    font-size: clamp(32px, 6vw, 52px);
+    line-height: 1;
+  }
+
+  .dash-controls {
+    display: flex;
+    gap: 8px;
+  }
+
+  .day-toggle {
+    display: flex;
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .day-toggle button {
+    padding: 8px 18px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    background: var(--card);
+    color: var(--sub);
+    cursor: pointer;
+    transition: all var(--duration) var(--ease-out);
+  }
+
+  .day-toggle button.active {
+    background: var(--green);
+    color: var(--dark);
+  }
+
+  .chronotype-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--sub);
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border);
+    background: var(--card);
+  }
+
+  /* ── Section titles ── */
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 28px;
+    letter-spacing: 0.03em;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  /* ── No plan state ── */
+  .no-plan {
+    text-align: center;
+    padding: 80px 20px;
+  }
+
+  .no-plan h2 {
+    font-size: 36px;
+    margin-bottom: 12px;
+    color: var(--sub);
+  }
+
+  .no-plan p {
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  /* ── Evidence footer ── */
+  .evidence-bar {
+    margin-top: 32px;
+    padding: 16px 20px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: rgba(255,172,10,0.04);
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .evidence-bar strong { color: var(--amber); }
+</style>
+</head>
+<body>
+
+<div class="dash-container">
+
+  <!-- No-plan fallback -->
+  <div id="no-plan" class="no-plan" style="display:none">
+    <h2>NO PROTOCOL YET</h2>
+    <p>Complete the onboarding to generate your personalized protein schedule.</p>
+    <a href="onboarding.html" class="btn btn-primary btn-lg">Build My Protocol</a>
+  </div>
+
+  <!-- Dashboard (shown when plan exists) -->
+  <div id="dashboard" style="display:none">
+
+    <!-- Header -->
+    <div class="dash-header">
+      <div>
+        <h1><span class="gradient-cool">MY PLAN</span></h1>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap">
+          <span class="chronotype-label" id="chronotype-badge"></span>
+          <span class="chronotype-label" id="goal-badge"></span>
+        </div>
+      </div>
+      <div class="dash-controls">
+        <div class="day-toggle">
+          <button class="active" id="btn-training" onclick="toggleDay('training')">Training Day</button>
+          <button id="btn-rest" onclick="toggleDay('rest')">Rest Day</button>
+        </div>
+        <a href="onboarding.html" class="btn btn-secondary" style="font-size:13px">Edit Profile</a>
+      </div>
+    </div>
+
+    <!-- Summary stats -->
+    <div class="section-label">DAILY TARGETS</div>
+    <div class="section-sub">Your personalized numbers based on your profile</div>
+    <div id="summary-stats" style="margin-bottom:32px"></div>
+
+    <!-- Timeline -->
+    <div class="section-label">24H TIMELINE</div>
+    <div class="section-sub">Your protein windows across the day</div>
+    <div id="timeline" style="margin-bottom:32px;position:relative"></div>
+
+    <!-- Window cards -->
+    <div class="section-label">PROTEIN WINDOWS</div>
+    <div class="section-sub">Tap any window for food suggestions and leucine check</div>
+    <div id="window-cards"></div>
+
+    <!-- Evidence -->
+    <div class="evidence-bar">
+      <strong>Science basis:</strong> Your schedule is built from 113 scientific references including Mamerow 2014 (protein distribution), Morton 2018 (total intake meta-analysis), Trommelen 2023 (pre-sleep protein RCT), Negri 2025 (chrono-nutrition review), and the 2025 MDPI timing meta-analysis. Leucine thresholds from Norton 2006 and Churchward-Venne 2012, adjusted for age per Katsanos 2006.
+    </div>
+
+  </div>
+
+</div>
+
+<script src="js/chronotype.js"></script>
+<script src="js/protein-classes.js"></script>
+<script src="js/calculator.js"></script>
+<script src="js/schedule-builder.js"></script>
+<script>
+  let currentProfile = null;
+  let currentDayType = 'training';
+
+  function init() {
+    const profileStr = localStorage.getItem('chronoProfile');
+    const planStr = localStorage.getItem('chronoPlan');
+
+    if (!profileStr || !planStr) {
+      document.getElementById('no-plan').style.display = 'block';
+      document.getElementById('dashboard').style.display = 'none';
+      return;
+    }
+
+    document.getElementById('no-plan').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+
+    currentProfile = JSON.parse(profileStr);
+    renderDashboard();
+  }
+
+  function renderDashboard() {
+    const profile = { ...currentProfile, isTrainingDay: currentDayType === 'training' };
+    const plan = ChronoCalculator.calculate(profile);
+
+    // Badges
+    const chronoResult = ChronoQuiz.score({
+      wake: 3, peak: 3, exercise: 3 // fallback
+    });
+    document.getElementById('chronotype-badge').textContent =
+      `${profile.chronotype.charAt(0).toUpperCase() + profile.chronotype.slice(1)} Chronotype`;
+    document.getElementById('goal-badge').textContent =
+      `${profile.goal.charAt(0).toUpperCase() + profile.goal.slice(1)} — ${plan.targets.proteinPerKg} g/kg`;
+
+    // Render components
+    ScheduleBuilder.renderSummary(plan, 'summary-stats');
+    ScheduleBuilder.renderTimeline(plan, 'timeline');
+    ScheduleBuilder.renderWindowCards(plan, 'window-cards');
+  }
+
+  function toggleDay(type) {
+    currentDayType = type;
+
+    document.getElementById('btn-training').classList.toggle('active', type === 'training');
+    document.getElementById('btn-rest').classList.toggle('active', type === 'rest');
+
+    renderDashboard();
+  }
+
+  // ── Init on load ──
+  init();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChronoProtein — Personalized Protein Timing</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/design-system.css">
+<style>
+  .hero {
+    text-align: center;
+    padding: 80px 20px 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .hero h1 { margin-bottom: 8px; }
+  .hero h1 .line2 {
+    background: linear-gradient(135deg, var(--teal), var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--sub);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 60px;
+  }
+
+  /* ── Feature grid ── */
+  .features {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 14px;
+    padding: 0 20px 60px;
+  }
+
+  .feature-card {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: var(--card);
+    padding: 24px;
+    animation: fadeUp 0.5s ease both;
+  }
+  .feature-card:nth-child(2) { animation-delay: 0.1s; }
+  .feature-card:nth-child(3) { animation-delay: 0.2s; }
+  .feature-card:nth-child(4) { animation-delay: 0.3s; }
+
+  .feature-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 14px;
+  }
+
+  .feature-card h3 {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .feature-card p {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.6;
+  }
+
+  /* ── Protein classes preview ── */
+  .classes-row {
+    max-width: 900px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .class-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid;
+    cursor: default;
+  }
+
+  .class-chip .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: rgba(255,172,10,0.04);
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .site-footer strong { color: var(--amber); }
+</style>
+</head>
+<body>
+
+<!-- ─── HERO ─────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-eyebrow">Chrono-Nutrition Science</div>
+  <h1>
+    <span class="gradient-warm">CHRONO</span><br>
+    <span class="line2">PROTEIN</span>
+  </h1>
+  <p class="hero-sub">
+    Your body has an internal clock that controls when protein becomes muscle.
+    Stop guessing. Start timing. Get a personalized plan based on your chronotype,
+    training schedule, and the latest science.
+  </p>
+  <div class="hero-cta-group">
+    <a href="onboarding.html" class="btn btn-primary btn-lg">Build My Protocol</a>
+    <a href="metabolic-windows.html" class="btn btn-secondary btn-lg">See the Science</a>
+  </div>
+</section>
+
+<!-- ─── FEATURES ──────────────────────────────── -->
+<section class="features">
+  <div class="feature-card">
+    <div class="feature-icon" style="background:rgba(0,194,124,0.12)">🧬</div>
+    <h3>Chronotype-Personalized</h3>
+    <p>Morning bird or night owl? Your circadian rhythm shifts every protein window. We calculate the optimal schedule for YOUR biology.</p>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon" style="background:rgba(255,172,10,0.12)">⚡</div>
+    <h3>Leucine Threshold Check</h3>
+    <p>Every meal shows whether you've hit the 2-3g leucine minimum to activate mTORC1 — the master switch for muscle protein synthesis.</p>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon" style="background:rgba(123,158,255,0.12)">🌙</div>
+    <h3>Sleep Recovery Protocol</h3>
+    <p>Pre-sleep protein raises overnight muscle synthesis by +22%. We tell you exactly what type, how much, and when — based on YOUR bedtime.</p>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon" style="background:rgba(255,59,47,0.12)">🔥</div>
+    <h3>Catabolic/Anabolic Windows</h3>
+    <p>See the exact metabolic cascade from final rep to full recovery. Know when your body is destroying muscle vs. building it — and how to flip the switch.</p>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon" style="background:rgba(152,255,110,0.12)">🌿</div>
+    <h3>Plant-Based Ready</h3>
+    <p>Vegan or vegetarian? We map complementary protein combinations and auto-flag when leucine fortification is needed to match animal protein performance.</p>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon" style="background:rgba(0,180,216,0.12)">📊</div>
+    <h3>5 Protein Classes</h3>
+    <p>Not all protein is equal. We classify into Fast (whey), Slow (casein), Plant, Leucine-boosted, and Structural (collagen) — each assigned to its optimal window.</p>
+  </div>
+</section>
+
+<!-- ─── PROTEIN CLASSES PREVIEW ───────────────── -->
+<div class="classes-row">
+  <div class="class-chip" style="background:rgba(79,255,176,0.08);border-color:rgba(79,255,176,0.3);color:#4FFFB0">
+    <span class="dot" style="background:#4FFFB0"></span> Class A — Whey / Fast
+  </div>
+  <div class="class-chip" style="background:rgba(123,158,255,0.08);border-color:rgba(123,158,255,0.3);color:#7B9EFF">
+    <span class="dot" style="background:#7B9EFF"></span> Class B — Casein / Slow
+  </div>
+  <div class="class-chip" style="background:rgba(255,215,0,0.08);border-color:rgba(255,215,0,0.3);color:#FFD700">
+    <span class="dot" style="background:#FFD700"></span> Class C — Leucine Boost
+  </div>
+  <div class="class-chip" style="background:rgba(152,255,110,0.08);border-color:rgba(152,255,110,0.3);color:#98FF6E">
+    <span class="dot" style="background:#98FF6E"></span> Class D — Plant
+  </div>
+  <div class="class-chip" style="background:rgba(255,158,170,0.08);border-color:rgba(255,158,170,0.3);color:#FF9EAA">
+    <span class="dot" style="background:#FF9EAA"></span> Class E — Collagen
+  </div>
+</div>
+
+<!-- ─── FOOTER ─────────────────────────────────── -->
+<div class="site-footer">
+  <strong>Evidence-informed, not guesswork.</strong> Built on 113 scientific references (2006–2026) including meta-analyses, RCTs, and the latest chrono-nutrition reviews. Updated March 2026.
+  <br><br>
+  ChronoProtein is a science education platform. Consult a healthcare professional before making dietary changes.
+</div>
+
+</body>
+</html>

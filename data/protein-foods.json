@@ -1,0 +1,38 @@
+[
+  { "name": "Whey Protein Isolate",   "class": "A", "protein100g": 90, "leucine100g": 10.5, "absorption": "fast",  "diet": ["omnivore","vegetarian"], "best_window": ["postWorkout","breakfast"] },
+  { "name": "Whey Protein Concentrate","class": "A", "protein100g": 80, "leucine100g": 9.2,  "absorption": "fast",  "diet": ["omnivore","vegetarian"], "best_window": ["postWorkout","breakfast"] },
+  { "name": "Egg Whites (cooked)",     "class": "A", "protein100g": 11, "leucine100g": 0.93, "absorption": "fast",  "diet": ["omnivore","vegetarian"], "best_window": ["breakfast","lunch"] },
+  { "name": "Whole Eggs (cooked)",     "class": "A", "protein100g": 13, "leucine100g": 1.09, "absorption": "fast",  "diet": ["omnivore","vegetarian"], "best_window": ["breakfast","lunch"] },
+  { "name": "Chicken Breast (grilled)","class": "A", "protein100g": 31, "leucine100g": 2.41, "absorption": "medium","diet": ["omnivore"], "best_window": ["postWorkout","lunch","dinner"] },
+  { "name": "Turkey Breast",           "class": "A", "protein100g": 29, "leucine100g": 2.17, "absorption": "medium","diet": ["omnivore"], "best_window": ["lunch","dinner"] },
+  { "name": "Salmon (baked)",          "class": "A", "protein100g": 25, "leucine100g": 1.87, "absorption": "medium","diet": ["omnivore"], "best_window": ["lunch","dinner"] },
+  { "name": "Tuna (canned in water)",  "class": "A", "protein100g": 26, "leucine100g": 2.01, "absorption": "medium","diet": ["omnivore"], "best_window": ["lunch","afternoon"] },
+  { "name": "Lean Beef (sirloin)",     "class": "A", "protein100g": 27, "leucine100g": 2.14, "absorption": "medium","diet": ["omnivore"], "best_window": ["lunch","postWorkout"] },
+  { "name": "Shrimp (cooked)",         "class": "A", "protein100g": 24, "leucine100g": 1.84, "absorption": "medium","diet": ["omnivore"], "best_window": ["lunch","dinner"] },
+
+  { "name": "Micellar Casein Powder",  "class": "B", "protein100g": 85, "leucine100g": 7.8,  "absorption": "slow",  "diet": ["omnivore","vegetarian"], "best_window": ["preSleep"] },
+  { "name": "Cottage Cheese (2%)",     "class": "B", "protein100g": 11, "leucine100g": 1.01, "absorption": "slow",  "diet": ["omnivore","vegetarian"], "best_window": ["preSleep","dinner"] },
+  { "name": "Greek Yogurt (0% fat)",   "class": "B", "protein100g": 10, "leucine100g": 0.85, "absorption": "slow",  "diet": ["omnivore","vegetarian"], "best_window": ["preSleep","afternoon","breakfast"] },
+  { "name": "Quark",                   "class": "B", "protein100g": 14, "leucine100g": 1.28, "absorption": "slow",  "diet": ["omnivore","vegetarian"], "best_window": ["preSleep","afternoon"] },
+  { "name": "Skyr",                    "class": "B", "protein100g": 11, "leucine100g": 0.96, "absorption": "slow",  "diet": ["omnivore","vegetarian"], "best_window": ["preSleep","afternoon","breakfast"] },
+  { "name": "Milk (whole)",            "class": "B", "protein100g":  3.3,"leucine100g": 0.30, "absorption": "slow",  "diet": ["omnivore","vegetarian"], "best_window": ["preSleep"] },
+
+  { "name": "Free L-Leucine (supp.)",  "class": "C", "protein100g":  0, "leucine100g": 100,  "absorption": "fast",  "diet": ["omnivore","vegetarian","vegan"], "best_window": ["any"] },
+  { "name": "BCAA 2:1:1 Powder",       "class": "C", "protein100g":  0, "leucine100g": 50,   "absorption": "fast",  "diet": ["omnivore","vegetarian","vegan"], "best_window": ["postWorkout","any"] },
+  { "name": "EAA Complex Powder",      "class": "C", "protein100g": 70, "leucine100g": 24,   "absorption": "fast",  "diet": ["omnivore","vegetarian","vegan"], "best_window": ["postWorkout","any"] },
+
+  { "name": "Pea Protein Isolate",     "class": "D", "protein100g": 80, "leucine100g": 6.6,  "absorption": "medium","diet": ["vegan","vegetarian","omnivore"], "best_window": ["postWorkout","lunch"] },
+  { "name": "Rice Protein Isolate",    "class": "D", "protein100g": 80, "leucine100g": 6.5,  "absorption": "medium","diet": ["vegan","vegetarian","omnivore"], "best_window": ["postWorkout","lunch"] },
+  { "name": "Soy Protein Isolate",     "class": "D", "protein100g": 85, "leucine100g": 6.7,  "absorption": "medium","diet": ["vegan","vegetarian","omnivore"], "best_window": ["postWorkout","lunch"] },
+  { "name": "Hemp Protein",            "class": "D", "protein100g": 50, "leucine100g": 3.4,  "absorption": "slow",  "diet": ["vegan","vegetarian","omnivore"], "best_window": ["afternoon","lunch"] },
+  { "name": "Tofu (firm)",             "class": "D", "protein100g":  8, "leucine100g": 0.59, "absorption": "medium","diet": ["vegan","vegetarian","omnivore"], "best_window": ["lunch","dinner"] },
+  { "name": "Tempeh",                  "class": "D", "protein100g": 19, "leucine100g": 1.40, "absorption": "medium","diet": ["vegan","vegetarian","omnivore"], "best_window": ["lunch","dinner"] },
+  { "name": "Lentils (cooked)",        "class": "D", "protein100g":  9, "leucine100g": 0.65, "absorption": "slow",  "diet": ["vegan","vegetarian","omnivore"], "best_window": ["lunch","dinner"] },
+  { "name": "Chickpeas (cooked)",      "class": "D", "protein100g":  9, "leucine100g": 0.63, "absorption": "slow",  "diet": ["vegan","vegetarian","omnivore"], "best_window": ["lunch","dinner"] },
+  { "name": "Edamame",                 "class": "D", "protein100g": 11, "leucine100g": 0.84, "absorption": "medium","diet": ["vegan","vegetarian","omnivore"], "best_window": ["afternoon","lunch"] },
+  { "name": "Almonds",                 "class": "D", "protein100g": 21, "leucine100g": 1.48, "absorption": "slow",  "diet": ["vegan","vegetarian","omnivore"], "best_window": ["afternoon"] },
+
+  { "name": "Collagen Peptides",       "class": "E", "protein100g": 90, "leucine100g": 2.7,  "absorption": "fast",  "diet": ["omnivore"], "best_window": ["preWorkout"] },
+  { "name": "Bone Broth Protein",      "class": "E", "protein100g": 70, "leucine100g": 2.2,  "absorption": "medium","diet": ["omnivore"], "best_window": ["preWorkout","morning"] },
+  { "name": "Gelatin (hydrolyzed)",    "class": "E", "protein100g": 85, "leucine100g": 2.5,  "absorption": "fast",  "diet": ["omnivore"], "best_window": ["preWorkout"] }
+]

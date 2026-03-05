@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChronoProtein — Build Your Protocol</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/design-system.css">
+<style>
+  .wizard-container {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+    min-height: 100vh;
+  }
+
+  .wizard-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .wizard-header h2 {
+    font-size: 32px;
+    margin-bottom: 6px;
+  }
+
+  .wizard-header p {
+    font-size: 14px;
+    color: var(--sub);
+  }
+
+  .step-panel {
+    display: none;
+    animation: fadeUp 0.4s var(--ease-out) both;
+  }
+
+  .step-panel.active {
+    display: block;
+  }
+
+  .step-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .step-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  /* Chronotype quiz options */
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .quiz-option {
+    padding: 14px 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--card);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--sub);
+    transition: all var(--duration) var(--ease-out);
+  }
+
+  .quiz-option:hover {
+    border-color: var(--sub);
+    color: var(--text);
+  }
+
+  .quiz-option.selected {
+    border-color: var(--green);
+    background: rgba(0,194,124,0.08);
+    color: var(--text);
+  }
+
+  .quiz-question {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  /* Goal cards */
+  .goal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .goal-card {
+    padding: 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--card);
+    cursor: pointer;
+    text-align: center;
+    transition: all var(--duration) var(--ease-out);
+  }
+
+  .goal-card:hover { border-color: var(--sub); }
+  .goal-card.selected {
+    border-color: var(--green);
+    background: rgba(0,194,124,0.08);
+  }
+
+  .goal-card .goal-icon { font-size: 28px; margin-bottom: 6px; }
+  .goal-card .goal-label { font-size: 13px; font-weight: 600; color: var(--text); }
+  .goal-card .goal-range { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* Diet toggle */
+  .diet-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .diet-btn {
+    flex: 1;
+    min-width: 100px;
+    padding: 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--sub);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: all var(--duration) var(--ease-out);
+  }
+
+  .diet-btn.selected {
+    border-color: var(--green);
+    background: rgba(0,194,124,0.08);
+    color: var(--text);
+  }
+
+  /* Summary preview */
+  .summary-card {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: linear-gradient(160deg, rgba(0,194,124,0.05), var(--card));
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row .label { color: var(--sub); }
+  .summary-row .value { color: var(--text); font-weight: 600; }
+
+  /* Nav buttons */
+  .wizard-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .wizard-nav .btn { flex: 1; }
+</style>
+</head>
+<body>
+
+<div class="wizard-container">
+
+  <!-- Progress bar -->
+  <div class="wizard-progress" id="progress">
+    <div class="step-dot active" data-step="0"></div>
+    <div class="step-dot" data-step="1"></div>
+    <div class="step-dot" data-step="2"></div>
+    <div class="step-dot" data-step="3"></div>
+    <div class="step-dot" data-step="4"></div>
+  </div>
+
+  <div class="wizard-header">
+    <h2 class="gradient-cool">BUILD YOUR PROTOCOL</h2>
+    <p>5 steps to your personalized protein schedule</p>
+  </div>
+
+  <!-- ═══ STEP 0: Body Metrics ═══ -->
+  <div class="step-panel active" id="step-0">
+    <div class="step-title">YOUR BODY</div>
+    <div class="step-sub">We need a few numbers to calculate your targets</div>
+
+    <div class="input-group">
+      <label>Body weight (kg)</label>
+      <input type="number" id="weightKg" placeholder="70" min="30" max="250" step="0.5">
+    </div>
+    <div class="input-group">
+      <label>Age</label>
+      <input type="number" id="age" placeholder="30" min="14" max="100">
+    </div>
+    <div class="input-group">
+      <label>Sex</label>
+      <select id="sex">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>Body fat % (optional — leave blank if unknown)</label>
+      <input type="number" id="bodyFat" placeholder="e.g. 18" min="3" max="60" step="0.5">
+    </div>
+
+    <div class="wizard-nav">
+      <a href="index.html" class="btn btn-secondary">Back</a>
+      <button class="btn btn-primary" onclick="nextStep()">Next</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 1: Chronotype Quiz ═══ -->
+  <div class="step-panel" id="step-1">
+    <div class="step-title">YOUR CHRONOTYPE</div>
+    <div class="step-sub">3 questions to determine your circadian profile</div>
+    <div id="quiz-container"></div>
+
+    <div class="wizard-nav">
+      <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+      <button class="btn btn-primary" onclick="nextStep()">Next</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 2: Goal ═══ -->
+  <div class="step-panel" id="step-2">
+    <div class="step-title">YOUR GOAL</div>
+    <div class="step-sub">This determines your daily protein target range</div>
+
+    <div class="goal-grid">
+      <div class="goal-card" data-goal="wellness" onclick="selectGoal(this)">
+        <div class="goal-icon">🧘</div>
+        <div class="goal-label">Wellness</div>
+        <div class="goal-range">1.2–1.6 g/kg</div>
+      </div>
+      <div class="goal-card" data-goal="maintenance" onclick="selectGoal(this)">
+        <div class="goal-icon">⚖️</div>
+        <div class="goal-label">Maintenance</div>
+        <div class="goal-range">1.4–1.8 g/kg</div>
+      </div>
+      <div class="goal-card" data-goal="muscleGain" onclick="selectGoal(this)">
+        <div class="goal-icon">💪</div>
+        <div class="goal-label">Muscle Gain</div>
+        <div class="goal-range">1.6–2.2 g/kg</div>
+      </div>
+      <div class="goal-card" data-goal="recomposition" onclick="selectGoal(this)">
+        <div class="goal-icon">🔥</div>
+        <div class="goal-label">Recomposition</div>
+        <div class="goal-range">2.0–2.4 g/kg</div>
+      </div>
+      <div class="goal-card" data-goal="endurance" onclick="selectGoal(this)">
+        <div class="goal-icon">🏃</div>
+        <div class="goal-label">Endurance</div>
+        <div class="goal-range">1.2–1.8 g/kg</div>
+      </div>
+      <div class="goal-card" data-goal="seniorHealth" onclick="selectGoal(this)">
+        <div class="goal-icon">🧓</div>
+        <div class="goal-label">Healthy Aging</div>
+        <div class="goal-range">1.2–2.0 g/kg</div>
+      </div>
+    </div>
+
+    <div class="wizard-nav">
+      <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+      <button class="btn btn-primary" onclick="nextStep()">Next</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 3: Activity & Diet ═══ -->
+  <div class="step-panel" id="step-3">
+    <div class="step-title">ACTIVITY & DIET</div>
+    <div class="step-sub">How active are you and what do you eat?</div>
+
+    <div class="input-group">
+      <label>Activity level</label>
+      <select id="activityLevel">
+        <option value="sedentary">Sedentary (desk job, no exercise)</option>
+        <option value="light">Light (walks, casual activity)</option>
+        <option value="moderate" selected>Moderate (3x/week training)</option>
+        <option value="active">Active (5x/week serious training)</option>
+        <option value="veryActive">Very Active (daily intense training)</option>
+      </select>
+    </div>
+
+    <label class="mono" style="display:block;margin-bottom:10px;font-size:11px;color:var(--sub)">Diet type</label>
+    <div class="diet-row">
+      <div class="diet-btn selected" data-diet="omnivore" onclick="selectDiet(this)">🥩 Omnivore</div>
+      <div class="diet-btn" data-diet="vegetarian" onclick="selectDiet(this)">🥚 Vegetarian</div>
+      <div class="diet-btn" data-diet="vegan" onclick="selectDiet(this)">🌱 Vegan</div>
+    </div>
+
+    <div class="input-group">
+      <label>Training days per week</label>
+      <select id="trainingDays">
+        <option value="0">0 (no training)</option>
+        <option value="2">2 days</option>
+        <option value="3" selected>3 days</option>
+        <option value="4">4 days</option>
+        <option value="5">5 days</option>
+        <option value="6">6 days</option>
+        <option value="7">7 days</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Usual training time</label>
+      <input type="time" id="trainingTime" value="10:00">
+    </div>
+
+    <div class="wizard-nav">
+      <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+      <button class="btn btn-primary" onclick="nextStep()">Next</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 4: Summary ═══ -->
+  <div class="step-panel" id="step-4">
+    <div class="step-title">YOUR PROFILE</div>
+    <div class="step-sub">Review and generate your personalized protocol</div>
+
+    <div class="summary-card" id="summary-preview"></div>
+
+    <div class="wizard-nav">
+      <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+      <button class="btn btn-primary btn-lg" onclick="generatePlan()" style="background:linear-gradient(135deg,var(--green),#00D68A)">
+        Generate My Protocol
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/chronotype.js"></script>
+<script src="js/calculator.js"></script>
+<script>
+  // ── Wizard state ──
+  let currentStep = 0;
+  const totalSteps = 5;
+  let quizAnswers = {};
+  let selectedGoal = null;
+  let selectedDiet = 'omnivore';
+
+  // ── Step navigation ──
+  function showStep(n) {
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(`step-${n}`).classList.add('active');
+
+    document.querySelectorAll('.step-dot').forEach((dot, i) => {
+      dot.classList.remove('active', 'done');
+      if (i < n) dot.classList.add('done');
+      if (i === n) dot.classList.add('active');
+    });
+
+    currentStep = n;
+
+    if (n === 4) buildSummary();
+  }
+
+  function nextStep() {
+    if (currentStep < totalSteps - 1) showStep(currentStep + 1);
+  }
+
+  function prevStep() {
+    if (currentStep > 0) showStep(currentStep - 1);
+  }
+
+  // ── Chronotype quiz rendering ──
+  function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    let html = '';
+
+    ChronoQuiz.QUESTIONS.forEach((q, qi) => {
+      html += `<div class="quiz-question">${qi + 1}. ${q.text}</div>`;
+      html += '<div class="quiz-options">';
+      q.options.forEach(opt => {
+        html += `<div class="quiz-option" data-qid="${q.id}" data-value="${opt.value}"
+                      onclick="selectQuizOption(this)">${opt.label}</div>`;
+      });
+      html += '</div>';
+    });
+
+    container.innerHTML = html;
+  }
+
+  function selectQuizOption(el) {
+    const qid = el.dataset.qid;
+    const value = parseInt(el.dataset.value);
+    quizAnswers[qid] = value;
+
+    // Highlight selected
+    el.parentElement.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  // ── Goal selection ──
+  function selectGoal(el) {
+    document.querySelectorAll('.goal-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedGoal = el.dataset.goal;
+  }
+
+  // ── Diet selection ──
+  function selectDiet(el) {
+    document.querySelectorAll('.diet-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedDiet = el.dataset.diet;
+  }
+
+  // ── Build summary preview ──
+  function buildSummary() {
+    const profile = getProfile();
+    const chronoResult = ChronoQuiz.score(quizAnswers);
+    const plan = ChronoCalculator.calculate(profile);
+
+    const container = document.getElementById('summary-preview');
+    container.innerHTML = `
+      <div class="summary-row">
+        <span class="label">Weight</span>
+        <span class="value">${profile.weightKg} kg</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Age / Sex</span>
+        <span class="value">${profile.age} / ${profile.sex}</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Chronotype</span>
+        <span class="value" style="color:var(--green)">${chronoResult.label} (score: ${chronoResult.total}/15)</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Goal</span>
+        <span class="value">${selectedGoal || 'maintenance'}</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Activity</span>
+        <span class="value">${profile.activityLevel}</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Diet</span>
+        <span class="value">${selectedDiet}</span>
+      </div>
+      <div class="summary-row" style="border-top:2px solid var(--green);margin-top:8px;padding-top:12px">
+        <span class="label" style="color:var(--text);font-weight:600">Daily Protein Target</span>
+        <span class="value" style="font-size:20px;color:var(--green)">${plan.targets.dailyTotalG}g</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Protein per kg</span>
+        <span class="value">${plan.targets.proteinPerKg} g/kg/day</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Meals per day</span>
+        <span class="value">${plan.targets.mealsPerDay}</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Leucine threshold/meal</span>
+        <span class="value">${plan.targets.leucinePerMealG}g</span>
+      </div>
+    `;
+  }
+
+  // ── Collect profile from form ──
+  function getProfile() {
+    const chronoResult = ChronoQuiz.score(quizAnswers);
+    const bf = document.getElementById('bodyFat').value;
+
+    return {
+      weightKg: parseFloat(document.getElementById('weightKg').value) || 70,
+      age: parseInt(document.getElementById('age').value) || 30,
+      sex: document.getElementById('sex').value,
+      bodyFatPercent: bf ? parseFloat(bf) : null,
+      chronotype: chronoResult.chronotype,
+      activityLevel: document.getElementById('activityLevel').value,
+      goal: selectedGoal || 'maintenance',
+      dietType: selectedDiet,
+      isTrainingDay: true,
+      trainingTime: document.getElementById('trainingTime').value
+    };
+  }
+
+  // ── Generate plan and go to dashboard ──
+  function generatePlan() {
+    const profile = getProfile();
+    const plan = ChronoCalculator.calculate(profile);
+
+    // Store in localStorage for dashboard to read
+    localStorage.setItem('chronoProfile', JSON.stringify(profile));
+    localStorage.setItem('chronoPlan', JSON.stringify(plan));
+
+    window.location.href = 'dashboard.html';
+  }
+
+  // ── Init ──
+  renderQuiz();
+</script>
+
+</body>
+</html>
