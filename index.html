@@ -7,6 +7,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/design-system.css">
 <style>
+  /* ── Language toggle ── */
+  .lang-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+    display: flex;
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--card);
+  }
+  .lang-toggle button {
+    padding: 6px 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .lang-toggle button.active {
+    background: var(--green);
+    color: var(--dark);
+    font-weight: 600;
+  }
+
   .hero {
     text-align: center;
     padding: 80px 20px 60px;
@@ -140,21 +169,27 @@
 </head>
 <body>
 
+<!-- ─── LANGUAGE TOGGLE ────────────────────────── -->
+<div class="lang-toggle" id="lang-toggle">
+  <button class="active" data-lang="en" onclick="switchLang('en')">EN</button>
+  <button data-lang="es" onclick="switchLang('es')">ES</button>
+</div>
+
 <!-- ─── HERO ─────────────────────────────────── -->
 <section class="hero">
-  <div class="hero-eyebrow">Chrono-Nutrition Science</div>
+  <div class="hero-eyebrow" data-i18n="heroEyebrow">Chrono-Nutrition Science</div>
   <h1>
     <span class="gradient-warm">CHRONO</span><br>
     <span class="line2">PROTEIN</span>
   </h1>
   <p class="hero-sub">
-    Your body has an internal clock that controls when protein becomes muscle.
+    <span data-i18n="heroSub">Your body has an internal clock that controls when protein becomes muscle.
     Stop guessing. Start timing. Get a personalized plan based on your chronotype,
-    training schedule, and the latest science.
+    training schedule, and the latest science.</span>
   </p>
   <div class="hero-cta-group">
-    <a href="onboarding.html" class="btn btn-primary btn-lg">Build My Protocol</a>
-    <a href="metabolic-windows.html" class="btn btn-secondary btn-lg">See the Science</a>
+    <a href="onboarding.html" class="btn btn-primary btn-lg" data-i18n="buildProtocol">Build My Protocol</a>
+    <a href="metabolic-windows.html" class="btn btn-secondary btn-lg" data-i18n="seeScience">See the Science</a>
   </div>
 </section>
 
@@ -162,33 +197,33 @@
 <section class="features">
   <div class="feature-card">
     <div class="feature-icon" style="background:rgba(0,194,124,0.12)">🧬</div>
-    <h3>Chronotype-Personalized</h3>
-    <p>Morning bird or night owl? Your circadian rhythm shifts every protein window. We calculate the optimal schedule for YOUR biology.</p>
+    <h3 data-i18n="featureChronotype">Chronotype-Personalized</h3>
+    <p data-i18n="featureChronotypeDesc">Morning bird or night owl? Your circadian rhythm shifts every protein window. We calculate the optimal schedule for YOUR biology.</p>
   </div>
   <div class="feature-card">
     <div class="feature-icon" style="background:rgba(255,172,10,0.12)">⚡</div>
-    <h3>Leucine Threshold Check</h3>
-    <p>Every meal shows whether you've hit the 2-3g leucine minimum to activate mTORC1 — the master switch for muscle protein synthesis.</p>
+    <h3 data-i18n="featureLeucine">Leucine Threshold Check</h3>
+    <p data-i18n="featureLeucineDesc">Every meal shows whether you've hit the 2-3g leucine minimum to activate mTORC1 — the master switch for muscle protein synthesis.</p>
   </div>
   <div class="feature-card">
     <div class="feature-icon" style="background:rgba(123,158,255,0.12)">🌙</div>
-    <h3>Sleep Recovery Protocol</h3>
-    <p>Pre-sleep protein raises overnight muscle synthesis by +22%. We tell you exactly what type, how much, and when — based on YOUR bedtime.</p>
+    <h3 data-i18n="featureSleep">Sleep Recovery Protocol</h3>
+    <p data-i18n="featureSleepDesc">Pre-sleep protein raises overnight muscle synthesis by +22%. We tell you exactly what type, how much, and when — based on YOUR bedtime.</p>
   </div>
   <div class="feature-card">
     <div class="feature-icon" style="background:rgba(255,59,47,0.12)">🔥</div>
-    <h3>Catabolic/Anabolic Windows</h3>
-    <p>See the exact metabolic cascade from final rep to full recovery. Know when your body is destroying muscle vs. building it — and how to flip the switch.</p>
+    <h3 data-i18n="featureCatabolic">Catabolic/Anabolic Windows</h3>
+    <p data-i18n="featureCatabolicDesc">See the exact metabolic cascade from final rep to full recovery. Know when your body is destroying muscle vs. building it — and how to flip the switch.</p>
   </div>
   <div class="feature-card">
     <div class="feature-icon" style="background:rgba(152,255,110,0.12)">🌿</div>
-    <h3>Plant-Based Ready</h3>
-    <p>Vegan or vegetarian? We map complementary protein combinations and auto-flag when leucine fortification is needed to match animal protein performance.</p>
+    <h3 data-i18n="featurePlant">Plant-Based Ready</h3>
+    <p data-i18n="featurePlantDesc">Vegan or vegetarian? We map complementary protein combinations and auto-flag when leucine fortification is needed to match animal protein performance.</p>
   </div>
   <div class="feature-card">
     <div class="feature-icon" style="background:rgba(0,180,216,0.12)">📊</div>
-    <h3>5 Protein Classes</h3>
-    <p>Not all protein is equal. We classify into Fast (whey), Slow (casein), Plant, Leucine-boosted, and Structural (collagen) — each assigned to its optimal window.</p>
+    <h3 data-i18n="featureClasses">5 Protein Classes</h3>
+    <p data-i18n="featureClassesDesc">Not all protein is equal. We classify into Fast (whey), Slow (casein), Plant, Leucine-boosted, and Structural (collagen) — each assigned to its optimal window.</p>
   </div>
 </section>
 
@@ -213,10 +248,35 @@
 
 <!-- ─── FOOTER ─────────────────────────────────── -->
 <div class="site-footer">
-  <strong>Evidence-informed, not guesswork.</strong> Built on 113 scientific references (2006–2026) including meta-analyses, RCTs, and the latest chrono-nutrition reviews. Updated March 2026.
+  <strong data-i18n="evidenceFooter">Evidence-informed, not guesswork. Built on 113 scientific references (2006-2026). Updated March 2026.</strong>
   <br><br>
-  ChronoProtein is a science education platform. Consult a healthcare professional before making dietary changes.
+  <span data-i18n="disclaimer">ChronoProtein is a science education platform. Consult a healthcare professional before making dietary changes.</span>
 </div>
 
+<script src="js/i18n.js"></script>
+<script>
+function switchLang(lang) {
+  I18n.setLang(lang);
+  document.querySelectorAll('.lang-toggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  applyTranslations();
+}
+
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = i18n(el.dataset.i18n);
+  });
+}
+
+// Set initial language state
+(function() {
+  const lang = I18n.getLang();
+  document.querySelectorAll('.lang-toggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  if (lang !== 'en') applyTranslations();
+})();
+</script>
 </body>
 </html>

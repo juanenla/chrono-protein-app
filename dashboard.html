@@ -7,6 +7,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/design-system.css">
 <style>
+  .lang-toggle {
+    position: fixed; top: 16px; right: 16px; z-index: 100;
+    display: flex; border-radius: 100px; overflow: hidden;
+    border: 1px solid var(--border); background: var(--card);
+  }
+  .lang-toggle button {
+    padding: 6px 14px; font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.1em; border: none; background: transparent;
+    color: var(--muted); cursor: pointer; transition: all 0.2s;
+  }
+  .lang-toggle button.active { background: var(--green); color: var(--dark); font-weight: 600; }
+
   .dash-container {
     max-width: 900px;
     margin: 0 auto;
@@ -117,13 +129,18 @@
 </head>
 <body>
 
+<div class="lang-toggle">
+  <button class="active" data-lang="en" onclick="switchLang('en')">EN</button>
+  <button data-lang="es" onclick="switchLang('es')">ES</button>
+</div>
+
 <div class="dash-container">
 
   <!-- No-plan fallback -->
   <div id="no-plan" class="no-plan" style="display:none">
-    <h2>NO PROTOCOL YET</h2>
-    <p>Complete the onboarding to generate your personalized protein schedule.</p>
-    <a href="onboarding.html" class="btn btn-primary btn-lg">Build My Protocol</a>
+    <h2 data-i18n="noProtocol">NO PROTOCOL YET</h2>
+    <p data-i18n="noProtocolDesc">Complete the onboarding to generate your personalized protein schedule.</p>
+    <a href="onboarding.html" class="btn btn-primary btn-lg" data-i18n="buildProtocol">Build My Protocol</a>
   </div>
 
   <!-- Dashboard (shown when plan exists) -->
@@ -132,7 +149,7 @@
     <!-- Header -->
     <div class="dash-header">
       <div>
-        <h1><span class="gradient-cool">MY PLAN</span></h1>
+        <h1><span class="gradient-cool" data-i18n="myPlan">MY PLAN</span></h1>
         <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap">
           <span class="chronotype-label" id="chronotype-badge"></span>
           <span class="chronotype-label" id="goal-badge"></span>
@@ -140,26 +157,26 @@
       </div>
       <div class="dash-controls">
         <div class="day-toggle">
-          <button class="active" id="btn-training" onclick="toggleDay('training')">Training Day</button>
-          <button id="btn-rest" onclick="toggleDay('rest')">Rest Day</button>
+          <button class="active" id="btn-training" onclick="toggleDay('training')" data-i18n="trainingDay">Training Day</button>
+          <button id="btn-rest" onclick="toggleDay('rest')" data-i18n="restDay">Rest Day</button>
         </div>
-        <a href="onboarding.html" class="btn btn-secondary" style="font-size:13px">Edit Profile</a>
+        <a href="onboarding.html" class="btn btn-secondary" style="font-size:13px" data-i18n="editProfile">Edit Profile</a>
       </div>
     </div>
 
     <!-- Summary stats -->
-    <div class="section-label">DAILY TARGETS</div>
-    <div class="section-sub">Your personalized numbers based on your profile</div>
+    <div class="section-label" data-i18n="dailyTargets">DAILY TARGETS</div>
+    <div class="section-sub" data-i18n="dailyTargetsDesc">Your personalized numbers based on your profile</div>
     <div id="summary-stats" style="margin-bottom:32px"></div>
 
     <!-- Timeline -->
-    <div class="section-label">24H TIMELINE</div>
-    <div class="section-sub">Your protein windows across the day</div>
+    <div class="section-label" data-i18n="timeline24h">24H TIMELINE</div>
+    <div class="section-sub" data-i18n="timelineDesc">Your protein windows across the day</div>
     <div id="timeline" style="margin-bottom:32px;position:relative"></div>
 
     <!-- Window cards -->
-    <div class="section-label">PROTEIN WINDOWS</div>
-    <div class="section-sub">Tap any window for food suggestions and leucine check</div>
+    <div class="section-label" data-i18n="proteinWindows">PROTEIN WINDOWS</div>
+    <div class="section-sub" data-i18n="windowsDesc">Tap any window for food suggestions and leucine check</div>
     <div id="window-cards"></div>
 
     <!-- Evidence -->
@@ -171,6 +188,7 @@
 
 </div>
 
+<script src="js/i18n.js"></script>
 <script src="js/chronotype.js"></script>
 <script src="js/protein-classes.js"></script>
 <script src="js/calculator.js"></script>
@@ -223,6 +241,25 @@
 
     renderDashboard();
   }
+
+  function switchLang(lang) {
+    I18n.setLang(lang);
+    document.querySelectorAll('.lang-toggle button').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      el.textContent = i18n(el.dataset.i18n);
+    });
+    renderDashboard();
+  }
+
+  // Set lang toggle initial state
+  (function() {
+    const lang = I18n.getLang();
+    document.querySelectorAll('.lang-toggle button').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+  })();
 
   // ── Init on load ──
   init();

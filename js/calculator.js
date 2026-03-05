@@ -65,10 +65,9 @@ const ChronoCalculator = (() => {
     // 2. Determine protein target (g/kg/day)
     const goalConfig = GOAL_TARGETS[goal] || GOAL_TARGETS.maintenance;
     const actMod = ACTIVITY_MOD[activityLevel] || 0;
-    const proteinPerKg = Math.min(
-      goalConfig.max,
-      Math.max(goalConfig.min, goalConfig.default + actMod)
-    );
+    const proteinPerKg = Math.round(
+      Math.min(goalConfig.max, Math.max(goalConfig.min, goalConfig.default + actMod)) * 10
+    ) / 10;
 
     // 3. Daily total
     const dailyTotalG = Math.round(weightKg * proteinPerKg);

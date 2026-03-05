@@ -7,6 +7,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/design-system.css">
 <style>
+  .lang-toggle {
+    position: fixed; top: 16px; right: 16px; z-index: 100;
+    display: flex; border-radius: 100px; overflow: hidden;
+    border: 1px solid var(--border); background: var(--card);
+  }
+  .lang-toggle button {
+    padding: 6px 14px; font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.1em; border: none; background: transparent;
+    color: var(--muted); cursor: pointer; transition: all 0.2s;
+  }
+  .lang-toggle button.active { background: var(--green); color: var(--dark); font-weight: 600; }
+
   .wizard-container {
     max-width: 540px;
     margin: 0 auto;
@@ -178,6 +190,11 @@
 </head>
 <body>
 
+<div class="lang-toggle">
+  <button class="active" data-lang="en" onclick="switchLang('en')">EN</button>
+  <button data-lang="es" onclick="switchLang('es')">ES</button>
+</div>
+
 <div class="wizard-container">
 
   <!-- Progress bar -->
@@ -190,122 +207,122 @@
   </div>
 
   <div class="wizard-header">
-    <h2 class="gradient-cool">BUILD YOUR PROTOCOL</h2>
-    <p>5 steps to your personalized protein schedule</p>
+    <h2 class="gradient-cool" data-i18n="buildYourProtocol">BUILD YOUR PROTOCOL</h2>
+    <p data-i18n="stepsDescription">5 steps to your personalized protein schedule</p>
   </div>
 
   <!-- ═══ STEP 0: Body Metrics ═══ -->
   <div class="step-panel active" id="step-0">
-    <div class="step-title">YOUR BODY</div>
-    <div class="step-sub">We need a few numbers to calculate your targets</div>
+    <div class="step-title" data-i18n="yourBody">YOUR BODY</div>
+    <div class="step-sub" data-i18n="bodyDesc">We need a few numbers to calculate your targets</div>
 
     <div class="input-group">
-      <label>Body weight (kg)</label>
+      <label data-i18n="bodyWeight">Body weight (kg)</label>
       <input type="number" id="weightKg" placeholder="70" min="30" max="250" step="0.5">
     </div>
     <div class="input-group">
-      <label>Age</label>
+      <label data-i18n="age">Age</label>
       <input type="number" id="age" placeholder="30" min="14" max="100">
     </div>
     <div class="input-group">
-      <label>Sex</label>
+      <label data-i18n="sex">Sex</label>
       <select id="sex">
-        <option value="male">Male</option>
-        <option value="female">Female</option>
+        <option value="male" data-i18n="male">Male</option>
+        <option value="female" data-i18n="female">Female</option>
       </select>
     </div>
     <div class="input-group">
-      <label>Body fat % (optional — leave blank if unknown)</label>
+      <label data-i18n="bodyFat">Body fat % (optional — leave blank if unknown)</label>
       <input type="number" id="bodyFat" placeholder="e.g. 18" min="3" max="60" step="0.5">
     </div>
 
     <div class="wizard-nav">
-      <a href="index.html" class="btn btn-secondary">Back</a>
-      <button class="btn btn-primary" onclick="nextStep()">Next</button>
+      <a href="index.html" class="btn btn-secondary" data-i18n="back">Back</a>
+      <button class="btn btn-primary" onclick="nextStep()" data-i18n="next">Next</button>
     </div>
   </div>
 
   <!-- ═══ STEP 1: Chronotype Quiz ═══ -->
   <div class="step-panel" id="step-1">
-    <div class="step-title">YOUR CHRONOTYPE</div>
-    <div class="step-sub">3 questions to determine your circadian profile</div>
+    <div class="step-title" data-i18n="yourChronotype">YOUR CHRONOTYPE</div>
+    <div class="step-sub" data-i18n="chronoDesc">3 questions to determine your circadian profile</div>
     <div id="quiz-container"></div>
 
     <div class="wizard-nav">
-      <button class="btn btn-secondary" onclick="prevStep()">Back</button>
-      <button class="btn btn-primary" onclick="nextStep()">Next</button>
+      <button class="btn btn-secondary" onclick="prevStep()" data-i18n="back">Back</button>
+      <button class="btn btn-primary" onclick="nextStep()" data-i18n="next">Next</button>
     </div>
   </div>
 
   <!-- ═══ STEP 2: Goal ═══ -->
   <div class="step-panel" id="step-2">
-    <div class="step-title">YOUR GOAL</div>
-    <div class="step-sub">This determines your daily protein target range</div>
+    <div class="step-title" data-i18n="yourGoal">YOUR GOAL</div>
+    <div class="step-sub" data-i18n="goalDesc">This determines your daily protein target range</div>
 
     <div class="goal-grid">
       <div class="goal-card" data-goal="wellness" onclick="selectGoal(this)">
         <div class="goal-icon">🧘</div>
-        <div class="goal-label">Wellness</div>
+        <div class="goal-label" data-i18n="wellness">Wellness</div>
         <div class="goal-range">1.2–1.6 g/kg</div>
       </div>
       <div class="goal-card" data-goal="maintenance" onclick="selectGoal(this)">
         <div class="goal-icon">⚖️</div>
-        <div class="goal-label">Maintenance</div>
+        <div class="goal-label" data-i18n="maintenance">Maintenance</div>
         <div class="goal-range">1.4–1.8 g/kg</div>
       </div>
       <div class="goal-card" data-goal="muscleGain" onclick="selectGoal(this)">
         <div class="goal-icon">💪</div>
-        <div class="goal-label">Muscle Gain</div>
+        <div class="goal-label" data-i18n="muscleGain">Muscle Gain</div>
         <div class="goal-range">1.6–2.2 g/kg</div>
       </div>
       <div class="goal-card" data-goal="recomposition" onclick="selectGoal(this)">
         <div class="goal-icon">🔥</div>
-        <div class="goal-label">Recomposition</div>
+        <div class="goal-label" data-i18n="recomposition">Recomposition</div>
         <div class="goal-range">2.0–2.4 g/kg</div>
       </div>
       <div class="goal-card" data-goal="endurance" onclick="selectGoal(this)">
         <div class="goal-icon">🏃</div>
-        <div class="goal-label">Endurance</div>
+        <div class="goal-label" data-i18n="endurance">Endurance</div>
         <div class="goal-range">1.2–1.8 g/kg</div>
       </div>
       <div class="goal-card" data-goal="seniorHealth" onclick="selectGoal(this)">
         <div class="goal-icon">🧓</div>
-        <div class="goal-label">Healthy Aging</div>
+        <div class="goal-label" data-i18n="seniorHealth">Healthy Aging</div>
         <div class="goal-range">1.2–2.0 g/kg</div>
       </div>
     </div>
 
     <div class="wizard-nav">
-      <button class="btn btn-secondary" onclick="prevStep()">Back</button>
-      <button class="btn btn-primary" onclick="nextStep()">Next</button>
+      <button class="btn btn-secondary" onclick="prevStep()" data-i18n="back">Back</button>
+      <button class="btn btn-primary" onclick="nextStep()" data-i18n="next">Next</button>
     </div>
   </div>
 
   <!-- ═══ STEP 3: Activity & Diet ═══ -->
   <div class="step-panel" id="step-3">
-    <div class="step-title">ACTIVITY & DIET</div>
-    <div class="step-sub">How active are you and what do you eat?</div>
+    <div class="step-title" data-i18n="activityDiet">ACTIVITY & DIET</div>
+    <div class="step-sub" data-i18n="activityDietDesc">How active are you and what do you eat?</div>
 
     <div class="input-group">
-      <label>Activity level</label>
+      <label data-i18n="activityLevel">Activity level</label>
       <select id="activityLevel">
-        <option value="sedentary">Sedentary (desk job, no exercise)</option>
-        <option value="light">Light (walks, casual activity)</option>
-        <option value="moderate" selected>Moderate (3x/week training)</option>
-        <option value="active">Active (5x/week serious training)</option>
-        <option value="veryActive">Very Active (daily intense training)</option>
+        <option value="sedentary" data-i18n="sedentary">Sedentary (desk job, no exercise)</option>
+        <option value="light" data-i18n="light">Light (walks, casual activity)</option>
+        <option value="moderate" selected data-i18n="moderate">Moderate (3x/week training)</option>
+        <option value="active" data-i18n="active">Active (5x/week serious training)</option>
+        <option value="veryActive" data-i18n="veryActive">Very Active (daily intense training)</option>
       </select>
     </div>
 
-    <label class="mono" style="display:block;margin-bottom:10px;font-size:11px;color:var(--sub)">Diet type</label>
+    <label class="mono" style="display:block;margin-bottom:10px;font-size:11px;color:var(--sub)" data-i18n="dietType">Diet type</label>
     <div class="diet-row">
-      <div class="diet-btn selected" data-diet="omnivore" onclick="selectDiet(this)">🥩 Omnivore</div>
-      <div class="diet-btn" data-diet="vegetarian" onclick="selectDiet(this)">🥚 Vegetarian</div>
-      <div class="diet-btn" data-diet="vegan" onclick="selectDiet(this)">🌱 Vegan</div>
+      <div class="diet-btn selected" data-diet="omnivore" onclick="selectDiet(this)"><span>🥩</span> <span data-i18n="omnivore">Omnivore</span></div>
+      <div class="diet-btn" data-diet="vegetarian" onclick="selectDiet(this)"><span>🥚</span> <span data-i18n="vegetarian">Vegetarian</span></div>
+      <div class="diet-btn" data-diet="vegan" onclick="selectDiet(this)"><span>🌱</span> <span data-i18n="vegan">Vegan</span></div>
     </div>
 
     <div class="input-group">
-      <label>Training days per week</label>
+      <label data-i18n="trainingDays">Training days per week</label>
       <select id="trainingDays">
         <option value="0">0 (no training)</option>
         <option value="2">2 days</option>
@@ -318,26 +335,26 @@
     </div>
 
     <div class="input-group">
-      <label>Usual training time</label>
+      <label data-i18n="trainingTime">Usual training time</label>
       <input type="time" id="trainingTime" value="10:00">
     </div>
 
     <div class="wizard-nav">
-      <button class="btn btn-secondary" onclick="prevStep()">Back</button>
-      <button class="btn btn-primary" onclick="nextStep()">Next</button>
+      <button class="btn btn-secondary" onclick="prevStep()" data-i18n="back">Back</button>
+      <button class="btn btn-primary" onclick="nextStep()" data-i18n="next">Next</button>
     </div>
   </div>
 
   <!-- ═══ STEP 4: Summary ═══ -->
   <div class="step-panel" id="step-4">
-    <div class="step-title">YOUR PROFILE</div>
-    <div class="step-sub">Review and generate your personalized protocol</div>
+    <div class="step-title" data-i18n="yourProfile">YOUR PROFILE</div>
+    <div class="step-sub" data-i18n="profileDesc">Review and generate your personalized protocol</div>
 
     <div class="summary-card" id="summary-preview"></div>
 
     <div class="wizard-nav">
-      <button class="btn btn-secondary" onclick="prevStep()">Back</button>
-      <button class="btn btn-primary btn-lg" onclick="generatePlan()" style="background:linear-gradient(135deg,var(--green),#00D68A)">
+      <button class="btn btn-secondary" onclick="prevStep()" data-i18n="back">Back</button>
+      <button class="btn btn-primary btn-lg" onclick="generatePlan()" style="background:linear-gradient(135deg,var(--green),#00D68A)" data-i18n="generateProtocol">
         Generate My Protocol
       </button>
     </div>
@@ -345,6 +362,7 @@
 
 </div>
 
+<script src="js/i18n.js"></script>
 <script src="js/chronotype.js"></script>
 <script src="js/calculator.js"></script>
 <script>
@@ -383,14 +401,18 @@
   function renderQuiz() {
     const container = document.getElementById('quiz-container');
     let html = '';
+    const qKeys = ['q1', 'q2', 'q3'];
+    const qIds = ['wake', 'peak', 'exercise'];
 
-    ChronoQuiz.QUESTIONS.forEach((q, qi) => {
-      html += `<div class="quiz-question">${qi + 1}. ${q.text}</div>`;
+    qKeys.forEach((qk, qi) => {
+      html += `<div class="quiz-question">${qi + 1}. ${i18n(qk)}</div>`;
       html += '<div class="quiz-options">';
-      q.options.forEach(opt => {
-        html += `<div class="quiz-option" data-qid="${q.id}" data-value="${opt.value}"
-                      onclick="selectQuizOption(this)">${opt.label}</div>`;
-      });
+      for (let oi = 1; oi <= 5; oi++) {
+        const value = 6 - oi; // 5,4,3,2,1
+        const selected = quizAnswers[qIds[qi]] === value ? ' selected' : '';
+        html += `<div class="quiz-option${selected}" data-qid="${qIds[qi]}" data-value="${value}"
+                      onclick="selectQuizOption(this)">${i18n(qk + 'o' + oi)}</div>`;
+      }
       html += '</div>';
     });
 
@@ -428,45 +450,48 @@
     const plan = ChronoCalculator.calculate(profile);
 
     const container = document.getElementById('summary-preview');
+    const goalLabel = i18n(selectedGoal || 'maintenance');
+    const sexLabel = i18n(profile.sex);
+
     container.innerHTML = `
       <div class="summary-row">
-        <span class="label">Weight</span>
+        <span class="label">${i18n('weight')}</span>
         <span class="value">${profile.weightKg} kg</span>
       </div>
       <div class="summary-row">
-        <span class="label">Age / Sex</span>
-        <span class="value">${profile.age} / ${profile.sex}</span>
+        <span class="label">${i18n('age')} / ${i18n('sex')}</span>
+        <span class="value">${profile.age} / ${sexLabel}</span>
       </div>
       <div class="summary-row">
-        <span class="label">Chronotype</span>
+        <span class="label">${i18n('chronotype')}</span>
         <span class="value" style="color:var(--green)">${chronoResult.label} (score: ${chronoResult.total}/15)</span>
       </div>
       <div class="summary-row">
-        <span class="label">Goal</span>
-        <span class="value">${selectedGoal || 'maintenance'}</span>
+        <span class="label">${i18n('goal')}</span>
+        <span class="value">${goalLabel}</span>
       </div>
       <div class="summary-row">
-        <span class="label">Activity</span>
-        <span class="value">${profile.activityLevel}</span>
+        <span class="label">${i18n('activity')}</span>
+        <span class="value">${i18n(profile.activityLevel)}</span>
       </div>
       <div class="summary-row">
-        <span class="label">Diet</span>
-        <span class="value">${selectedDiet}</span>
+        <span class="label">${i18n('diet')}</span>
+        <span class="value">${i18n(selectedDiet)}</span>
       </div>
       <div class="summary-row" style="border-top:2px solid var(--green);margin-top:8px;padding-top:12px">
-        <span class="label" style="color:var(--text);font-weight:600">Daily Protein Target</span>
+        <span class="label" style="color:var(--text);font-weight:600">${i18n('dailyProteinTarget')}</span>
         <span class="value" style="font-size:20px;color:var(--green)">${plan.targets.dailyTotalG}g</span>
       </div>
       <div class="summary-row">
-        <span class="label">Protein per kg</span>
+        <span class="label">${i18n('proteinPerKg')}</span>
         <span class="value">${plan.targets.proteinPerKg} g/kg/day</span>
       </div>
       <div class="summary-row">
-        <span class="label">Meals per day</span>
+        <span class="label">${i18n('mealsPerDay')}</span>
         <span class="value">${plan.targets.mealsPerDay}</span>
       </div>
       <div class="summary-row">
-        <span class="label">Leucine threshold/meal</span>
+        <span class="label">${i18n('leucineThresholdMeal')}</span>
         <span class="value">${plan.targets.leucinePerMealG}g</span>
       </div>
     `;
@@ -502,6 +527,26 @@
 
     window.location.href = 'dashboard.html';
   }
+
+  function switchLang(lang) {
+    I18n.setLang(lang);
+    document.querySelectorAll('.lang-toggle button').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      el.textContent = i18n(el.dataset.i18n);
+    });
+    renderQuiz(); // re-render quiz in new language
+    if (currentStep === 4) buildSummary(); // re-render summary in new language
+  }
+
+  // Set lang toggle initial state
+  (function() {
+    const lang = I18n.getLang();
+    document.querySelectorAll('.lang-toggle button').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+  })();
 
   // ── Init ──
   renderQuiz();
