@@ -131,5 +131,93 @@ Going forward: every new exchange will be logged as JUAN / CLAUDE SONNET 4.6 —
 
 ---
 
-*Log maintained by Claude Code | LLM: Claude Sonnet 4.6 (claude-sonnet-4-6) | Session: March 5, 2026*
+---
+
+## EXCHANGE 05
+
+### JUAN
+
+> ok, let's start with the plan, start coding! we use the Blueprint05mar.md as a guide, step by step and any update, any need, I will be incorporating it for you. First we update the file .md and then we do the building or the build with that. What we build, remember the architecture that we already packed, what I need later is to start it in my GitHub and with that do a Git Add, Commit and Push. Because my GitHub, then I relate it with Vercel and I need to see my website in Vercel and how it is going. That's why I ask you please to start a GitHub and that we open a new project in GitHub. Remember, I am the owner, you are my assistant, so you have to assist me in any issue I need. I don't know if you can do it yourself the github init project or if I have to do it myself with your guide. But if we start with all the structure, we are going to do the complete code of the website that is going to be an app. I am very excited.
+
+---
+
+### CLAUDE OPUS 4.6 — Response to Exchange 05
+
+*(Note: Model switched from Sonnet 4.6 to Opus 4.6 for this exchange)*
+
+Verified git and GitHub CLI installed. GitHub account authenticated as **juanenla**.
+
+**GitHub repo created:** https://github.com/juanenla/chrono-protein-app (public)
+
+**Full Phase 1 codebase built and pushed — 15 files, 4,474 lines:**
+
+Structure:
+```
+APP-PROT-NUTRI-CHRONO/
+├── .gitignore
+├── index.html             — Landing page with feature grid + CTA
+├── onboarding.html        — 5-screen wizard (body, chronotype quiz, goal, activity/diet, summary)
+├── dashboard.html         — Main daily plan: 24h timeline + protein window cards
+├── metabolic-windows.html — (existing) Catabolic/anabolic visual
+├── css/
+│   └── design-system.css  — Full design tokens, components, animations
+├── js/
+│   ├── calculator.js      — Protein engine (target calc, window allocation, leucine estimation)
+│   ├── chronotype.js      — 3-question quiz → Morning/Intermediate/Evening scoring
+│   ├── protein-classes.js — 5 protein classes (A-E) with kinetics, leucine%, window mapping
+│   └── schedule-builder.js — Renders timeline bar + window cards from calculator output
+├── data/
+│   ├── protein-foods.json — 33 protein sources with leucine/100g, class, diet, best windows
+│   └── chronotype-schedules.json — 3 chronotypes x training/rest day window definitions
+├── Blueprint05mar.md
+├── blueprint04mar.md
+└── log05mar.md
+```
+
+**Key features of the build:**
+
+1. **Onboarding wizard** — Collects weight, age, sex, body fat, chronotype (via quiz), goal (6 options), activity level, diet type, training time → stores profile in localStorage
+2. **Calculator engine** — Takes profile → computes daily target (g/kg based on goal), per-meal minimum (0.4g/kg), leucine threshold (age-adjusted), window allocation per chronotype
+3. **Dashboard** — Reads profile from localStorage → renders summary stats, 24h timeline bar, and per-window cards with leucine status badges + protein class labels. Toggle between training/rest day.
+4. **Protein class system** — Classes A (whey/fast), B (casein/slow), C (leucine supplement), D (plant), E (collagen) with color-coded badges throughout UI
+5. **Leucine threshold check** — Every meal card shows whether leucine threshold is met; if not, shows amber warning with specific suggestion
+
+**Git:**
+- Initialized repo, created remote on GitHub
+- Initial commit: `feat: initial release — ChronoProtein personalized protein timing platform`
+- Pushed to `main` branch at https://github.com/juanenla/chrono-protein-app
+
+**Next step for Juan:** Connect this GitHub repo to Vercel. Go to vercel.com → Import Project → select `juanenla/chrono-protein-app` → deploy. Since it's pure HTML/JS/CSS with no build step, Vercel will serve it directly.
+
+---
+
+## EXCHANGE 06
+
+### JUAN
+
+> I'm seeing some problems. The first problem is the grams calculated by kilograms of weight per kilogram. It has a huge amount of decimals. You should round it up to just one decimal. The next problem is the huge amount of protein I need for food... Give me food examples that contain that amount of protein and that match the food time. On the other hand, I would like to put a flag with the language. Now we are doing everything in English. We should be able to do everything in Spanish and English.
+
+---
+
+### CLAUDE OPUS 4.6 — Response to Exchange 06
+
+Three fixes applied:
+
+**1. Decimal precision fix** — `js/calculator.js`: wrapped proteinPerKg calculation in `Math.round(... * 10) / 10` so it shows "1.7" instead of "1.700000000000002".
+
+**2. Food examples added** — `js/schedule-builder.js`: Added comprehensive `FOOD_EXAMPLES` object with real food suggestions for every window type (breakfast, brunch, postWorkout, lunch, afternoon, eveningSnack, dinner, preSleep) across protein classes A, B, and D. Each example includes food name, protein grams, and a note. `getFoodSuggestions()` returns 3 best matches sorted by proximity to target grams. Food examples now render inside each protein window card.
+
+**3. EN/ES i18n system** — Created `js/i18n.js` with full English and Spanish translations (~100+ keys covering all 3 pages). Added language toggle (EN/ES pill buttons) to all pages. Applied `data-i18n` attributes to all static text across:
+- `index.html` — hero, features, footer
+- `onboarding.html` — all step titles, form labels, goal cards, diet buttons, activity options, summary preview
+- `dashboard.html` — section labels (MY PLAN, DAILY TARGETS, 24H TIMELINE, PROTEIN WINDOWS), no-plan state
+- `js/schedule-builder.js` — dynamic strings (Leucine OK/LOW, of daily, Daily Target, Protein Meals, Wake/Sleep, Food Examples, etc.)
+
+Language preference is persisted in localStorage. Switching language re-renders all dynamic content (quiz, summary, dashboard cards).
+
+**Git:** Committed and pushed as `feat: add EN/ES i18n system, food examples, and decimal fix` (6 files changed, 662 insertions).
+
+---
+
+*Log maintained by Claude Code | LLM: Claude Opus 4.6 (claude-opus-4-6) | Session: March 5, 2026*
 *File path: /Users/jrisso/Desktop/APP PROT NUTRI CHRONO/log05mar.md*
