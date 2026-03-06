@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Plan | APP PROT NUTRI CHRONO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/design-system.css">
+    <style>
+        .edit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-top: 16px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 16px;
+        }
+
+        .meal-row {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .meal-row-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .meal-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        input[type="time"],
+        input[type="number"] {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 14px;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            text-align: right;
+        }
+
+        .totals-bar {
+            background: rgba(0, 194, 124, 0.1);
+            border: 1px solid var(--green);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div
+        style="position:fixed;top:0;left:0;right:0;height:70px;background:rgba(8,11,15,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:900;display:flex;align-items:center;padding:0 24px;justify-content:space-between">
+        <a href="dashboard.html" class="btn"
+            style="background:transparent;border:1px solid var(--border);color:var(--text);font-size:12px;padding:6px 14px">Descartar
+            Cambios</a>
+    </div>
+
+    <div class="content">
+        <div style="padding-top:100px; max-width:600px; margin:0 auto">
+            <div class="edit-header">
+                <div>
+                    <h1
+                        style="font-family:var(--font-display); font-size:32px; color:var(--text); line-height:1.1; letter-spacing:-0.5px">
+                        AJUSTAR PLAN</h1>
+                    <div style="color:var(--sub); font-size:14px; margin-top:4px">Modificá horarios y macros (Día de
+                        Entrenamiento)</div>
+                </div>
+            </div>
+
+            <div class="totals-bar">
+                <div>
+                    <div style="font-size:12px; color:var(--green)">PROTEÍNA TOTAL</div>
+                    <div style="font-family:var(--font-display); font-size:24px"><span id="total-prot-label">0</span>g
+                    </div>
+                </div>
+                <div style="text-align:right">
+                    <div style="font-size:12px; color:var(--amber)">CALORÍAS EST.</div>
+                    <div style="font-family:var(--font-display); font-size:24px; color:var(--amber)"><span
+                            id="total-kcal-label">0</span></div>
+                </div>
+            </div>
+
+            <div id="error-box"
+                style="display:none; background:rgba(255,107,107,0.1); border:1px solid #ff6b6b; color:#ff6b6b; padding:12px; border-radius:8px; margin-bottom:16px; font-size:13px">
+            </div>
+
+            <div id="edit-meals-container"></div>
+
+            <button id="save-plan-btn" class="btn"
+                style="width:100%; background:var(--green); color:black; font-weight:600; padding:14px; margin-top:24px"
+                onclick="saveCustomPlan()">Guardar y Aplicar al Dashboard</button>
+
+            <div style="margin-top:24px; text-align:center">
+                <button onclick="resetToOptimal()"
+                    style="background:transparent; border:none; color:var(--sub); text-decoration:underline; font-size:12px; cursor:pointer">Restaurar
+                    al plan óptimo teórico</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/chronotypes.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/edit-plan.js"></script>
+</body>
+
+</html>

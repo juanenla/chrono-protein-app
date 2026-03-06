@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Diario | APP PROT NUTRI CHRONO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/design-system.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+        .diary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-top: 16px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 16px;
+        }
+
+        .progress-bar-container {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            height: 12px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-bar-fill {
+            background: var(--green);
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .macros-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .meal-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .meal-row:last-child {
+            border-bottom: none;
+        }
+
+        .meal-icon {
+            font-size: 24px;
+            margin-right: 12px;
+        }
+
+        input[type="number"] {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px;
+            border-radius: 6px;
+            width: 60px;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div
+        style="position:fixed;top:0;left:0;right:0;height:70px;background:rgba(8,11,15,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:900;display:flex;align-items:center;padding:0 24px;justify-content:space-between">
+        <a href="dashboard.html" class="btn"
+            style="background:transparent;border:1px solid var(--border);color:var(--text);font-size:12px;padding:6px 14px">Volver
+            al Plan</a>
+        <div style="display:flex;gap:12px">
+            <select id="lang-select" onchange="I18n.setLanguage(this.value); window.location.reload();"
+                style="background:transparent;color:var(--text);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:11px">
+                <option value="en">EN</option>
+                <option value="es">ES</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="content">
+        <div style="padding-top:100px; max-width:600px; margin:0 auto">
+            <div class="diary-header">
+                <div>
+                    <h1
+                        style="font-family:var(--font-display); font-size:32px; color:var(--text); line-height:1.1; letter-spacing:-0.5px">
+                        MI DIARIO</h1>
+                    <div style="color:var(--sub); font-size:14px; margin-top:4px" id="current-date">Fecha de hoy</div>
+                </div>
+                <div style="text-align:right">
+                    <div style="font-size:12px; color:var(--muted)">DESVÍO</div>
+                    <div id="deviation-metric" style="font-family:var(--font-mono); font-size:18px; color:var(--green)">
+                        0g</div>
+                </div>
+            </div>
+
+            <!-- Macros Progress -->
+            <div class="macros-card">
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px">
+                    <span style="font-size:13px; color:var(--sub)">Proteína Total</span>
+                    <span style="font-family:var(--font-mono); font-size:13px"><span id="consumed-prot">0</span> / <span
+                            id="target-prot">0</span>g</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div id="prot-fill" class="progress-bar-fill"></div>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; margin-top:16px; margin-bottom:8px">
+                    <span style="font-size:13px; color:var(--sub)">Calorías Estimadas</span>
+                    <span style="font-family:var(--font-mono); font-size:13px"><span id="consumed-kcal">0</span> / <span
+                            id="target-kcal">0</span> kcal</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div id="kcal-fill" class="progress-bar-fill" style="background:var(--amber)"></div>
+                </div>
+            </div>
+
+            <!-- Reality Logger -->
+            <h2 style="font-size:16px; margin-bottom:16px; color:var(--sub)">REGISTRO REAL</h2>
+            <div id="diary-meals"
+                style="background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden">
+                <!-- populated by js -->
+            </div>
+
+            <button id="save-diary" class="btn"
+                style="width:100%; background:var(--green); color:black; font-weight:600; padding:14px; margin-top:24px"
+                onclick="saveDiary()">Guardar Progreso</button>
+
+        </div>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/chronotypes.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/diary.js"></script>
+</body>
+
+</html>

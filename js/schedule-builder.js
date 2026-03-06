@@ -240,7 +240,7 @@ const ScheduleBuilder = (() => {
     const lastMin = timeToMinutes(entries[entries.length - 1][1].time);
     const spanMin = lastMin - firstMin + 60; // +60 for pre-sleep padding
 
-    let html = `<div class="tl-label-row mono"><span>${i18n('wake')}</span><span>${i18n('sleep')}</span></div>`;
+    let html = `<div class="tl-label-row mono" style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:10px; color:var(--sub)"><span>${i18n('wake')}</span><span>${i18n('sleep')}</span></div>`;
     html += '<div class="timeline-bar">';
 
     entries.forEach(([key, w]) => {
@@ -476,29 +476,40 @@ const ScheduleBuilder = (() => {
     const today = new Date().getDay(); // 0=Sun, so adjust to Mon=0
     const todayIdx = today === 0 ? 6 : today - 1;
 
-    // Main meals to show: breakfast, lunch, afternoon (merienda), dinner
-    const mealSlots = [
-      { key: 'breakfast', icon: '🍳' },
-      { key: 'lunch', icon: '🥗' },
-      { key: 'afternoon', icon: '🥤' },
-      { key: 'dinner', icon: '🍽️' }
-    ];
+    // Extract all unique meals possible from both training and rest plans
+    const trainingPlan = ChronoCalculator.calculate({ ...plan.profile, isTrainingDay: true });
+    const restPlan = ChronoCalculator.calculate({ ...plan.profile, isTrainingDay: false });
+
+    const uniqueWindows = {};
+    for (const [k, w] of Object.entries(trainingPlan.windows)) uniqueWindows[k] = w.time;
+    for (const [k, w] of Object.entries(restPlan.windows)) uniqueWindows[k] = w.time;
+
+    // Sort them chronologically to determine the columns
+    const mealSlots = Object.keys(uniqueWindows)
+      .sort((a, b) => timeToMinutes(uniqueWindows[a]) - timeToMinutes(uniqueWindows[b]))
+      .map(key => ({ key, icon: WINDOW_ICONS[key] || '🍽️' }));
 
     let html = `<div style="overflow-x:auto">`;
-    html += `<table style="width:100%;border-collapse:collapse;font-size:12px">`;
+    html += `<table style="width:100%;border-collapse:collapse;font-size:12px;min-width:800px">`;
     html += `<thead><tr>`;
     html += `<th style="padding:8px 6px;text-align:left;color:var(--muted);font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;border-bottom:1px solid var(--border)">${i18n('dayLabel')}</th>`;
     html += `<th style="padding:8px 6px;text-align:center;color:var(--muted);font-family:var(--font-mono);font-size:10px;border-bottom:1px solid var(--border)">${i18n('typeLabel')}</th>`;
 
     mealSlots.forEach(m => {
-      html += `<th style="padding:8px 6px;text-align:left;color:var(--muted);font-family:var(--font-mono);font-size:10px;border-bottom:1px solid var(--border)">${m.icon} ${i18n('wl_' + m.key)}</th>`;
+      html += `<th style="padding:8px 6px;text-align:left;color:var(--muted);font-family:var(--font-mono);font-size:10px;border-bottom:1px solid var(--border)">${m.icon} ${i18n('wl_' + m.key) || m.key}</th>`;
     });
+    html += `<th style="padding:8px 6px;text-align:right;color:var(--text);font-family:var(--font-mono);font-size:10px;border-bottom:1px solid var(--border)">TOTAL DIARIO</th>`;
     html += `</tr></thead><tbody>`;
 
     for (let d = 0; d < 7; d++) {
       const isTraining = trainingPattern.includes(d);
       const isToday = d === todayIdx;
       const dayType = isTraining ? 'training' : 'rest';
+      const dayPlan = isTraining ? trainingPlan : restPlan;
+
+      let dayKcal = 0;
+      let dayProt = 0;
+
       const rowBg = isToday ? 'background:rgba(0,194,124,0.06)' : '';
       const dayBadge = isTraining
         ? `<span style="font-size:9px;padding:2px 6px;border-radius:100px;background:rgba(79,255,176,0.15);color:var(--green)">${i18n('trainingShort')}</span>`
@@ -509,15 +520,13 @@ const ScheduleBuilder = (() => {
       html += `<td style="padding:8px 6px;text-align:center">${dayBadge}</td>`;
 
       mealSlots.forEach(m => {
-        // Get protein window for this meal if it exists
-        const profileCopy = { ...plan.profile, isTrainingDay: isTraining };
-        const dayPlan = ChronoCalculator.calculate(profileCopy);
         const w = dayPlan.windows[m.key];
 
         if (w && w.grams > 0) {
-          const suggestions = getFoodSuggestions(m.key, w.proteinClass, w.grams, d);
-          const meal = suggestions[0];
+          const meal = getFoodSuggestions(m.key, w.proteinClass, w.grams, d)[0];
           if (meal) {
+            dayKcal += meal.kcal || 0;
+            dayProt += meal.proteinG || 0;
             html += `<td style="padding:8px 6px;color:var(--sub);font-size:11px">
               <div style="color:var(--text);font-weight:500">${tx(meal.food)}</div>
               <div style="color:var(--muted);font-size:10px">${meal.proteinG}g prot · ${meal.kcal} kcal</div>
@@ -525,17 +534,30 @@ const ScheduleBuilder = (() => {
           } else {
             html += `<td style="padding:8px 6px;color:var(--muted);font-size:11px">—</td>`;
           }
-        } else {
+        } else if (w && w.share === 0) {
           // Free meal
-          const freeMeals = FREE_MEAL_EXAMPLES[m.key] || FREE_MEAL_EXAMPLES.lunch;
-          const meal = freeMeals[d % freeMeals.length];
-          html += `<td style="padding:8px 6px;color:var(--sub);font-size:11px">
-            <div style="color:var(--text);font-weight:400">${tx(meal.food)}</div>
-            <div style="color:var(--muted);font-size:10px">${meal.kcal} kcal</div>
-          </td>`;
+          const meals = FREE_MEAL_EXAMPLES[m.key] || FREE_MEAL_EXAMPLES.lunch;
+          const meal = meals[d % meals.length];
+
+          if (meal) {
+            dayKcal += meal.kcal || 0;
+            html += `<td style="padding:8px 6px;color:var(--sub);font-size:11px">
+                <div style="color:var(--text);font-weight:400;opacity:0.8">${tx(meal.food)}</div>
+                <div style="color:var(--muted);font-size:10px">${meal.kcal} kcal</div>
+              </td>`;
+          } else {
+            html += `<td style="padding:8px 6px;color:var(--muted);font-size:11px">—</td>`;
+          }
+        } else {
+          // Meal slot does not exist on this type of day
+          html += `<td style="padding:8px 6px;color:var(--muted);font-size:11px;text-align:center">—</td>`;
         }
       });
 
+      html += `<td style="padding:8px 6px;color:var(--sub);font-size:11px;text-align:right">
+          <div style="font-weight:600;color:var(--text)">${dayProt}g</div>
+          <div style="color:var(--amber);font-size:10px">${dayKcal} kcal</div>
+      </td>`;
       html += `</tr>`;
     }
 

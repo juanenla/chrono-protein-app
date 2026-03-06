@@ -646,4 +646,17 @@ Revisé el plan con vos y procedí a ejecutar las tareas relacionadas a tu pedid
 5. **Guía Semanal**: Activé el "Weekly Guide" que estaba oculto en el código. Ahora el Dashboard muestra abajo de todo una tabla de 7 días con ejemplos de qué comer cada día (diferenciando entre día de entrenamiento y descanso) para evitar que el usuario coma lo mismo siempre.
 
 Quedo a la espera para repasar esto o para las siguientes tareas.
+
+---
+
+## EXCHANGE 24
+
+### JUAN
+
+> tambien, necesito que agregues a las comidas  4 diarias planificadas en el plannig semanal, agregar las otras comidas al final de la lista, para que figuren TODAS las comidas del día, incluyendo el pre-work, el post-workout y el pre-sleep, y cualquier cosa extra, que aparezca ahí...Lo otro, en el UI/UX figura JUNTO "DESPERTARDORMIR"...debe estar separado, cerca del horario de despertarse que diga eso y cerca del horario de dormir, que diga dormir. Por otro lado, necesito que figuren TODAS las comidas de cada día para que se puedan sumar las proteinas y las calorias. Otro tema: todo esto es un PLAN para que la persona lleve adelante.. Es importante que además del plan, esté el registro de la realidad, y qe se tenga un output entre la realidad y el plan...ver si se coumple con las cantidades diarias totales y las cantidades fraccionadas y los horarios propuestos. Por otro lado, si la propuesta no gusta por el usuario, debería poder editar lo que va a hacer...para que tenga su planning acorde a lo que quiere...no lo que le impongamos...en algun lado, podríamos poner el "desvío" con el plan optimo teoric
+
+### GEMINI 3.1 PRO (HIGH) — Response to Exchange 24
+
+*(en progreso)*
+
 *File path: /Users/jrisso/Desktop/APP PROT NUTRI CHRONO/log06mar.md*

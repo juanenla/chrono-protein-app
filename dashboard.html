@@ -1,357 +1,417 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChronoProtein — My Daily Plan</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/design-system.css">
-<style>
-  .nav-back {
-    position: fixed;
-    top: 16px;
-    left: 16px;
-    z-index: 100;
-    padding: 6px 14px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-pill);
-    background: var(--card);
-    color: var(--muted);
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-  .nav-back:hover { color: var(--text); border-color: var(--green); }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChronoProtein — My Daily Plan</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css">
+  <style>
+    .nav-back {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 100;
+      padding: 6px 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      background: var(--card);
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
 
-  .protein-anchors-info {
-    margin-bottom: 20px;
-    padding: 14px 18px;
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(0,194,124,0.2);
-    background: rgba(0,194,124,0.05);
-    font-size: 13px;
-    color: var(--sub);
-    line-height: 1.6;
-  }
+    .nav-back:hover {
+      color: var(--text);
+      border-color: var(--green);
+    }
 
-  .lang-toggle {
-    position: fixed; top: 16px; right: 16px; z-index: 100;
-    display: flex; border-radius: 100px; overflow: hidden;
-    border: 1px solid var(--border); background: var(--card);
-  }
-  .lang-toggle button {
-    padding: 6px 14px; font-family: var(--font-mono); font-size: 11px;
-    letter-spacing: 0.1em; border: none; background: transparent;
-    color: var(--muted); cursor: pointer; transition: all 0.2s;
-  }
-  .lang-toggle button.active { background: var(--green); color: var(--dark); font-weight: 600; }
+    .protein-anchors-info {
+      margin-bottom: 20px;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(0, 194, 124, 0.2);
+      background: rgba(0, 194, 124, 0.05);
+      font-size: 13px;
+      color: var(--sub);
+      line-height: 1.6;
+    }
 
-  .dash-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 32px 20px 60px;
-  }
+    .lang-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 100;
+      display: flex;
+      border-radius: 100px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
 
-  .dash-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
+    .lang-toggle button {
+      padding: 6px 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
 
-  .dash-header h1 {
-    font-size: clamp(32px, 6vw, 52px);
-    line-height: 1;
-  }
+    .lang-toggle button.active {
+      background: var(--green);
+      color: var(--dark);
+      font-weight: 600;
+    }
 
-  .dash-controls {
-    display: flex;
-    gap: 8px;
-  }
+    .dash-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
 
-  .day-toggle {
-    display: flex;
-    border-radius: var(--radius-pill);
-    overflow: hidden;
-    border: 1px solid var(--border);
-  }
+    .dash-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
 
-  .day-toggle button {
-    padding: 8px 18px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 500;
-    border: none;
-    background: var(--card);
-    color: var(--sub);
-    cursor: pointer;
-    transition: all var(--duration) var(--ease-out);
-  }
+    .dash-header h1 {
+      font-size: clamp(32px, 6vw, 52px);
+      line-height: 1;
+    }
 
-  .day-toggle button.active {
-    background: var(--green);
-    color: var(--dark);
-  }
+    .dash-controls {
+      display: flex;
+      gap: 8px;
+    }
 
-  .chronotype-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    color: var(--sub);
-    padding: 6px 14px;
-    border-radius: var(--radius-pill);
-    border: 1px solid var(--border);
-    background: var(--card);
-  }
+    .day-toggle {
+      display: flex;
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
 
-  /* ── Section titles ── */
-  .section-label {
-    font-family: var(--font-display);
-    font-size: 28px;
-    letter-spacing: 0.03em;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
+    .day-toggle button {
+      padding: 8px 18px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      border: none;
+      background: var(--card);
+      color: var(--sub);
+      cursor: pointer;
+      transition: all var(--duration) var(--ease-out);
+    }
 
-  .section-sub {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
+    .day-toggle button.active {
+      background: var(--green);
+      color: var(--dark);
+    }
 
-  /* ── No plan state ── */
-  .no-plan {
-    text-align: center;
-    padding: 80px 20px;
-  }
+    .chronotype-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--sub);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
 
-  .no-plan h2 {
-    font-size: 36px;
-    margin-bottom: 12px;
-    color: var(--sub);
-  }
+    /* ── Section titles ── */
+    .section-label {
+      font-family: var(--font-display);
+      font-size: 28px;
+      letter-spacing: 0.03em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
 
-  .no-plan p {
-    color: var(--muted);
-    margin-bottom: 24px;
-  }
+    .section-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
 
-  /* ── Evidence footer ── */
-  .evidence-bar {
-    margin-top: 32px;
-    padding: 16px 20px;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
-    background: rgba(255,172,10,0.04);
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
+    /* ── No plan state ── */
+    .no-plan {
+      text-align: center;
+      padding: 80px 20px;
+    }
 
-  .evidence-bar strong { color: var(--amber); }
-</style>
+    .no-plan h2 {
+      font-size: 36px;
+      margin-bottom: 12px;
+      color: var(--sub);
+    }
+
+    .no-plan p {
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    /* ── Evidence footer ── */
+    .evidence-bar {
+      margin-top: 32px;
+      padding: 16px 20px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: rgba(255, 172, 10, 0.04);
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .evidence-bar strong {
+      color: var(--amber);
+    }
+  </style>
 </head>
+
 <body>
 
-<a href="index.html" class="nav-back" data-i18n="navHome">Home</a>
+  <a href="index.html" class="nav-back" data-i18n="navHome">Home</a>
 
-<div class="lang-toggle">
-  <button class="active" data-lang="en" onclick="switchLang('en')">EN</button>
-  <button data-lang="es" onclick="switchLang('es')">ES</button>
-</div>
-
-<div class="dash-container">
-
-  <!-- No-plan fallback -->
-  <div id="no-plan" class="no-plan" style="display:none">
-    <h2 data-i18n="noProtocol">NO PROTOCOL YET</h2>
-    <p data-i18n="noProtocolDesc">Complete the onboarding to generate your personalized protein schedule.</p>
-    <a href="onboarding.html" class="btn btn-primary btn-lg" data-i18n="buildProtocol">Build My Protocol</a>
+  <div class="lang-toggle">
+    <button class="active" data-lang="en" onclick="switchLang('en')">EN</button>
+    <button data-lang="es" onclick="switchLang('es')">ES</button>
   </div>
 
-  <!-- Dashboard (shown when plan exists) -->
-  <div id="dashboard" style="display:none">
+  <div class="dash-container">
 
-    <!-- Header -->
-    <div class="dash-header">
-      <div>
-        <h1><span class="gradient-cool" data-i18n="myPlan">MY PLAN</span></h1>
-        <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap">
-          <span class="chronotype-label" id="chronotype-badge"></span>
-          <span class="chronotype-label" id="goal-badge"></span>
-        </div>
-      </div>
-      <div class="dash-controls">
-        <div class="day-toggle">
-          <button class="active" id="btn-training" onclick="toggleDay('training')" data-i18n="trainingDay">Training Day</button>
-          <button id="btn-rest" onclick="toggleDay('rest')" data-i18n="restDay">Rest Day</button>
-        </div>
-        <a href="onboarding.html" class="btn btn-secondary" style="font-size:13px" data-i18n="editProfile">Edit Profile</a>
-      </div>
+    <!-- No-plan fallback -->
+    <div id="no-plan" class="no-plan" style="display:none">
+      <h2 data-i18n="noProtocol">NO PROTOCOL YET</h2>
+      <p data-i18n="noProtocolDesc">Complete the onboarding to generate your personalized protein schedule.</p>
+      <a href="onboarding.html" class="btn btn-primary btn-lg" data-i18n="buildProtocol">Build My Protocol</a>
     </div>
 
-    <!-- Summary stats -->
-    <div class="section-label" data-i18n="dailyTargets">DAILY TARGETS</div>
-    <div class="section-sub" data-i18n="dailyTargetsDesc">Your personalized numbers based on your profile</div>
-    <div id="summary-stats" style="margin-bottom:32px"></div>
+    <!-- Dashboard (shown when plan exists) -->
+    <div id="dashboard" style="display:none">
 
-    <!-- Timeline -->
-    <div class="section-label" data-i18n="timeline24h">24H TIMELINE</div>
-    <div class="section-sub" data-i18n="timelineDesc">Your protein windows across the day</div>
-    <div id="timeline" style="margin-bottom:32px;position:relative"></div>
+      <!-- Header -->
+      <div class="dash-header">
+        <div>
+          <h1><span class="gradient-cool" data-i18n="myPlan">MY PLAN</span></h1>
+          <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap">
+            <span class="chronotype-label" id="chronotype-badge"></span>
+            <span class="chronotype-label" id="goal-badge"></span>
+          </div>
+        </div>
+        <div class="dash-controls" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <div class="day-toggle">
+            <button class="active" id="btn-training" onclick="toggleDay('training')" data-i18n="trainingDay">Training
+              Day</button>
+            <button id="btn-rest" onclick="toggleDay('rest')" data-i18n="restDay">Rest Day</button>
+          </div>
+          <a href="diary.html" class="btn" style="background:var(--green);color:black;font-size:13px;font-weight:600"
+            data-i18n="miDiario">Mi Diario</a>
+          <a href="edit-plan.html" class="btn btn-secondary" style="font-size:13px" data-i18n="editPlan">Editar Plan</a>
+          <a href="onboarding.html" class="btn"
+            style="background:transparent;border:1px solid var(--border);color:var(--text);font-size:13px"
+            data-i18n="editProfile">Edit Profile</a>
+        </div>
+      </div>
 
-    <!-- Window cards -->
-    <div class="section-label" data-i18n="proteinWindows">PROTEIN WINDOWS</div>
-    <div class="section-sub" data-i18n="windowsDesc">These are your protein anchors — eat normally between windows, hit these targets at each marked time</div>
-    <div class="protein-anchors-info" data-i18n="proteinAnchorsInfo">Your protein plan shows minimum protein targets per window. Between windows, continue your normal eating habits. Total daily food intake should meet your calorie needs — protein timing optimizes when you build muscle, not how much you eat overall.</div>
-    <div id="window-cards" style="margin-bottom:32px"></div>
+      <!-- Summary stats -->
+      <div class="section-label" data-i18n="dailyTargets">DAILY TARGETS</div>
+      <div class="section-sub" data-i18n="dailyTargetsDesc">Your personalized numbers based on your profile</div>
+      <div id="summary-stats" style="margin-bottom:32px"></div>
 
-    <!-- Weekly Guide -->
-    <div class="section-label" data-i18n="weeklyGuide">WEEKLY GUIDE</div>
-    <div class="section-sub" data-i18n="weeklyGuideDesc">A 7-day overview of your main meals based on your training days</div>
-    <div id="weekly-guide" style="margin-bottom:32px"></div>
+      <!-- Timeline -->
+      <div class="section-label" data-i18n="timeline24h">24H TIMELINE</div>
+      <div class="section-sub" data-i18n="timelineDesc">Your protein windows across the day</div>
+      <div id="timeline" style="margin-bottom:32px;position:relative"></div>
 
-    <!-- Evidence -->
-    <div class="evidence-bar" data-i18n-html="scienceBasis">
-      <strong>Science basis:</strong> Your schedule is built from 113 scientific references including Mamerow 2014 (protein distribution), Morton 2018 (total intake meta-analysis), Trommelen 2023 (pre-sleep protein RCT), Negri 2025 (chrono-nutrition review), and the 2025 MDPI timing meta-analysis. Leucine thresholds from Norton 2006 and Churchward-Venne 2012, adjusted for age per Katsanos 2006.
+      <!-- Window cards -->
+      <div class="section-label" data-i18n="proteinWindows">PROTEIN WINDOWS</div>
+      <div class="section-sub" data-i18n="windowsDesc">These are your protein anchors — eat normally between windows,
+        hit these targets at each marked time</div>
+      <div class="protein-anchors-info" data-i18n="proteinAnchorsInfo">Your protein plan shows minimum protein targets
+        per window. Between windows, continue your normal eating habits. Total daily food intake should meet your
+        calorie needs — protein timing optimizes when you build muscle, not how much you eat overall.</div>
+      <div id="window-cards" style="margin-bottom:32px"></div>
+
+      <!-- Weekly Guide -->
+      <div class="section-label" data-i18n="weeklyGuide">WEEKLY GUIDE</div>
+      <div class="section-sub" data-i18n="weeklyGuideDesc">A 7-day overview of your main meals based on your training
+        days</div>
+      <div id="weekly-guide" style="margin-bottom:32px"></div>
+
+      <!-- Evidence -->
+      <div class="evidence-bar" data-i18n-html="scienceBasis">
+        <strong>Science basis:</strong> Your schedule is built from 113 scientific references including Mamerow 2014
+        (protein distribution), Morton 2018 (total intake meta-analysis), Trommelen 2023 (pre-sleep protein RCT), Negri
+        2025 (chrono-nutrition review), and the 2025 MDPI timing meta-analysis. Leucine thresholds from Norton 2006 and
+        Churchward-Venne 2012, adjusted for age per Katsanos 2006.
+      </div>
+
     </div>
 
   </div>
 
-</div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/feedback.js"></script>
+  <script src="js/chronotype.js"></script>
+  <script src="js/protein-classes.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/schedule-builder.js"></script>
+  <script>
+    let currentProfile = null;
+    let currentDayType = 'training';
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/i18n.js"></script>
-<script src="js/supabase-client.js"></script>
-<script src="js/feedback.js"></script>
-<script src="js/chronotype.js"></script>
-<script src="js/protein-classes.js"></script>
-<script src="js/calculator.js"></script>
-<script src="js/schedule-builder.js"></script>
-<script>
-  let currentProfile = null;
-  let currentDayType = 'training';
+    async function init() {
+      let profileStr = localStorage.getItem('chronoProfile');
+      let planStr = localStorage.getItem('chronoPlan');
 
-  async function init() {
-    let profileStr = localStorage.getItem('chronoProfile');
-    let planStr = localStorage.getItem('chronoPlan');
+      // Try loading from Supabase if logged in and no local data
+      if (!profileStr || !planStr) {
+        try {
+          const user = await Auth.getUser();
+          if (user) {
+            const dbProfile = await Profiles.load();
+            if (dbProfile) {
+              // Map DB columns back to the app's profile format
+              const profile = {
+                weightKg: dbProfile.weight_kg,
+                age: dbProfile.age,
+                sex: dbProfile.sex,
+                bodyFatPercent: dbProfile.body_fat,
+                chronotype: dbProfile.chronotype,
+                goal: dbProfile.goal,
+                activityLevel: dbProfile.activity,
+                dietType: dbProfile.diet,
+                trainingTime: dbProfile.training_time,
+                trainingDays: dbProfile.training_days
+              };
+              localStorage.setItem('chronoProfile', JSON.stringify(profile));
+              profileStr = JSON.stringify(profile);
 
-    // Try loading from Supabase if logged in and no local data
-    if (!profileStr || !planStr) {
-      try {
-        const user = await Auth.getUser();
-        if (user) {
-          const dbProfile = await Profiles.load();
-          if (dbProfile) {
-            // Map DB columns back to the app's profile format
-            const profile = {
-              weightKg: dbProfile.weight_kg,
-              age: dbProfile.age,
-              sex: dbProfile.sex,
-              bodyFatPercent: dbProfile.body_fat,
-              chronotype: dbProfile.chronotype,
-              goal: dbProfile.goal,
-              activityLevel: dbProfile.activity,
-              dietType: dbProfile.diet,
-              trainingTime: dbProfile.training_time,
-              trainingDays: dbProfile.training_days
-            };
-            localStorage.setItem('chronoProfile', JSON.stringify(profile));
-            profileStr = JSON.stringify(profile);
+              // Also load latest plan from Supabase
+              const { data: planRow } = await sb
+                .from('plans')
+                .select('plan_json')
+                .eq('user_id', user.id)
+                .order('created_at', { ascending: false })
+                .limit(1)
+                .single();
 
-            // Also load latest plan from Supabase
-            const { data: planRow } = await sb
-              .from('plans')
-              .select('plan_json')
-              .eq('user_id', user.id)
-              .order('created_at', { ascending: false })
-              .limit(1)
-              .single();
-
-            if (planRow && planRow.plan_json) {
-              localStorage.setItem('chronoPlan', JSON.stringify(planRow.plan_json));
-              planStr = JSON.stringify(planRow.plan_json);
+              if (planRow && planRow.plan_json) {
+                localStorage.setItem('chronoPlan', JSON.stringify(planRow.plan_json));
+                planStr = JSON.stringify(planRow.plan_json);
+              }
             }
           }
+        } catch (e) {
+          console.warn('[Dashboard] Could not load from Supabase:', e.message);
         }
-      } catch (e) {
-        console.warn('[Dashboard] Could not load from Supabase:', e.message);
       }
+
+      if (!profileStr || !planStr) {
+        document.getElementById('no-plan').style.display = 'block';
+        document.getElementById('dashboard').style.display = 'none';
+        return;
+      }
+
+      document.getElementById('no-plan').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+
+      currentProfile = JSON.parse(profileStr);
+      renderDashboard();
     }
 
-    if (!profileStr || !planStr) {
-      document.getElementById('no-plan').style.display = 'block';
-      document.getElementById('dashboard').style.display = 'none';
-      return;
+    function renderDashboard() {
+      const profile = { ...currentProfile, isTrainingDay: currentDayType === 'training' };
+      const plan = ChronoCalculator.calculate(profile);
+
+      // Apply custom user plan overrides if available
+      try {
+        const customPrefs = localStorage.getItem('chronoCustomPlan');
+        if (customPrefs && profile.isTrainingDay) {
+          const overrides = JSON.parse(customPrefs);
+          plan.windows = overrides;
+          // Recalculate totals
+          let totalProt = 0;
+          let totalKcal = 0;
+          Object.values(overrides).forEach(w => {
+            totalProt += (w.grams || 0);
+            totalKcal += (w.grams > 0) ? (w.grams * 14) : 400;
+          });
+          plan.summary.totalGrams = totalProt;
+          plan.summary.estimatedKcal = totalKcal;
+        }
+      } catch (e) { console.warn('Could not apply custom plan', e); }
+
+      // Badges
+      const chronoResult = ChronoQuiz.score({
+        wake: 3, peak: 3, exercise: 3 // fallback
+      });
+      document.getElementById('chronotype-badge').textContent =
+        `${profile.chronotype.charAt(0).toUpperCase() + profile.chronotype.slice(1)} Chronotype`;
+      document.getElementById('goal-badge').textContent =
+        `${profile.goal.charAt(0).toUpperCase() + profile.goal.slice(1)} — ${plan.targets.proteinPerKg} g/kg`;
+
+      // Render components
+      ScheduleBuilder.renderSummary(plan, 'summary-stats');
+      ScheduleBuilder.renderTimeline(plan, 'timeline');
+      ScheduleBuilder.renderWindowCards(plan, 'window-cards');
+      ScheduleBuilder.renderWeeklyGuide(plan, 'weekly-guide', profile.trainingDays || 3);
     }
 
-    document.getElementById('no-plan').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
+    function toggleDay(type) {
+      currentDayType = type;
 
-    currentProfile = JSON.parse(profileStr);
-    renderDashboard();
-  }
+      document.getElementById('btn-training').classList.toggle('active', type === 'training');
+      document.getElementById('btn-rest').classList.toggle('active', type === 'rest');
 
-  function renderDashboard() {
-    const profile = { ...currentProfile, isTrainingDay: currentDayType === 'training' };
-    const plan = ChronoCalculator.calculate(profile);
+      renderDashboard();
+    }
 
-    // Badges
-    const chronoResult = ChronoQuiz.score({
-      wake: 3, peak: 3, exercise: 3 // fallback
-    });
-    document.getElementById('chronotype-badge').textContent =
-      `${profile.chronotype.charAt(0).toUpperCase() + profile.chronotype.slice(1)} Chronotype`;
-    document.getElementById('goal-badge').textContent =
-      `${profile.goal.charAt(0).toUpperCase() + profile.goal.slice(1)} — ${plan.targets.proteinPerKg} g/kg`;
+    function switchLang(lang) {
+      I18n.setLang(lang);
+      document.querySelectorAll('.lang-toggle button').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+      });
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.textContent = i18n(el.dataset.i18n);
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        el.innerHTML = i18n(el.dataset.i18nHtml);
+      });
+      renderDashboard();
+    }
 
-    // Render components
-    ScheduleBuilder.renderSummary(plan, 'summary-stats');
-    ScheduleBuilder.renderTimeline(plan, 'timeline');
-    ScheduleBuilder.renderWindowCards(plan, 'window-cards');
-    ScheduleBuilder.renderWeeklyGuide(plan, 'weekly-guide', profile.trainingDays || 3);
-  }
+    // Set lang toggle initial state
+    (function () {
+      const lang = I18n.getLang();
+      document.querySelectorAll('.lang-toggle button').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+      });
+    })();
 
-  function toggleDay(type) {
-    currentDayType = type;
-
-    document.getElementById('btn-training').classList.toggle('active', type === 'training');
-    document.getElementById('btn-rest').classList.toggle('active', type === 'rest');
-
-    renderDashboard();
-  }
-
-  function switchLang(lang) {
-    I18n.setLang(lang);
-    document.querySelectorAll('.lang-toggle button').forEach(b => {
-      b.classList.toggle('active', b.dataset.lang === lang);
-    });
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      el.textContent = i18n(el.dataset.i18n);
-    });
-    document.querySelectorAll('[data-i18n-html]').forEach(el => {
-      el.innerHTML = i18n(el.dataset.i18nHtml);
-    });
-    renderDashboard();
-  }
-
-  // Set lang toggle initial state
-  (function() {
-    const lang = I18n.getLang();
-    document.querySelectorAll('.lang-toggle button').forEach(b => {
-      b.classList.toggle('active', b.dataset.lang === lang);
-    });
-  })();
-
-  // ── Init on load ──
-  Feedback.init();
-  init();
-</script>
+    // ── Init on load ──
+    Feedback.init();
+    init();
+  </script>
 
 </body>
+
 </html>
