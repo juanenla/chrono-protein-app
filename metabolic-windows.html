@@ -31,6 +31,19 @@
     overflow-x: hidden;
   }
 
+  /* ── Lang toggle ── */
+  .lang-toggle {
+    position: fixed; top: 16px; right: 16px; z-index: 100;
+    display: flex; border-radius: 100px; overflow: hidden;
+    border: 1px solid var(--border); background: var(--card);
+  }
+  .lang-toggle button {
+    padding: 6px 14px; font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 0.1em; border: none; background: transparent;
+    color: var(--muted); cursor: pointer; transition: all 0.2s;
+  }
+  .lang-toggle button.active { background: var(--green); color: var(--dark); font-weight: 600; }
+
   /* ── Header ── */
   .header {
     text-align: center;
@@ -535,35 +548,41 @@
 </head>
 <body>
 
+<!-- ─── LANGUAGE TOGGLE ────────────────────────── -->
+<div class="lang-toggle">
+  <button class="active" data-lang="en" onclick="switchLang('en')">EN</button>
+  <button data-lang="es" onclick="switchLang('es')">ES</button>
+</div>
+
 <!-- ─── HEADER ─────────────────────────────────────────── -->
 <div class="header">
-  <div class="eyebrow">Chrono-Nutrition · Post-Exercise Science</div>
+  <div class="eyebrow" data-i18n="mwEyebrow">Chrono-Nutrition · Post-Exercise Science</div>
   <h1>CATABOLIC<br><span>ANABOLIC</span></h1>
-  <p class="subtitle">What happens inside your body after you train — and the exact window you have to flip the switch.</p>
+  <p class="subtitle" data-i18n="mwSubtitle">What happens inside your body after you train — and the exact window you have to flip the switch.</p>
 </div>
 
 <!-- ─── TIMELINE ────────────────────────────────────────── -->
 <div class="timeline-section">
   <div class="tl-label-row">
-    <span>End of workout</span>
-    <span style="text-align:center">The critical zone</span>
-    <span style="text-align:right">Stable recovery</span>
+    <span data-i18n="mwEndWorkout">End of workout</span>
+    <span style="text-align:center" data-i18n="mwCriticalZone">The critical zone</span>
+    <span style="text-align:right" data-i18n="mwStableRecovery">Stable recovery</span>
   </div>
   <div class="timeline-bar">
     <div class="seg-catabolic" style="position:relative">
-      <span class="seg-label">PEAK CATAB.</span>
+      <span class="seg-label" data-i18n="mwPeakCatab">PEAK CATAB.</span>
     </div>
     <div class="seg-critical" style="position:relative">
-      <span class="seg-label">CRITICAL</span>
+      <span class="seg-label" data-i18n="mwCritical">CRITICAL</span>
     </div>
     <div class="seg-prime" style="position:relative">
-      <span class="seg-label">PRIME WINDOW</span>
+      <span class="seg-label" data-i18n="mwPrimeWindow">PRIME WINDOW</span>
     </div>
     <div class="seg-window" style="position:relative">
-      <span class="seg-label">ANABOLIC</span>
+      <span class="seg-label" data-i18n="mwAnabolic">ANABOLIC</span>
     </div>
     <div class="seg-normal" style="position:relative">
-      <span class="seg-label">NORMAL SYNTHESIS</span>
+      <span class="seg-label" data-i18n="mwNormalSynthesis">NORMAL SYNTHESIS</span>
     </div>
   </div>
   <div class="tl-markers">
@@ -578,12 +597,12 @@
 
 <!-- ─── PHASE PILLS ─────────────────────────────────────── -->
 <div class="phase-pills">
-  <div class="pill cat"><span class="pill-dot"></span> Cortisol elevated</div>
-  <div class="pill cat"><span class="pill-dot"></span> Glycogen depleted</div>
-  <div class="pill warn"><span class="pill-dot"></span> mTOR activating</div>
-  <div class="pill ana"><span class="pill-dot"></span> Muscle protein synthesis ↑</div>
-  <div class="pill ana"><span class="pill-dot"></span> GH pulsing (sleep)</div>
-  <div class="pill warn"><span class="pill-dot"></span> Insulin sensitivity peak</div>
+  <div class="pill cat"><span class="pill-dot"></span> <span data-i18n="mwCortisolElevated">Cortisol elevated</span></div>
+  <div class="pill cat"><span class="pill-dot"></span> <span data-i18n="mwGlycogenDepleted">Glycogen depleted</span></div>
+  <div class="pill warn"><span class="pill-dot"></span> <span data-i18n="mwMtorActivating">mTOR activating</span></div>
+  <div class="pill ana"><span class="pill-dot"></span> <span data-i18n="mwMpsSynthesis">Muscle protein synthesis ↑</span></div>
+  <div class="pill ana"><span class="pill-dot"></span> <span data-i18n="mwGhPulsing">GH pulsing (sleep)</span></div>
+  <div class="pill warn"><span class="pill-dot"></span> <span data-i18n="mwInsulinPeak">Insulin sensitivity peak</span></div>
 </div>
 
 <!-- ─── TWO PHASES ───────────────────────────────────────── -->
@@ -594,33 +613,33 @@
     <div class="phase-header">
       <div class="phase-icon">🔥</div>
       <div class="phase-title-block">
-        <div class="phase-tag">Phase 01</div>
-        <h2>CATABOLIC<br>WINDOW</h2>
+        <div class="phase-tag" data-i18n="mwPhase01">Phase 01</div>
+        <h2 data-i18n-html="mwCatabolicWindow">CATABOLIC<br>WINDOW</h2>
       </div>
       <div class="phase-time">
-        <span>Duration</span>
+        <span data-i18n="mwDuration">Duration</span>
         <strong>0–30 min</strong>
-        <span>post-exercise</span>
+        <span data-i18n="mwPostExercise">post-exercise</span>
       </div>
     </div>
     <div class="phase-body">
-      <p class="phase-desc">Your body is still in emergency mode — burning and breaking down. Without action, it starts dismantling muscle proteins for energy.</p>
+      <p class="phase-desc" data-i18n="mwCatabolicDesc">Your body is still in emergency mode — burning and breaking down. Without action, it starts dismantling muscle proteins for energy.</p>
       <ul class="mechanism-list">
         <li class="mechanism-item">
           <span class="mech-icon">📈</span>
-          <span class="mech-text"><strong>Cortisol spikes:</strong> The stress hormone is at its post-exercise peak — it signals the body to break down muscle protein into amino acids for fuel.</span>
+          <span class="mech-text" data-i18n-html="mwMechCortisol"><strong>Cortisol spikes:</strong> The stress hormone is at its post-exercise peak — it signals the body to break down muscle protein into amino acids for fuel.</span>
         </li>
         <li class="mechanism-item">
           <span class="mech-icon">⚡</span>
-          <span class="mech-text"><strong>Glycogen depleted:</strong> Muscle carbohydrate stores are empty. The body turns to protein (gluconeogenesis) to maintain blood glucose.</span>
+          <span class="mech-text" data-i18n-html="mwMechGlycogen"><strong>Glycogen depleted:</strong> Muscle carbohydrate stores are empty. The body turns to protein (gluconeogenesis) to maintain blood glucose.</span>
         </li>
         <li class="mechanism-item">
           <span class="mech-icon">🚨</span>
-          <span class="mech-text"><strong>Muscle protein breakdown (MPB) &gt; MPS:</strong> Net protein balance is <em>negative</em>. You are losing muscle on net until you eat.</span>
+          <span class="mech-text" data-i18n-html="mwMechMpb"><strong>Muscle protein breakdown (MPB) &gt; MPS:</strong> Net protein balance is <em>negative</em>. You are losing muscle on net until you eat.</span>
         </li>
         <li class="mechanism-item">
           <span class="mech-icon">🔓</span>
-          <span class="mech-text"><strong>GLUT4 transporters exposed:</strong> Muscle cell membranes are maximally permeable to glucose — the best insulin sensitivity of the day.</span>
+          <span class="mech-text" data-i18n-html="mwMechGlut4"><strong>GLUT4 transporters exposed:</strong> Muscle cell membranes are maximally permeable to glucose — the best insulin sensitivity of the day.</span>
         </li>
       </ul>
     </div>
@@ -631,33 +650,33 @@
     <div class="phase-header">
       <div class="phase-icon">🌱</div>
       <div class="phase-title-block">
-        <div class="phase-tag">Phase 02</div>
-        <h2>ANABOLIC<br>WINDOW</h2>
+        <div class="phase-tag" data-i18n="mwPhase02">Phase 02</div>
+        <h2 data-i18n-html="mwAnabolicWindow">ANABOLIC<br>WINDOW</h2>
       </div>
       <div class="phase-time">
-        <span>Duration</span>
+        <span data-i18n="mwDuration">Duration</span>
         <strong>30 min–6 h</strong>
-        <span>post-exercise</span>
+        <span data-i18n="mwPostExercise">post-exercise</span>
       </div>
     </div>
     <div class="phase-body">
-      <p class="phase-desc">Once you feed, the body pivots to building. This is the window where the work you did in the gym becomes actual new muscle fibers.</p>
+      <p class="phase-desc" data-i18n="mwAnabolicDesc">Once you feed, the body pivots to building. This is the window where the work you did in the gym becomes actual new muscle fibers.</p>
       <ul class="mechanism-list">
         <li class="mechanism-item">
           <span class="mech-icon">🏗️</span>
-          <span class="mech-text"><strong>mTORC1 activated:</strong> Leucine triggers this master switch — it activates ribosomes to start building new muscle proteins (MPS &gt; MPB).</span>
+          <span class="mech-text" data-i18n-html="mwMechMtor"><strong>mTORC1 activated:</strong> Leucine triggers this master switch — it activates ribosomes to start building new muscle proteins (MPS &gt; MPB).</span>
         </li>
         <li class="mechanism-item">
           <span class="mech-icon">🍬</span>
-          <span class="mech-text"><strong>Glycogen resynthesis:</strong> Muscles absorb glucose 2–3× faster than normal. Carbohydrates eaten now refuel for tomorrow's workout efficiently.</span>
+          <span class="mech-text" data-i18n-html="mwMechGlycogenResynth"><strong>Glycogen resynthesis:</strong> Muscles absorb glucose 2–3× faster than normal. Carbohydrates eaten now refuel for tomorrow's workout efficiently.</span>
         </li>
         <li class="mechanism-item">
           <span class="mech-icon">📉</span>
-          <span class="mech-text"><strong>Cortisol suppressed by insulin:</strong> Protein + carbs elevate insulin, which directly counters cortisol's muscle-breakdown signal.</span>
+          <span class="mech-text" data-i18n-html="mwMechCortisolSuppressed"><strong>Cortisol suppressed by insulin:</strong> Protein + carbs elevate insulin, which directly counters cortisol's muscle-breakdown signal.</span>
         </li>
         <li class="mechanism-item">
           <span class="mech-icon">🔧</span>
-          <span class="mech-text"><strong>Satellite cells activated:</strong> Muscle stem cells migrate to micro-damage sites — the actual repair and growth process begins here.</span>
+          <span class="mech-text" data-i18n-html="mwMechSatellite"><strong>Satellite cells activated:</strong> Muscle stem cells migrate to micro-damage sites — the actual repair and growth process begins here.</span>
         </li>
       </ul>
     </div>
@@ -666,8 +685,8 @@
 
 <!-- ─── METABOLIC CASCADE ────────────────────────────────── -->
 <div class="cascade-section">
-  <div class="section-title">THE METABOLIC CASCADE</div>
-  <p class="section-sub">What happens inside your body, step by step, from final rep to full recovery</p>
+  <div class="section-title" data-i18n="mwCascadeTitle">THE METABOLIC CASCADE</div>
+  <p class="section-sub" data-i18n="mwCascadeSub">What happens inside your body, step by step, from final rep to full recovery</p>
 
   <div class="cascade-flow">
 
@@ -675,10 +694,10 @@
       <div class="step-bullet" style="background:rgba(255,24,48,0.15); border: 2px solid rgba(255,59,47,0.4);">💥</div>
       <div class="step-content">
         <div class="step-header">
-          <span class="step-name">Exercise ends — mechanical damage + energy depletion</span>
+          <span class="step-name" data-i18n="mwStep1Name">Exercise ends — mechanical damage + energy depletion</span>
           <span class="step-badge badge-catabolic">0 min</span>
         </div>
-        <p class="step-text">Myofibrils (muscle protein fibers) have micro-tears. ATP is depleted. Glycogen stores are 40–80% empty. Lactic acid elevated. <em>This damage is intentional — it triggers adaptation.</em></p>
+        <p class="step-text" data-i18n-html="mwStep1Text">Myofibrils (muscle protein fibers) have micro-tears. ATP is depleted. Glycogen stores are 40–80% empty. Lactic acid elevated. <em>This damage is intentional — it triggers adaptation.</em></p>
       </div>
     </div>
 
@@ -686,10 +705,10 @@
       <div class="step-bullet" style="background:rgba(255,59,47,0.15); border: 2px solid rgba(255,59,47,0.35);">📊</div>
       <div class="step-content">
         <div class="step-header">
-          <span class="step-name">Cortisol peaks + catecholamines still elevated</span>
+          <span class="step-name" data-i18n="mwStep2Name">Cortisol peaks + catecholamines still elevated</span>
           <span class="step-badge badge-catabolic">0–15 min</span>
         </div>
-        <p class="step-text">Cortisol activates <em>muscle protein breakdown (MPB)</em> — breaking down contractile proteins (actin, myosin) into free amino acids. Adrenaline/noradrenaline still elevated, keeping the body in catabolic "fight" mode.</p>
+        <p class="step-text" data-i18n-html="mwStep2Text">Cortisol activates <em>muscle protein breakdown (MPB)</em> — breaking down contractile proteins (actin, myosin) into free amino acids. Adrenaline/noradrenaline still elevated, keeping the body in catabolic "fight" mode.</p>
       </div>
     </div>
 
@@ -697,10 +716,10 @@
       <div class="step-bullet" style="background:rgba(255,122,26,0.15); border: 2px solid rgba(255,122,26,0.35);">🔁</div>
       <div class="step-content">
         <div class="step-header">
-          <span class="step-name">Nutrient-sensing: the body "asks" if food is available</span>
+          <span class="step-name" data-i18n="mwStep3Name">Nutrient-sensing: the body "asks" if food is available</span>
           <span class="step-badge badge-transition">15–45 min</span>
         </div>
-        <p class="step-text">AMPK (energy sensor) is elevated — it detects low glycogen and low amino acid availability. If no food arrives, AMPK <em>suppresses mTOR and inhibits protein synthesis.</em> If food arrives, AMPK falls and mTOR can fire.</p>
+        <p class="step-text" data-i18n-html="mwStep3Text">AMPK (energy sensor) is elevated — it detects low glycogen and low amino acid availability. If no food arrives, AMPK <em>suppresses mTOR and inhibits protein synthesis.</em> If food arrives, AMPK falls and mTOR can fire.</p>
       </div>
     </div>
 
@@ -708,10 +727,10 @@
       <div class="step-bullet" style="background:rgba(255,172,10,0.15); border: 2px solid rgba(255,172,10,0.35);">🚀</div>
       <div class="step-content">
         <div class="step-header">
-          <span class="step-name">Leucine arrives → mTORC1 fires → ribosomes activated</span>
+          <span class="step-name" data-i18n="mwStep4Name">Leucine arrives → mTORC1 fires → ribosomes activated</span>
           <span class="step-badge badge-transition">30–90 min (post meal)</span>
         </div>
-        <p class="step-text">Leucine (~2–3g minimum) directly binds SESN2/Rag GTPases, translocating mTORC1 to the lysosomal surface where it activates. This phosphorylates <em>p70S6K and 4E-BP1</em> — the switches that tell ribosomes to start building contractile proteins.</p>
+        <p class="step-text" data-i18n-html="mwStep4Text">Leucine (~2–3g minimum) directly binds SESN2/Rag GTPases, translocating mTORC1 to the lysosomal surface where it activates. This phosphorylates <em>p70S6K and 4E-BP1</em> — the switches that tell ribosomes to start building contractile proteins.</p>
       </div>
     </div>
 
@@ -719,10 +738,10 @@
       <div class="step-bullet" style="background:rgba(0,194,124,0.15); border: 2px solid rgba(0,194,124,0.35);">🏗️</div>
       <div class="step-content">
         <div class="step-header">
-          <span class="step-name">Net protein balance flips positive — MPS &gt; MPB</span>
+          <span class="step-name" data-i18n="mwStep5Name">Net protein balance flips positive — MPS &gt; MPB</span>
           <span class="step-badge badge-anabolic">1–4 hours</span>
         </div>
-        <p class="step-text"><em>Muscle protein synthesis (MPS)</em> rate elevates 50–100% above baseline. The amino acids from food — not from muscle breakdown — are now the building material. Simultaneously, insulin suppresses further cortisol signaling. <em>This is real muscle growth.</em></p>
+        <p class="step-text" data-i18n-html="mwStep5Text"><em>Muscle protein synthesis (MPS)</em> rate elevates 50–100% above baseline. The amino acids from food — not from muscle breakdown — are now the building material. Simultaneously, insulin suppresses further cortisol signaling. <em>This is real muscle growth.</em></p>
       </div>
     </div>
 
@@ -730,10 +749,10 @@
       <div class="step-bullet" style="background:rgba(0,180,216,0.15); border: 2px solid rgba(0,180,216,0.35);">🌙</div>
       <div class="step-content">
         <div class="step-header">
-          <span class="step-name">Overnight: GH pulses drive sustained repair</span>
-          <span class="step-badge badge-anabolic">Sleep (6–8 h later)</span>
+          <span class="step-name" data-i18n="mwStep6Name">Overnight: GH pulses drive sustained repair</span>
+          <span class="step-badge badge-anabolic">Sleep (6–8 h)</span>
         </div>
-        <p class="step-text">70% of daily Growth Hormone is released in the first 2 hours of deep sleep — it stimulates <em>IGF-1</em>, which independently activates protein synthesis and satellite cell proliferation. Pre-sleep casein provides a sustained 7-hour amino acid supply to fuel this nocturnal anabolism.</p>
+        <p class="step-text" data-i18n-html="mwStep6Text">70% of daily Growth Hormone is released in the first 2 hours of deep sleep — it stimulates <em>IGF-1</em>, which independently activates protein synthesis and satellite cell proliferation. Pre-sleep casein provides a sustained 7-hour amino acid supply to fuel this nocturnal anabolism.</p>
       </div>
     </div>
 
@@ -742,38 +761,38 @@
 
 <!-- ─── KEY NUMBERS ──────────────────────────────────────── -->
 <div class="numbers-section">
-  <div class="section-title">THE NUMBERS THAT MATTER</div>
-  <p class="section-sub">Evidence-based thresholds for a 70 kg athlete</p>
+  <div class="section-title" data-i18n="mwNumbersTitle">THE NUMBERS THAT MATTER</div>
+  <p class="section-sub" data-i18n="mwNumbersSub">Evidence-based thresholds for a 70 kg athlete</p>
   <div class="numbers-grid">
     <div class="number-card" style="border-color:rgba(0,194,124,0.2)">
-      <div class="num-value" style="color:var(--green)">20–40g</div>
-      <div class="num-unit" style="color:var(--green)">Protein post-workout</div>
-      <div class="num-label">0.3–0.5 g/kg — enough to max out MPS. More is oxidized, not used.</div>
+      <div class="num-value" style="color:var(--green)" data-i18n="mwNum1Value">20–40g</div>
+      <div class="num-unit" style="color:var(--green)" data-i18n="mwNum1Unit">Protein post-workout</div>
+      <div class="num-label" data-i18n="mwNum1Label">0.3–0.5 g/kg — enough to max out MPS. More is oxidized, not used.</div>
     </div>
     <div class="number-card" style="border-color:rgba(255,172,10,0.2)">
-      <div class="num-value" style="color:var(--amber)">2–3g</div>
-      <div class="num-unit" style="color:var(--amber)">Leucine threshold</div>
-      <div class="num-label">Minimum leucine per meal to activate mTORC1. Without this, MPS does not switch on.</div>
+      <div class="num-value" style="color:var(--amber)" data-i18n="mwNum2Value">2–3g</div>
+      <div class="num-unit" style="color:var(--amber)" data-i18n="mwNum2Unit">Leucine threshold</div>
+      <div class="num-label" data-i18n="mwNum2Label">Minimum leucine per meal to activate mTORC1. Without this, MPS does not switch on.</div>
     </div>
     <div class="number-card" style="border-color:rgba(0,194,124,0.2)">
-      <div class="num-value" style="color:var(--green)">4–6h</div>
-      <div class="num-unit" style="color:var(--green)">Real anabolic window</div>
-      <div class="num-label">Not 30 minutes. If you ate 2h before training, you have 4–6h total. (Aragon 2013)</div>
+      <div class="num-value" style="color:var(--green)" data-i18n="mwNum3Value">4–6h</div>
+      <div class="num-unit" style="color:var(--green)" data-i18n="mwNum3Unit">Real anabolic window</div>
+      <div class="num-label" data-i18n="mwNum3Label">Not 30 minutes. If you ate 2h before training, you have 4–6h total. (Aragon 2013)</div>
     </div>
     <div class="number-card" style="border-color:rgba(0,180,216,0.2)">
-      <div class="num-value" style="color:var(--teal)">30–40g</div>
-      <div class="num-unit" style="color:var(--teal)">Casein pre-sleep</div>
-      <div class="num-label">Raises overnight MPS by +22%. 7-hour amino acid supply for nocturnal GH.</div>
+      <div class="num-value" style="color:var(--teal)" data-i18n="mwNum4Value">30–40g</div>
+      <div class="num-unit" style="color:var(--teal)" data-i18n="mwNum4Unit">Casein pre-sleep</div>
+      <div class="num-label" data-i18n="mwNum4Label">Raises overnight MPS by +22%. 7-hour amino acid supply for nocturnal GH.</div>
     </div>
     <div class="number-card" style="border-color:rgba(255,59,47,0.2)">
-      <div class="num-value" style="color:var(--red)">0–30</div>
-      <div class="num-unit" style="color:var(--red)">Minutes of peak catabolism</div>
-      <div class="num-label">The most catabolic phase. Cortisol high, glycogen empty, MPB elevated.</div>
+      <div class="num-value" style="color:var(--red)" data-i18n="mwNum5Value">0–30</div>
+      <div class="num-unit" style="color:var(--red)" data-i18n="mwNum5Unit">Minutes of peak catabolism</div>
+      <div class="num-label" data-i18n="mwNum5Label">The most catabolic phase. Cortisol high, glycogen empty, MPB elevated.</div>
     </div>
     <div class="number-card" style="border-color:rgba(0,194,124,0.2)">
-      <div class="num-value" style="color:var(--green)">3–5h</div>
-      <div class="num-unit" style="color:var(--green)">MPS elevation duration</div>
-      <div class="num-label">After each protein meal, MPS stays elevated for ~3–5h then returns to baseline ("muscle full effect").</div>
+      <div class="num-value" style="color:var(--green)" data-i18n="mwNum6Value">3–5h</div>
+      <div class="num-unit" style="color:var(--green)" data-i18n="mwNum6Unit">MPS elevation duration</div>
+      <div class="num-label" data-i18n="mwNum6Label">After each protein meal, MPS stays elevated for ~3–5h then returns to baseline ("muscle full effect").</div>
     </div>
   </div>
 </div>
@@ -782,23 +801,23 @@
 
 <!-- ─── ACTION PROTOCOL ──────────────────────────────────── -->
 <div class="protocol-section">
-  <div class="section-title">POST-WORKOUT ACTION PROTOCOL</div>
-  <p class="section-sub">Exactly what to do and eat, and when — in the right order</p>
+  <div class="section-title" data-i18n="mwProtocolTitle">POST-WORKOUT ACTION PROTOCOL</div>
+  <p class="section-sub" data-i18n="mwProtocolSub">Exactly what to do and eat, and when — in the right order</p>
   <div class="protocol-grid">
 
     <div class="protocol-card" style="border-color: rgba(255,59,47,0.2)">
       <div class="protocol-header" style="background: rgba(255,59,47,0.05)">
         <div class="proto-icon" style="background:rgba(255,59,47,0.12)">⏱️</div>
         <div>
-          <div class="proto-label">Step 1</div>
-          <div class="proto-title">Immediate (0–30 min)</div>
+          <div class="proto-label" data-i18n="mwProtoStep1">Step 1</div>
+          <div class="proto-title" data-i18n="mwProtoTitle1">Immediate (0–30 min)</div>
         </div>
-        <div class="proto-time-badge" style="background:rgba(255,59,47,0.12); color:#FF6B60">Urgent</div>
+        <div class="proto-time-badge" style="background:rgba(255,59,47,0.12); color:#FF6B60" data-i18n="mwProtoUrgent">Urgent</div>
       </div>
       <div class="protocol-body">
-        <div class="proto-item"><span class="proto-dot" style="background:var(--red)"></span><span><strong>Fast carbs first:</strong> 30–60g simple carbs (banana, rice cakes, sports drink). Raises insulin → stops cortisol → refills glycogen fast.</span></div>
-        <div class="proto-item"><span class="proto-dot" style="background:var(--red)"></span><span><strong>Water + electrolytes:</strong> 500 ml minimum. Dehydration by 2% reduces MPS by 15%.</span></div>
-        <div class="proto-item"><span class="proto-dot" style="background:var(--red)"></span><span>Skip this step if you trained fasted — then add protein immediately too.</span></div>
+        <div class="proto-item"><span class="proto-dot" style="background:var(--red)"></span><span data-i18n-html="mwProto1a"><strong>Fast carbs first:</strong> 30–60g simple carbs (banana, rice cakes, sports drink). Raises insulin → stops cortisol → refills glycogen fast.</span></div>
+        <div class="proto-item"><span class="proto-dot" style="background:var(--red)"></span><span data-i18n-html="mwProto1b"><strong>Water + electrolytes:</strong> 500 ml minimum. Dehydration by 2% reduces MPS by 15%.</span></div>
+        <div class="proto-item"><span class="proto-dot" style="background:var(--red)"></span><span data-i18n="mwProto1c">Skip this step if you trained fasted — then add protein immediately too.</span></div>
       </div>
     </div>
 
@@ -806,15 +825,15 @@
       <div class="protocol-header" style="background: rgba(255,122,26,0.05)">
         <div class="proto-icon" style="background:rgba(255,122,26,0.12)">🍗</div>
         <div>
-          <div class="proto-label">Step 2</div>
-          <div class="proto-title">Post-Workout Meal (30–90 min)</div>
+          <div class="proto-label" data-i18n="mwProtoStep2">Step 2</div>
+          <div class="proto-title" data-i18n="mwProtoTitle2">Post-Workout Meal (30–90 min)</div>
         </div>
-        <div class="proto-time-badge" style="background:rgba(255,122,26,0.12); color:#FF8F30">Critical</div>
+        <div class="proto-time-badge" style="background:rgba(255,122,26,0.12); color:#FF8F30" data-i18n="mwProtoCritical">Critical</div>
       </div>
       <div class="protocol-body">
-        <div class="proto-item"><span class="proto-dot" style="background:var(--orange)"></span><span><strong>Protein: 25–40g</strong> with ≥3g leucine. Best sources: whey, eggs, chicken, fish.</span></div>
-        <div class="proto-item"><span class="proto-dot" style="background:var(--orange)"></span><span><strong>Carbs: 40–80g complex</strong> — rice, oats, sweet potato. Maximizes glycogen resynthesis while insulin still elevated.</span></div>
-        <div class="proto-item"><span class="proto-dot" style="background:var(--orange)"></span><span><strong>Fat: keep low (&lt;15g)</strong> here — fat slows amino acid absorption, dulling the anabolic spike.</span></div>
+        <div class="proto-item"><span class="proto-dot" style="background:var(--orange)"></span><span data-i18n-html="mwProto2a"><strong>Protein: 25–40g</strong> with ≥3g leucine. Best sources: whey, eggs, chicken, fish.</span></div>
+        <div class="proto-item"><span class="proto-dot" style="background:var(--orange)"></span><span data-i18n-html="mwProto2b"><strong>Carbs: 40–80g complex</strong> — rice, oats, sweet potato. Maximizes glycogen resynthesis while insulin still elevated.</span></div>
+        <div class="proto-item"><span class="proto-dot" style="background:var(--orange)"></span><span data-i18n-html="mwProto2c"><strong>Fat: keep low (&lt;15g)</strong> here — fat slows amino acid absorption, dulling the anabolic spike.</span></div>
       </div>
     </div>
 
@@ -822,15 +841,15 @@
       <div class="protocol-header" style="background: rgba(0,194,124,0.05)">
         <div class="proto-icon" style="background:rgba(0,194,124,0.12)">🕐</div>
         <div>
-          <div class="proto-label">Step 3</div>
-          <div class="proto-title">Next Meal (3–4 hours later)</div>
+          <div class="proto-label" data-i18n="mwProtoStep3">Step 3</div>
+          <div class="proto-title" data-i18n="mwProtoTitle3">Next Meal (3–4 hours later)</div>
         </div>
-        <div class="proto-time-badge" style="background:rgba(0,194,124,0.12); color:#00C27C">Important</div>
+        <div class="proto-time-badge" style="background:rgba(0,194,124,0.12); color:#00C27C" data-i18n="mwProtoImportant">Important</div>
       </div>
       <div class="protocol-body">
-        <div class="proto-item"><span class="proto-dot" style="background:var(--green)"></span><span><strong>Another 20–35g protein</strong> — MPS cycle resets. Don't wait &gt;5 hours or you lose the second anabolic spike.</span></div>
-        <div class="proto-item"><span class="proto-dot" style="background:var(--green)"></span><span><strong>Complex carbs + vegetables</strong> — sustained energy and anti-inflammatory micronutrients (omega-3, antioxidants support recovery).</span></div>
-        <div class="proto-item"><span class="proto-dot" style="background:var(--green)"></span><span>This is where <strong>chronotype matters</strong>: evening athletes should make this their largest meal.</span></div>
+        <div class="proto-item"><span class="proto-dot" style="background:var(--green)"></span><span data-i18n-html="mwProto3a"><strong>Another 20–35g protein</strong> — MPS cycle resets. Don't wait &gt;5 hours or you lose the second anabolic spike.</span></div>
+        <div class="proto-item"><span class="proto-dot" style="background:var(--green)"></span><span data-i18n-html="mwProto3b"><strong>Complex carbs + vegetables</strong> — sustained energy and anti-inflammatory micronutrients (omega-3, antioxidants support recovery).</span></div>
+        <div class="proto-item"><span class="proto-dot" style="background:var(--green)"></span><span data-i18n-html="mwProto3c">This is where <strong>chronotype matters</strong>: evening athletes should make this their largest meal.</span></div>
       </div>
     </div>
 
@@ -838,15 +857,15 @@
       <div class="protocol-header" style="background: rgba(0,180,216,0.05)">
         <div class="proto-icon" style="background:rgba(0,180,216,0.12)">🌙</div>
         <div>
-          <div class="proto-label">Step 4</div>
-          <div class="proto-title">Pre-Sleep (30 min before bed)</div>
+          <div class="proto-label" data-i18n="mwProtoStep4">Step 4</div>
+          <div class="proto-title" data-i18n="mwProtoTitle4">Pre-Sleep (30 min before bed)</div>
         </div>
-        <div class="proto-time-badge" style="background:rgba(0,180,216,0.12); color:var(--teal)">Non-negotiable</div>
+        <div class="proto-time-badge" style="background:rgba(0,180,216,0.12); color:var(--teal)" data-i18n="mwProtoNonNeg">Non-negotiable</div>
       </div>
       <div class="protocol-body">
-        <div class="proto-item"><span class="proto-dot" style="background:var(--teal)"></span><span><strong>30–40g CASEIN protein</strong> — slow-digesting, sustains amino acids for 7 hours during sleep. Cottage cheese, micellar casein powder, Greek yogurt.</span></div>
-        <div class="proto-item"><span class="proto-dot" style="background:var(--teal)"></span><span>Fuels <strong>GH-driven repair</strong> — 70% of daily Growth Hormone pulses in first 2 hours of deep sleep.</span></div>
-        <div class="proto-item"><span class="proto-dot" style="background:var(--teal)"></span><span>Evidence: +22% overnight MPS (Res 2012), +7.8% muscle mass over 12 weeks (Snijders 2015).</span></div>
+        <div class="proto-item"><span class="proto-dot" style="background:var(--teal)"></span><span data-i18n-html="mwProto4a"><strong>30–40g CASEIN protein</strong> — slow-digesting, sustains amino acids for 7 hours during sleep. Cottage cheese, micellar casein powder, Greek yogurt.</span></div>
+        <div class="proto-item"><span class="proto-dot" style="background:var(--teal)"></span><span data-i18n-html="mwProto4b">Fuels <strong>GH-driven repair</strong> — 70% of daily Growth Hormone pulses in first 2 hours of deep sleep.</span></div>
+        <div class="proto-item"><span class="proto-dot" style="background:var(--teal)"></span><span data-i18n="mwProto4c">Evidence: +22% overnight MPS (Res 2012), +7.8% muscle mass over 12 weeks (Snijders 2015).</span></div>
       </div>
     </div>
 
@@ -855,50 +874,81 @@
 
 <!-- ─── MYTH BUSTERS ──────────────────────────────────────── -->
 <div class="myths-section">
-  <div class="section-title">MYTHS VS REALITY</div>
-  <p class="section-sub">The most common post-workout nutrition mistakes — corrected by evidence</p>
+  <div class="section-title" data-i18n="mwMythsTitle">MYTHS VS REALITY</div>
+  <p class="section-sub" data-i18n="mwMythsSub">The most common post-workout nutrition mistakes — corrected by evidence</p>
   <div class="myths-grid">
     <div class="myth-card">
-      <div class="myth-label myth-tag">❌ Myth</div>
-      <p class="myth-text"><strong>"You must eat protein within 30 minutes or you lose your gains."</strong> The anabolic window is 30 minutes wide.</p>
+      <div class="myth-label myth-tag"><span>❌</span> <span data-i18n="mwMyth">Myth</span></div>
+      <p class="myth-text" data-i18n-html="mwMyth1"><strong>"You must eat protein within 30 minutes or you lose your gains."</strong> The anabolic window is 30 minutes wide.</p>
     </div>
     <div class="myth-card">
-      <div class="myth-label truth-tag">✅ Reality</div>
-      <p class="myth-text">The window is <strong>4–6 hours total</strong> around training. If you ate 2h before training, you have 4h after. Only if fasted does the 30-min rule apply. (Aragon & Schoenfeld, 2013)</p>
+      <div class="myth-label truth-tag"><span>✅</span> <span data-i18n="mwReality">Reality</span></div>
+      <p class="myth-text" data-i18n-html="mwReality1">The window is <strong>4–6 hours total</strong> around training. If you ate 2h before training, you have 4h after. Only if fasted does the 30-min rule apply. (Aragon & Schoenfeld, 2013)</p>
     </div>
     <div class="myth-card">
-      <div class="myth-label myth-tag">❌ Myth</div>
-      <p class="myth-text"><strong>"More protein = more muscle."</strong> Eating 90g in one meal is better than 3×30g.</p>
+      <div class="myth-label myth-tag"><span>❌</span> <span data-i18n="mwMyth">Myth</span></div>
+      <p class="myth-text" data-i18n-html="mwMyth2"><strong>"More protein = more muscle."</strong> Eating 90g in one meal is better than 3×30g.</p>
     </div>
     <div class="myth-card">
-      <div class="myth-label truth-tag">✅ Reality</div>
-      <p class="myth-text">MPS saturates at ~0.4 g/kg per meal (~28g for 70 kg). Excess amino acids are <strong>oxidized for energy</strong>, not used to build muscle. Spread protein across 4 meals. (Areta 2013, Morton 2018)</p>
+      <div class="myth-label truth-tag"><span>✅</span> <span data-i18n="mwReality">Reality</span></div>
+      <p class="myth-text" data-i18n-html="mwReality2">MPS saturates at ~0.4 g/kg per meal (~28g for 70 kg). Excess amino acids are <strong>oxidized for energy</strong>, not used to build muscle. Spread protein across 4 meals. (Areta 2013, Morton 2018)</p>
     </div>
     <div class="myth-card">
-      <div class="myth-label myth-tag">❌ Myth</div>
-      <p class="myth-text"><strong>"Carbs after training make you fat."</strong> Avoid carbs post-workout.</p>
+      <div class="myth-label myth-tag"><span>❌</span> <span data-i18n="mwMyth">Myth</span></div>
+      <p class="myth-text" data-i18n-html="mwMyth3"><strong>"Carbs after training make you fat."</strong> Avoid carbs post-workout.</p>
     </div>
     <div class="myth-card">
-      <div class="myth-label truth-tag">✅ Reality</div>
-      <p class="myth-text">Post-exercise carbs go <strong>directly to muscle glycogen</strong>, not fat cells. Insulin sensitivity is at its peak — this is the safest time to eat carbohydrates. (Morris 2015, Saad 2012)</p>
+      <div class="myth-label truth-tag"><span>✅</span> <span data-i18n="mwReality">Reality</span></div>
+      <p class="myth-text" data-i18n-html="mwReality3">Post-exercise carbs go <strong>directly to muscle glycogen</strong>, not fat cells. Insulin sensitivity is at its peak — this is the safest time to eat carbohydrates. (Morris 2015, Saad 2012)</p>
     </div>
     <div class="myth-card">
-      <div class="myth-label myth-tag">❌ Myth</div>
-      <p class="myth-text"><strong>"Eating before bed makes you gain fat."</strong> Never eat protein at night.</p>
+      <div class="myth-label myth-tag"><span>❌</span> <span data-i18n="mwMyth">Myth</span></div>
+      <p class="myth-text" data-i18n-html="mwMyth4"><strong>"Eating before bed makes you gain fat."</strong> Never eat protein at night.</p>
     </div>
     <div class="myth-card">
-      <div class="myth-label truth-tag">✅ Reality</div>
-      <p class="myth-text">Pre-sleep casein increases <strong>overnight muscle protein synthesis by 22%</strong> with no fat storage — the amino acids are used for repair, not stored. (Res 2012, Snijders 2015)</p>
+      <div class="myth-label truth-tag"><span>✅</span> <span data-i18n="mwReality">Reality</span></div>
+      <p class="myth-text" data-i18n-html="mwReality4">Pre-sleep casein increases <strong>overnight muscle protein synthesis by 22%</strong> with no fat storage — the amino acids are used for repair, not stored. (Res 2012, Snijders 2015)</p>
     </div>
   </div>
 </div>
 
 <!-- ─── EVIDENCE FOOTER ──────────────────────────────────── -->
 <div class="evidence-footer">
-  <strong>⚠️ Evidence note for app users:</strong> The post-exercise protein + carb protocol (Steps 1–3) is backed by &gt;50 human RCTs with HIGH confidence. The pre-sleep casein recommendation has multiple dedicated 12-week RCTs (HIGH confidence). The chronotype-specific timing of these windows is evidence-informed extrapolation from circadian biology + performance research — not yet directly tested as a combined protocol. Present as "optimized scheduling," not "proven individualized prescription."
+  <span data-i18n-html="mwEvidenceNote"><strong>⚠️ Evidence note for app users:</strong> The post-exercise protein + carb protocol (Steps 1–3) is backed by &gt;50 human RCTs with HIGH confidence. The pre-sleep casein recommendation has multiple dedicated 12-week RCTs (HIGH confidence). The chronotype-specific timing of these windows is evidence-informed extrapolation from circadian biology + performance research — not yet directly tested as a combined protocol. Present as "optimized scheduling," not "proven individualized prescription."</span>
   <br><br>
-  Key references: Areta et al. 2013 (J Physiol) · Aragon & Schoenfeld 2013 (JISSN) · Res et al. 2012 (MSSE) · Snijders et al. 2015 (J Nutr) · Morton et al. 2018 (Br J Sports Med) · Mamerow et al. 2014 (J Nutr) · Morris et al. 2015 (PNAS)
+  <span data-i18n="mwEvidenceRefs">Key references: Areta et al. 2013 (J Physiol) · Aragon & Schoenfeld 2013 (JISSN) · Res et al. 2012 (MSSE) · Snijders et al. 2015 (J Nutr) · Morton et al. 2018 (Br J Sports Med) · Mamerow et al. 2014 (J Nutr) · Morris et al. 2015 (PNAS)</span>
 </div>
+
+<script src="js/i18n.js"></script>
+<script>
+function switchLang(lang) {
+  I18n.setLang(lang);
+  document.querySelectorAll('.lang-toggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  applyTranslations();
+}
+
+function applyTranslations() {
+  // Simple text (textContent)
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = i18n(el.dataset.i18n);
+  });
+  // HTML content (innerHTML) for elements with <strong>, <em>, <br>
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    el.innerHTML = i18n(el.dataset.i18nHtml);
+  });
+}
+
+// Set initial language state
+(function() {
+  const lang = I18n.getLang();
+  document.querySelectorAll('.lang-toggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  if (lang !== 'en') applyTranslations();
+})();
+</script>
 
 </body>
 </html>

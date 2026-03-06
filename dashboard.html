@@ -180,7 +180,7 @@
     <div id="window-cards"></div>
 
     <!-- Evidence -->
-    <div class="evidence-bar">
+    <div class="evidence-bar" data-i18n-html="scienceBasis">
       <strong>Science basis:</strong> Your schedule is built from 113 scientific references including Mamerow 2014 (protein distribution), Morton 2018 (total intake meta-analysis), Trommelen 2023 (pre-sleep protein RCT), Negri 2025 (chrono-nutrition review), and the 2025 MDPI timing meta-analysis. Leucine thresholds from Norton 2006 and Churchward-Venne 2012, adjusted for age per Katsanos 2006.
     </div>
 
@@ -249,6 +249,9 @@
     });
     document.querySelectorAll('[data-i18n]').forEach(el => {
       el.textContent = i18n(el.dataset.i18n);
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      el.innerHTML = i18n(el.dataset.i18nHtml);
     });
     renderDashboard();
   }
