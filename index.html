@@ -166,11 +166,17 @@
   }
   .site-footer strong { color: var(--amber); }
 
-  .login-btn {
+  .user-nav {
     position: fixed;
     top: 16px;
     left: 16px;
     z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .login-btn, .user-nav-btn {
     padding: 6px 14px;
     font-family: var(--font-mono);
     font-size: 11px;
@@ -180,18 +186,45 @@
     background: var(--card);
     color: var(--muted);
     text-decoration: none;
+    cursor: pointer;
     transition: all 0.2s;
   }
-  .login-btn:hover {
+  .login-btn:hover, .user-nav-btn:hover {
     color: var(--text);
     border-color: var(--green);
+  }
+
+  .user-email {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 0.05em;
+  }
+
+  .user-nav-btn.admin-link {
+    border-color: rgba(255,172,10,0.4);
+    color: var(--amber);
+  }
+  .user-nav-btn.admin-link:hover {
+    border-color: var(--amber);
+  }
+
+  .user-nav-btn.signout {
+    border-color: rgba(255,59,47,0.3);
+    color: var(--muted);
+  }
+  .user-nav-btn.signout:hover {
+    color: var(--red);
+    border-color: var(--red);
   }
 </style>
 </head>
 <body>
 
 <!-- ─── NAV ────────────────────────────────────── -->
-<a href="auth.html" class="login-btn" id="login-btn" data-i18n="signIn">Sign In</a>
+<div class="user-nav" id="user-nav">
+  <a href="auth.html" class="login-btn" id="login-btn" data-i18n="signIn">Sign In</a>
+</div>
 
 <div class="lang-toggle" id="lang-toggle">
   <button class="active" data-lang="en" onclick="switchLang('en')">EN</button>
@@ -304,6 +337,40 @@ function applyTranslations() {
   if (lang !== 'en') applyTranslations();
   Feedback.init();
 })();
+
+// Check auth state and update nav
+(async function updateUserNav() {
+  const nav = document.getElementById('user-nav');
+  try {
+    const user = await Auth.getUser();
+    if (user) {
+      const shortEmail = user.email.length > 20
+        ? user.email.slice(0, 18) + '...'
+        : user.email;
+      let html = `<span class="user-email">${shortEmail}</span>`;
+      html += `<a href="dashboard.html" class="user-nav-btn">My Plan</a>`;
+
+      const isAdmin = await Admin.isAdmin();
+      if (isAdmin) {
+        html += `<a href="admin.html" class="user-nav-btn admin-link">Admin</a>`;
+      }
+
+      html += `<button class="user-nav-btn signout" onclick="handleSignOut()">Sign Out</button>`;
+      nav.innerHTML = html;
+    }
+  } catch (e) {
+    // Not logged in — keep default Sign In link
+  }
+})();
+
+async function handleSignOut() {
+  try {
+    await Auth.signOut();
+    window.location.reload();
+  } catch (e) {
+    console.warn('Sign out error:', e.message);
+  }
+}
 </script>
 </body>
 </html>
