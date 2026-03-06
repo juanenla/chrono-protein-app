@@ -310,9 +310,9 @@ const Feedback = (() => {
     let saved = false;
 
     // Try Supabase first
-    if (typeof supabase !== 'undefined') {
+    if (typeof sb !== 'undefined') {
       try {
-        const { error } = await supabase.from('feedback').insert([entry]);
+        const { error } = await sb.from('feedback').insert([entry]);
         if (!error) saved = true;
         else console.warn('[Feedback] Supabase error:', error.message);
       } catch (e) {

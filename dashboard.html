@@ -260,7 +260,7 @@
             profileStr = JSON.stringify(profile);
 
             // Also load latest plan from Supabase
-            const { data: planRow } = await supabase
+            const { data: planRow } = await sb
               .from('plans')
               .select('plan_json')
               .eq('user_id', user.id)

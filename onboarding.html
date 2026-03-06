@@ -545,7 +545,7 @@
           training_days: parseInt(document.getElementById('trainingDays').value)
         });
         // Also save the plan
-        await supabase.from('plans').insert([{
+        await sb.from('plans').insert([{
           user_id: user.id,
           plan_json: plan
         }]);
