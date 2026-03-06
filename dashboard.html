@@ -209,7 +209,12 @@
     <div class="section-label" data-i18n="proteinWindows">PROTEIN WINDOWS</div>
     <div class="section-sub" data-i18n="windowsDesc">These are your protein anchors — eat normally between windows, hit these targets at each marked time</div>
     <div class="protein-anchors-info" data-i18n="proteinAnchorsInfo">Your protein plan shows minimum protein targets per window. Between windows, continue your normal eating habits. Total daily food intake should meet your calorie needs — protein timing optimizes when you build muscle, not how much you eat overall.</div>
-    <div id="window-cards"></div>
+    <div id="window-cards" style="margin-bottom:32px"></div>
+
+    <!-- Weekly Guide -->
+    <div class="section-label" data-i18n="weeklyGuide">WEEKLY GUIDE</div>
+    <div class="section-sub" data-i18n="weeklyGuideDesc">A 7-day overview of your main meals based on your training days</div>
+    <div id="weekly-guide" style="margin-bottom:32px"></div>
 
     <!-- Evidence -->
     <div class="evidence-bar" data-i18n-html="scienceBasis">
@@ -309,6 +314,7 @@
     ScheduleBuilder.renderSummary(plan, 'summary-stats');
     ScheduleBuilder.renderTimeline(plan, 'timeline');
     ScheduleBuilder.renderWindowCards(plan, 'window-cards');
+    ScheduleBuilder.renderWeeklyGuide(plan, 'weekly-guide', profile.trainingDays || 3);
   }
 
   function toggleDay(type) {

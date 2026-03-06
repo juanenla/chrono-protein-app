@@ -7,28 +7,28 @@ const ChronoCalculator = (() => {
 
   // ── Goal multipliers (g protein per kg body weight) ──
   const GOAL_TARGETS = {
-    wellness:       { min: 1.2, default: 1.4, max: 1.6 },
-    maintenance:    { min: 1.4, default: 1.6, max: 1.8 },
-    muscleGain:     { min: 1.6, default: 1.8, max: 2.2 },
-    recomposition:  { min: 2.0, default: 2.2, max: 2.4 },
-    endurance:      { min: 1.2, default: 1.6, max: 1.8 },
-    seniorHealth:   { min: 1.2, default: 1.6, max: 2.0 }
+    wellness: { min: 1.2, default: 1.4, max: 1.6 },
+    maintenance: { min: 1.4, default: 1.6, max: 1.8 },
+    muscleGain: { min: 1.6, default: 1.8, max: 2.2 },
+    recomposition: { min: 2.0, default: 2.2, max: 2.4 },
+    endurance: { min: 1.2, default: 1.6, max: 1.8 },
+    seniorHealth: { min: 1.2, default: 1.6, max: 2.0 }
   };
 
   // ── Activity level modifiers ──
   const ACTIVITY_MOD = {
-    sedentary:    -0.2,
-    light:        -0.1,
-    moderate:      0.0,
-    active:       +0.1,
-    veryActive:   +0.2
+    sedentary: -0.2,
+    light: -0.1,
+    moderate: 0.0,
+    active: +0.1,
+    veryActive: +0.2
   };
 
   // ── Leucine thresholds by age (grams per meal) ──
   function leucineThreshold(age) {
-    if (age < 30)  return 2.0;
-    if (age < 50)  return 2.5;
-    if (age < 65)  return 3.0;
+    if (age < 30) return 2.0;
+    if (age < 50) return 2.5;
+    if (age < 65) return 3.0;
     return 3.5;
   }
 
@@ -121,8 +121,23 @@ const ChronoCalculator = (() => {
     const windowDefs = chrono.windows[dayType];
     const result = {};
 
-    for (const [key, w] of Object.entries(windowDefs)) {
-      const grams = Math.max(perMealMin, Math.round(dailyTotal * w.share));
+    // Ensure all 4 core meals are present. If missing, add an empty placeholder.
+    const coreMeals = [
+      { key: 'breakfast', time: '08:00', label: 'Breakfast' },
+      { key: 'lunch', time: '13:00', label: 'Lunch' },
+      { key: 'afternoon', time: '16:00', label: 'Afternoon Snack' },
+      { key: 'dinner', time: '20:00', label: 'Dinner' }
+    ];
+
+    const compositeDefs = { ...windowDefs };
+    for (const cm of coreMeals) {
+      if (!compositeDefs[cm.key]) {
+        compositeDefs[cm.key] = { time: cm.time, share: 0, class: 'N', label: cm.label };
+      }
+    }
+
+    for (const [key, w] of Object.entries(compositeDefs)) {
+      const grams = w.share > 0 ? Math.max(perMealMin, Math.round(dailyTotal * w.share)) : 0;
 
       // Determine protein class based on diet restrictions
       let proteinClass = w.class;
@@ -145,10 +160,10 @@ const ChronoCalculator = (() => {
         grams,
         proteinClass,
         leucineEstimateG: Math.round(leucineEstimate * 10) / 10,
-        leucineOk,
+        leucineOk: w.share === 0 || leucineOk,
         leucineThreshold: leucineThresh,
         share: w.share,
-        suggestion: leucineOk
+        suggestion: (w.share === 0 || leucineOk)
           ? null
           : `Add ${Math.ceil(leucineThresh - leucineEstimate)}g free leucine (Class C) to reach threshold`
       };
@@ -191,54 +206,54 @@ const ChronoCalculator = (() => {
       morning: {
         windows: {
           training: {
-            breakfast:   { time: "07:00", share: 0.28, class: "A", label: "Breakfast" },
+            breakfast: { time: "07:00", share: 0.28, class: "A", label: "Breakfast" },
             postWorkout: { time: "11:30", share: 0.30, class: "A", label: "Post-Workout" },
-            afternoon:   { time: "15:00", share: 0.17, class: "A", label: "Afternoon Snack" },
-            dinner:      { time: "18:30", share: 0.17, class: "B", label: "Dinner" },
-            preSleep:    { time: "21:30", share: 0.08, class: "B", label: "Pre-Sleep" }
+            afternoon: { time: "15:00", share: 0.17, class: "A", label: "Afternoon Snack" },
+            dinner: { time: "18:30", share: 0.17, class: "B", label: "Dinner" },
+            preSleep: { time: "21:30", share: 0.08, class: "B", label: "Pre-Sleep" }
           },
           rest: {
-            breakfast:   { time: "07:00", share: 0.30, class: "A", label: "Breakfast" },
-            lunch:       { time: "12:00", share: 0.22, class: "A", label: "Lunch" },
-            afternoon:   { time: "15:30", share: 0.22, class: "D", label: "Afternoon Snack" },
-            dinner:      { time: "18:30", share: 0.18, class: "B", label: "Dinner" },
-            preSleep:    { time: "21:30", share: 0.08, class: "B", label: "Pre-Sleep" }
+            breakfast: { time: "07:00", share: 0.30, class: "A", label: "Breakfast" },
+            lunch: { time: "12:00", share: 0.22, class: "A", label: "Lunch" },
+            afternoon: { time: "15:30", share: 0.22, class: "D", label: "Afternoon Snack" },
+            dinner: { time: "18:30", share: 0.18, class: "B", label: "Dinner" },
+            preSleep: { time: "21:30", share: 0.08, class: "B", label: "Pre-Sleep" }
           }
         }
       },
       intermediate: {
         windows: {
           training: {
-            breakfast:   { time: "08:30", share: 0.25, class: "A", label: "Breakfast" },
+            breakfast: { time: "08:30", share: 0.25, class: "A", label: "Breakfast" },
             postWorkout: { time: "13:30", share: 0.30, class: "A", label: "Post-Workout" },
-            afternoon:   { time: "16:30", share: 0.17, class: "A", label: "Afternoon Snack" },
-            dinner:      { time: "19:30", share: 0.20, class: "B", label: "Dinner" },
-            preSleep:    { time: "22:30", share: 0.08, class: "B", label: "Pre-Sleep" }
+            afternoon: { time: "16:30", share: 0.17, class: "A", label: "Afternoon Snack" },
+            dinner: { time: "19:30", share: 0.20, class: "B", label: "Dinner" },
+            preSleep: { time: "22:30", share: 0.08, class: "B", label: "Pre-Sleep" }
           },
           rest: {
-            breakfast:   { time: "08:30", share: 0.28, class: "A", label: "Breakfast" },
-            lunch:       { time: "13:00", share: 0.24, class: "A", label: "Lunch" },
-            afternoon:   { time: "16:30", share: 0.22, class: "D", label: "Afternoon Snack" },
-            dinner:      { time: "19:30", share: 0.18, class: "B", label: "Dinner" },
-            preSleep:    { time: "22:30", share: 0.08, class: "B", label: "Pre-Sleep" }
+            breakfast: { time: "08:30", share: 0.28, class: "A", label: "Breakfast" },
+            lunch: { time: "13:00", share: 0.24, class: "A", label: "Lunch" },
+            afternoon: { time: "16:30", share: 0.22, class: "D", label: "Afternoon Snack" },
+            dinner: { time: "19:30", share: 0.18, class: "B", label: "Dinner" },
+            preSleep: { time: "22:30", share: 0.08, class: "B", label: "Pre-Sleep" }
           }
         }
       },
       evening: {
         windows: {
           training: {
-            brunch:       { time: "10:30", share: 0.19, class: "A", label: "Brunch" },
-            lunch:        { time: "13:30", share: 0.23, class: "A", label: "Lunch" },
-            postWorkout:  { time: "19:30", share: 0.30, class: "A", label: "Post-Workout" },
+            brunch: { time: "10:30", share: 0.19, class: "A", label: "Brunch" },
+            lunch: { time: "13:30", share: 0.23, class: "A", label: "Lunch" },
+            postWorkout: { time: "19:30", share: 0.30, class: "A", label: "Post-Workout" },
             eveningSnack: { time: "21:30", share: 0.17, class: "D", label: "Evening Snack" },
-            preSleep:     { time: "00:30", share: 0.11, class: "B", label: "Pre-Sleep" }
+            preSleep: { time: "00:30", share: 0.11, class: "B", label: "Pre-Sleep" }
           },
           rest: {
-            brunch:       { time: "10:30", share: 0.25, class: "A", label: "Brunch" },
-            lunch:        { time: "14:00", share: 0.25, class: "A", label: "Lunch" },
-            afternoon:    { time: "17:30", share: 0.22, class: "D", label: "Afternoon Snack" },
-            dinner:       { time: "21:00", share: 0.18, class: "B", label: "Dinner" },
-            preSleep:     { time: "00:30", share: 0.10, class: "B", label: "Pre-Sleep" }
+            brunch: { time: "10:30", share: 0.25, class: "A", label: "Brunch" },
+            lunch: { time: "14:00", share: 0.25, class: "A", label: "Lunch" },
+            afternoon: { time: "17:30", share: 0.22, class: "D", label: "Afternoon Snack" },
+            dinner: { time: "21:00", share: 0.18, class: "B", label: "Dinner" },
+            preSleep: { time: "00:30", share: 0.10, class: "B", label: "Pre-Sleep" }
           }
         }
       }

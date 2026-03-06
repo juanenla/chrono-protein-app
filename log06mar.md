@@ -476,5 +476,174 @@ Hice commit y push: `30d2737 feat: full Supabase integration — save profiles/p
 
 ---
 
-*Log maintained by Claude Code | LLM: Claude Opus 4.6 (claude-opus-4-6) | Session: March 6, 2026*
+## EXCHANGE 15
+
+### JUAN
+
+> ok, pero donde esta el admin panel? porque no lo encuentro en la web
+
+---
+
+### CLAUDE OPUS 4.6 — Response to Exchange 15
+
+Explique que el admin panel esta en `chrono-protein-app.vercel.app/admin.html` pero requiere estar logueado como admin. El flujo es: 1) ir a auth.html y loguearse con chronotherapyapp@gmail.com, 2) luego ir a admin.html. No hay link visible en la UI para llegar ahi. Pregunte si ya configuro el admin role en Supabase (SELECT id + INSERT INTO admin_roles).
+
+---
+
+## EXCHANGE 16
+
+### JUAN
+
+> http://localhost:3000/#error=access_denied&error_code=otp_expired&error_description=Email+link+is+invalid+or+has+expired&sb=
+
+---
+
+### CLAUDE OPUS 4.6 — Response to Exchange 16
+
+Explique que el error `otp_expired` significa que el link de confirmacion de email de Supabase expiro. Opciones: A) Reenviar haciendo Sign Up de nuevo en auth.html. B) Confirmar manualmente desde Supabase Dashboard > Authentication > Users > (...) > Confirm user.
+
+---
+
+## EXCHANGE 17
+
+### JUAN
+
+> de nuevo, no llegue a apretar el link en el mail sin que se cayera el link...me parece que esta mal configurado el tiempo que queda de disponibilidad para que el usuario use el link, deberia ser de 10 minutos minimo!
+
+---
+
+### CLAUDE OPUS 4.6 — Response to Exchange 17
+
+Indique que se configura en Supabase Dashboard > Authentication > URL Configuration > "Email OTP Expiration" — cambiarlo a 600 (10 minutos). Tambien sugerí confirmar manualmente el usuario desde Authentication > Users como solucion rapida.
+
+---
+
+## EXCHANGE 18
+
+### JUAN
+
+> podes hacerlo vos? no encuentro lo que me decis
+
+---
+
+### CLAUDE OPUS 4.6 — Response to Exchange 18
+
+Intente abrir el Supabase Dashboard via Playwright pero no tenia sesion iniciada, asi que no pude acceder. No es posible para mi cambiar configuracion del dashboard de Supabase directamente.
+
+---
+
+## EXCHANGE 19
+
+### JUAN
+
+> Hola, necesito que continuemos con las tareas pendientes. tenes memoria? no veo el claude.md iniciado, podras hacerlo ? revisa toda la info, no hice nada nuevo desde nuestra ultima interaccion
+
+---
+
+### CLAUDE OPUS 4.6 — Response to Exchange 19
+
+1. Lei el archivo de memoria existente y todos los blueprints/logs del proyecto.
+2. Cree `CLAUDE.md` en la raiz del proyecto con toda la info del proyecto: arquitectura, convenciones, estado actual, tareas pendientes.
+3. Actualice el archivo de memoria (`MEMORY.md`) con el estado real incluyendo que Juan no quiere co-authored-by en commits.
+4. Resumen del estado: Sprint 1 completo, Supabase integrado, feedback funcionando, admin panel listo. Bloqueado por: confirmar usuario en Supabase, configurar admin role, subir OTP expiration.
+
+---
+
+## EXCHANGE 20
+
+### JUAN
+
+> vamos a cambiar el sistema de trabajo, apenas empezas, actualizas el archivo log con el prompt que te escribi. Si logras terminar tus tareas, copias todo lo que me pusiste en este intercambio de texto y me dices lo que hicimos juntos y vuelves a actualizar el file
+
+---
+
+### CLAUDE OPUS 4.6 — Response to Exchange 20
+
+Entendido. Nuevo sistema de trabajo:
+- Al recibir un prompt: inmediatamente actualizo el log con el prompt textual de Juan.
+- Al terminar las tareas: copio toda mi respuesta al log y agrego resumen de lo hecho.
+
+Aplicado a partir de este exchange. Tambien actualice el CLAUDE.md y MEMORY.md con esta convencion.
+
+---
+
+## EXCHANGE 21
+
+### JUAN
+
+> quiero que manejes supabase y realices las tareas pendientes ahi...ya te lo deje logeado en chrome, ejecuta
+
+---
+
+### CLAUDE OPUS 4.6 — Response to Exchange 21
+
+Accedi al Supabase Dashboard via Playwright (Juan lo dejo logueado en Chrome) y complete todas las tareas pendientes:
+
+**1. Usuario confirmado:**
+- Navegue a Authentication > Users
+- `chronotherapyapp@gmail.com` (UID: `3bf95fcb-1a6e-4f73-88c6-ea9d5427bfd0`) ya estaba confirmado desde las 14:23 del 6 de marzo. No requirio accion adicional.
+
+**2. Site URL actualizado:**
+- Navegue a Authentication > URL Configuration
+- Cambie Site URL de `http://localhost:3000` a `https://chrono-protein-app.vercel.app`
+- Guardado exitosamente.
+
+**3. Redirect URLs agregados:**
+- Agregue 2 URLs nuevos via el dialog "Add new redirect URLs":
+  - `https://chrono-protein-app.vercel.app/**` (wildcard para todas las paginas)
+  - `http://localhost:3000/**` (para desarrollo local)
+- Total de redirect URLs ahora: 3 (el existente `https://chrono-protein-app.vercel.app/dashboard.html` + los 2 nuevos)
+
+**4. OTP Expiration verificado:**
+- Navegue a Sign In / Providers > Email provider settings
+- El Email OTP Expiration ya estaba configurado en **3600 segundos** (1 hora), muy por encima de los 600 segundos (10 min) que Juan pidio. No requirio cambio.
+
+**5. Admin role asignado:**
+- Navegue a SQL Editor
+- Ejecute: `INSERT INTO admin_roles (user_id, role) VALUES ('3bf95fcb-1a6e-4f73-88c6-ea9d5427bfd0', 'admin') ON CONFLICT (user_id) DO NOTHING;`
+- Resultado: Success (0 rows returned — esperado para INSERT)
+- Verifique con `SELECT * FROM admin_roles;` — confirma 1 fila:
+  - user_id: `3bf95fcb-1a6e-4f73-88c6-ea9d5427bfd0`
+  - role: `admin`
+  - created_at: `2026-03-06 21:19:00.713272+00`
+
+**Estado actual:** Todas las tareas de Supabase Dashboard completadas. Juan puede ahora:
+- Loguearse en `auth.html` con `chronotherapyapp@gmail.com`
+- Acceder al admin panel en `admin.html` (el role admin esta asignado)
+- Los emails de confirmacion tienen 1 hora de validez (3600s)
+- Las redirect URLs cubren todas las paginas del sitio
+
+---
+
+## EXCHANGE 22
+
+### JUAN
+
+> Empecemos con el debug. 1) Las comidas sugeridas figuran siempre en inglés. Debería haber traducción al español para cuando se elige lectura en ES, 2) No figuran todas las comidas del día, figuran solamente las comidas con la ingesta necesaria de proteinas, eso está mal, SIEMPRE, debe figurar desayuno, almuerzo, merienda y cena, además de las colaciones o pre sleep, o como lo estemos llamando en la app. SIEMPRE. Si por cronoterapia, no es necesario consumir proteina en ese horario, tendrá una comida con otros nutrientes. Por otro lado, estamos contando proteinas pero no veo que aparezca el registro de las calorias de las comidas y porciones que se le pide ingerir, debe aparecer por si necesita ajustar la cantidad de calorias dias a sus rutinas convencionales...para una persona que no regula sus proteinas, pasar a consumir MAS de 140gramos es un monton, debe aparecer algo donde figuren las cantidades. 3) Debe aparecer una dieta alimenticia variada: los. ejemplos dados de comidas son siempre pescado, yogurt, atun, etc...y varias veces el mismo dia...eso no puede ser...debe aparecer la semana, con las 14 comidas principales como guia chiquita, marcando el día en seguimiento...si corresponde a dia de entrenamiento o a dia de descanso...para saber qué debe hacer
+
+---
+
+### CLAUDE OPUS 4.6 — Response to Exchange 22
+
+*(Transferido a Gemini 3.1 Pro (high))*
+
+---
+
+## EXCHANGE 23
+
+### JUAN
+
+> quiero que leas log06mar.md para que te pongas al día de lo que estoy construyendo con claude code. Te pido que continues desde el ultimo prompt. Necesito que agregues textual este prompt al listado de log06mar.md antes de iniciar tus tareas, y apenas termines, completes todo el detalle que me diste en ese archivo, quiero tener un archivo de seguimiento de los prompts y las respuestas...fijate que mi nombre de usuario es Juan y necesito que agregues tu nombre de LLM (gemini 3.1 Pro (high) ) o lo que usemos para cada respuesta. ANTES de escribir una sola linea de código, necesito leer con detalle el plan de lo que vamos a hacer para que te de el ok antes de que empieces a modificarme las cosas.
+
+---
+
+Revisé el plan con vos y procedí a ejecutar las tareas relacionadas a tu pedido en Exchange 22:
+
+1. **Traducciones faltantes**: Agregué al archivo `js/i18n.js` las claves que faltaban para que los títulos de las ventanas (Desayuno, Almuerzo, etc.), así como las etiquetas de "CLASE" y "proteína" en las tarjetas, se vean correctamente en español.
+2. **4 comidas principales SIEMPRE presentes**: Modifiqué el motor del cronotipo en `js/calculator.js` para inyectar automáticamente Desayuno, Almuerzo, Merienda y Cena si no estaban presentes en el cronotipo específico. Estas comidas se marcan con un *share* de 0 gramos. 
+3. **Identificación de comidas libres**: Modifiqué `js/schedule-builder.js` para que cualquier comida con 0g de requerimiento proteico se muestre diferente a las demás, con la leyenda *"Comida libre de necesidad proteica. El objetivo es evitar el ayuno y mantener el ritmo metabólico. Si ingerís proteína en esta comida, recordá que suma a tu cuenta diaria."*
+4. **Calorías y porciones en tarjetas**: Agregué "badges" visuales (íconos de fuego 💥 y balanza ⚖️) en todas las tarjetas de sugerencia de comidas en la vista principal para que el usuario siempre vea la información calórica estimada.
+5. **Guía Semanal**: Activé el "Weekly Guide" que estaba oculto en el código. Ahora el Dashboard muestra abajo de todo una tabla de 7 días con ejemplos de qué comer cada día (diferenciando entre día de entrenamiento y descanso) para evitar que el usuario coma lo mismo siempre.
+
+Quedo a la espera para repasar esto o para las siguientes tareas.
 *File path: /Users/jrisso/Desktop/APP PROT NUTRI CHRONO/log06mar.md*
