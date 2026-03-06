@@ -289,39 +289,59 @@ const Feedback = (() => {
     submitBtn.addEventListener('click', handleSubmit);
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const modal = document.getElementById('fb-modal');
+    const submitBtn = modal.querySelector('#fb-submit');
     const activeType = modal.querySelector('.fb-type-btn.active');
     const page = window.location.pathname.split('/').pop() || 'index.html';
 
     const entry = {
-      id: new Date().toISOString() + '-' + Math.random().toString(36).substring(2, 8),
-      timestamp: new Date().toISOString(),
       page: page,
       type: activeType ? activeType.dataset.type : 'bug',
       message: modal.querySelector('#fb-message').value.trim(),
-      user: {
-        name: modal.querySelector('#fb-name').value.trim() || null,
-        email: modal.querySelector('#fb-email').value.trim() || null
-      }
+      user_name: modal.querySelector('#fb-name').value.trim() || null,
+      user_email: modal.querySelector('#fb-email').value.trim() || null
     };
 
-    // Log to console for development
+    // Disable button while sending
+    submitBtn.disabled = true;
+    submitBtn.textContent = '...';
+
+    let saved = false;
+
+    // Try Supabase first
+    if (typeof supabase !== 'undefined') {
+      try {
+        const { error } = await supabase.from('feedback').insert([entry]);
+        if (!error) saved = true;
+        else console.warn('[Feedback] Supabase error:', error.message);
+      } catch (e) {
+        console.warn('[Feedback] Supabase unavailable:', e.message);
+      }
+    }
+
+    // Fallback: localStorage
+    if (!saved) {
+      const stored = JSON.parse(localStorage.getItem('chronoFeedback') || '[]');
+      stored.push({ ...entry, timestamp: new Date().toISOString() });
+      localStorage.setItem('chronoFeedback', JSON.stringify(stored));
+      saved = true;
+    }
+
     console.log('[ChronoProtein Feedback]', JSON.stringify(entry, null, 2));
 
-    // Store in localStorage as a queue for future backend sync
-    const stored = JSON.parse(localStorage.getItem('chronoFeedback') || '[]');
-    stored.push(entry);
-    localStorage.setItem('chronoFeedback', JSON.stringify(stored));
-
-    // Show success
-    modal.innerHTML = `
-      <div class="fb-success">
-        <div class="fb-success-icon">✅</div>
-        <p>${i18n('feedbackSuccess')}</p>
-        <button onclick="Feedback.reset()">${i18n('feedbackSendAnother')}</button>
-      </div>
-    `;
+    if (saved) {
+      modal.innerHTML = `
+        <div class="fb-success">
+          <div class="fb-success-icon">✅</div>
+          <p>${i18n('feedbackSuccess')}</p>
+          <button onclick="Feedback.reset()">${i18n('feedbackSendAnother')}</button>
+        </div>
+      `;
+    } else {
+      submitBtn.disabled = false;
+      submitBtn.textContent = i18n('feedbackSubmit');
+    }
   }
 
   function openModal() {

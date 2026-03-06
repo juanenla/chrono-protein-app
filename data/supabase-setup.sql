@@ -94,3 +94,36 @@ CREATE POLICY "Users can check own admin status"
 -- Then insert the admin role:
 -- INSERT INTO admin_roles (user_id, role)
 -- VALUES ('PASTE-UUID-HERE', 'admin');
+
+-- ═══════════════════════════════════════════════════════════════
+-- FEEDBACK TABLE
+-- Stores user feedback submitted via the in-app widget
+-- ═══════════════════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS feedback (
+  id          UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  created_at  TIMESTAMPTZ DEFAULT now(),
+  page        TEXT NOT NULL,
+  type        TEXT NOT NULL CHECK (type IN ('bug', 'improvement', 'positive')),
+  message     TEXT NOT NULL,
+  user_name   TEXT,
+  user_email  TEXT
+);
+
+-- RLS: allow anyone (including anonymous/unauthenticated) to INSERT feedback
+ALTER TABLE feedback ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can submit feedback"
+  ON feedback FOR INSERT
+  WITH CHECK (true);
+
+-- Only admins can read feedback
+CREATE POLICY "Admins can read all feedback"
+  ON feedback FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM admin_roles
+      WHERE admin_roles.user_id = auth.uid()
+      AND admin_roles.role = 'admin'
+    )
+  );

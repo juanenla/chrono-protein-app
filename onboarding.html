@@ -362,7 +362,9 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/i18n.js"></script>
+<script src="js/supabase-client.js"></script>
 <script src="js/feedback.js"></script>
 <script src="js/chronotype.js"></script>
 <script src="js/calculator.js"></script>
@@ -518,13 +520,39 @@
   }
 
   // ── Generate plan and go to dashboard ──
-  function generatePlan() {
+  async function generatePlan() {
     const profile = getProfile();
     const plan = ChronoCalculator.calculate(profile);
 
     // Store in localStorage for dashboard to read
     localStorage.setItem('chronoProfile', JSON.stringify(profile));
     localStorage.setItem('chronoPlan', JSON.stringify(plan));
+
+    // Save to Supabase if user is logged in
+    try {
+      const user = await Auth.getUser();
+      if (user) {
+        await Profiles.upsert({
+          weight_kg: profile.weightKg,
+          age: profile.age,
+          sex: profile.sex,
+          body_fat: profile.bodyFatPercent,
+          chronotype: profile.chronotype,
+          goal: profile.goal,
+          activity: profile.activityLevel,
+          diet: profile.dietType,
+          training_time: profile.trainingTime,
+          training_days: parseInt(document.getElementById('trainingDays').value)
+        });
+        // Also save the plan
+        await supabase.from('plans').insert([{
+          user_id: user.id,
+          plan_json: plan
+        }]);
+      }
+    } catch (e) {
+      console.warn('[Onboarding] Could not save to Supabase:', e.message);
+    }
 
     window.location.href = 'dashboard.html';
   }
