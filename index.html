@@ -165,11 +165,34 @@
     margin-bottom: 40px;
   }
   .site-footer strong { color: var(--amber); }
+
+  .login-btn {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 100;
+    padding: 6px 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background: var(--card);
+    color: var(--muted);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .login-btn:hover {
+    color: var(--text);
+    border-color: var(--green);
+  }
 </style>
 </head>
 <body>
 
-<!-- ─── LANGUAGE TOGGLE ────────────────────────── -->
+<!-- ─── NAV ────────────────────────────────────── -->
+<a href="auth.html" class="login-btn" id="login-btn" data-i18n="signIn">Sign In</a>
+
 <div class="lang-toggle" id="lang-toggle">
   <button class="active" data-lang="en" onclick="switchLang('en')">EN</button>
   <button data-lang="es" onclick="switchLang('es')">ES</button>
@@ -177,7 +200,7 @@
 
 <!-- ─── HERO ─────────────────────────────────── -->
 <section class="hero">
-  <div class="hero-eyebrow" data-i18n="heroEyebrow">Chrono-Nutrition Science</div>
+  <div class="hero-eyebrow" data-i18n="heroEyebrow">Personalized Protein Timing</div>
   <h1>
     <span class="gradient-warm">CHRONO</span><br>
     <span class="line2">PROTEIN</span>
@@ -185,11 +208,11 @@
   <p class="hero-sub">
     <span data-i18n="heroSub">Your body has an internal clock that controls when protein becomes muscle.
     Stop guessing. Start timing. Get a personalized plan based on your chronotype,
-    training schedule, and the latest science.</span>
+    training schedule, and the latest research.</span>
   </p>
   <div class="hero-cta-group">
     <a href="onboarding.html" class="btn btn-primary btn-lg" data-i18n="buildProtocol">Build My Protocol</a>
-    <a href="metabolic-windows.html" class="btn btn-secondary btn-lg" data-i18n="seeScience">See the Science</a>
+    <a href="metabolic-windows.html" class="btn btn-secondary btn-lg" data-i18n="seeScience">How It Works</a>
   </div>
 </section>
 
@@ -254,6 +277,7 @@
 </div>
 
 <script src="js/i18n.js"></script>
+<script src="js/feedback.js"></script>
 <script>
 function switchLang(lang) {
   I18n.setLang(lang);
@@ -276,6 +300,7 @@ function applyTranslations() {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
   if (lang !== 'en') applyTranslations();
+  Feedback.init();
 })();
 </script>
 </body>

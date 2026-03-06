@@ -8,10 +8,15 @@ const I18n = (() => {
   const TRANSLATIONS = {
     en: {
       // ── Landing ──
-      heroEyebrow: 'Chrono-Nutrition Science',
-      heroSub: 'Your body has an internal clock that controls when protein becomes muscle. Stop guessing. Start timing. Get a personalized plan based on your chronotype, training schedule, and the latest science.',
+      // ── Navigation ──
+      navHome: 'Home',
+      navBack: 'Back',
+
+      // ── Landing ──
+      heroEyebrow: 'Personalized Protein Timing',
+      heroSub: 'Your body has an internal clock that controls when protein becomes muscle. Stop guessing. Start timing. Get a personalized plan based on your chronotype, training schedule, and the latest research.',
       buildProtocol: 'Build My Protocol',
-      seeScience: 'See the Science',
+      seeScience: 'How It Works',
       featureChronotype: 'Chronotype-Personalized',
       featureChronotypeDesc: 'Morning bird or night owl? Your circadian rhythm shifts every protein window. We calculate the optimal schedule for YOUR biology.',
       featureLeucine: 'Leucine Threshold Check',
@@ -87,7 +92,8 @@ const I18n = (() => {
       timeline24h: '24H TIMELINE',
       timelineDesc: 'Your protein windows across the day',
       proteinWindows: 'PROTEIN WINDOWS',
-      windowsDesc: 'Tap any window for food suggestions and leucine check',
+      windowsDesc: 'These are your protein anchors — eat normally between windows, hit these targets at each marked time',
+      proteinAnchorsInfo: 'Your protein plan shows minimum protein targets per window. Between windows, continue your normal eating habits. Total daily food intake should meet your calorie needs — protein timing optimizes when you build muscle, not how much you eat overall.',
       noProtocol: 'NO PROTOCOL YET',
       noProtocolDesc: 'Complete the onboarding to generate your personalized protein schedule.',
       dailyTarget: 'Daily Target',
@@ -118,7 +124,7 @@ const I18n = (() => {
       eveningType: 'Evening Type',
 
       // ── Metabolic Windows page ──
-      mwEyebrow: 'Chrono-Nutrition · Post-Exercise Science',
+      mwEyebrow: 'Chrono-Nutrition · Post-Exercise Guide',
       mwSubtitle: 'What happens inside your body after you train — and the exact window you have to flip the switch.',
       mwEndWorkout: 'End of workout',
       mwCriticalZone: 'The critical zone',
@@ -223,15 +229,66 @@ const I18n = (() => {
       mwMyth4: '<strong>"Eating before bed makes you gain fat."</strong> Never eat protein at night.',
       mwReality4: 'Pre-sleep casein increases <strong>overnight muscle protein synthesis by 22%</strong> with no fat storage — the amino acids are used for repair, not stored. (Res 2012, Snijders 2015)',
       mwEvidenceNote: '<strong>\u26a0\ufe0f Evidence note for app users:</strong> The post-exercise protein + carb protocol (Steps 1\u20133) is backed by >50 human RCTs with HIGH confidence. The pre-sleep casein recommendation has multiple dedicated 12-week RCTs (HIGH confidence). The chronotype-specific timing of these windows is evidence-informed extrapolation from circadian biology + performance research — not yet directly tested as a combined protocol. Present as "optimized scheduling," not "proven individualized prescription."',
-      mwEvidenceRefs: 'Key references: Areta et al. 2013 (J Physiol) \u00b7 Aragon & Schoenfeld 2013 (JISSN) \u00b7 Res et al. 2012 (MSSE) \u00b7 Snijders et al. 2015 (J Nutr) \u00b7 Morton et al. 2018 (Br J Sports Med) \u00b7 Mamerow et al. 2014 (J Nutr) \u00b7 Morris et al. 2015 (PNAS)'
+      mwEvidenceRefs: 'Key references: Areta et al. 2013 (J Physiol) \u00b7 Aragon & Schoenfeld 2013 (JISSN) \u00b7 Res et al. 2012 (MSSE) \u00b7 Snijders et al. 2015 (J Nutr) \u00b7 Morton et al. 2018 (Br J Sports Med) \u00b7 Mamerow et al. 2014 (J Nutr) \u00b7 Morris et al. 2015 (PNAS)',
+
+      // ── Auth page ──
+      backHome: '\u2190 Home',
+      authSubtitle: 'Sign in to save your plan and access it from any device',
+      signIn: 'Sign In',
+      signUp: 'Sign Up',
+      emailLabel: 'Email',
+      passwordLabel: 'Password',
+      orContinueWith: 'or continue with',
+      continueWithGoogle: 'Continue with Google',
+      continueAsGuest: 'Continue as guest (no account needed)',
+      checkEmail: 'Check your email for a confirmation link!',
+      signOut: 'Sign Out',
+      myAccount: 'My Account',
+
+      // ── Admin page ──
+      adminPanel: 'ADMIN PANEL',
+      adminDesc: 'Manage users and view registered profiles',
+      totalUsers: 'Total Users',
+      recentSignups: 'Recent Signups (7d)',
+      adminUserList: 'REGISTERED USERS',
+      adminEmail: 'Email',
+      adminCreated: 'Created',
+      adminChronotype: 'Chronotype',
+      adminGoal: 'Goal',
+      adminWeight: 'Weight',
+      adminNoAccess: 'Access denied. Admin privileges required.',
+      adminLoading: 'Loading...',
+
+      // ── Feedback widget ──
+      feedbackButtonLabel: 'Feedback',
+      feedbackTitle: 'Send Feedback',
+      feedbackType: 'Type',
+      feedbackTypeBug: 'Bug / Issue',
+      feedbackTypeImprovement: 'Improvement Idea',
+      feedbackTypePositive: 'Positive Highlight',
+      feedbackDescriptionLabel: 'Describe what you saw',
+      feedbackDescriptionPlaceholder: 'Tell us what happened, what you expected, or what you liked...',
+      feedbackNameLabel: 'Name or alias',
+      feedbackEmailLabel: 'Email (optional)',
+      feedbackPageLabel: 'Current page',
+      feedbackSubmit: 'Send Feedback',
+      feedbackCancel: 'Cancel',
+      feedbackSuccess: 'Thanks for your feedback! It helps us improve ChronoProtein.',
+      feedbackError: 'Could not send feedback. Please try again.',
+      feedbackSendAnother: 'Send another'
     },
 
     es: {
       // ── Landing ──
-      heroEyebrow: 'Ciencia de la Crono-Nutricion',
-      heroSub: 'Tu cuerpo tiene un reloj interno que controla cuando la proteina se convierte en musculo. Deja de adivinar. Empieza a sincronizar. Obtene un plan personalizado basado en tu cronotipo, horario de entrenamiento y la ciencia mas reciente.',
+      // ── Navigation ──
+      navHome: 'Inicio',
+      navBack: 'Atras',
+
+      // ── Landing ──
+      heroEyebrow: 'Timing de Proteina Personalizado',
+      heroSub: 'Tu cuerpo tiene un reloj interno que controla cuando la proteina se convierte en musculo. Deja de adivinar. Empieza a sincronizar. Obtene un plan personalizado basado en tu cronotipo, horario de entrenamiento y la investigacion mas reciente.',
       buildProtocol: 'Crear Mi Protocolo',
-      seeScience: 'Ver la Ciencia',
+      seeScience: 'Como Funciona',
       featureChronotype: 'Personalizado por Cronotipo',
       featureChronotypeDesc: 'Alondra matutina o buho nocturno? Tu ritmo circadiano mueve cada ventana de proteina. Calculamos el horario optimo para TU biologia.',
       featureLeucine: 'Control de Umbral de Leucina',
@@ -307,7 +364,8 @@ const I18n = (() => {
       timeline24h: 'LINEA DE TIEMPO 24H',
       timelineDesc: 'Tus ventanas de proteina a lo largo del dia',
       proteinWindows: 'VENTANAS DE PROTEINA',
-      windowsDesc: 'Toca cualquier ventana para ver sugerencias de alimentos',
+      windowsDesc: 'Estos son tus anclajes de proteina — come normalmente entre ventanas, alcanza estos objetivos en cada horario marcado',
+      proteinAnchorsInfo: 'Tu plan de proteinas muestra objetivos minimos por ventana. Entre ventanas, segui con tus habitos alimenticios normales. La ingesta diaria total debe cubrir tus necesidades caloricas — el timing de proteina optimiza cuando construis musculo, no cuanto comes en total.',
       noProtocol: 'AUN SIN PROTOCOLO',
       noProtocolDesc: 'Completa el onboarding para generar tu plan personalizado de proteinas.',
       dailyTarget: 'Objetivo Diario',
@@ -338,7 +396,7 @@ const I18n = (() => {
       eveningType: 'Tipo Vespertino',
 
       // ── Metabolic Windows page ──
-      mwEyebrow: 'Crono-Nutricion \u00b7 Ciencia Post-Ejercicio',
+      mwEyebrow: 'Crono-Nutricion \u00b7 Guia Post-Ejercicio',
       mwSubtitle: 'Que pasa dentro de tu cuerpo despues de entrenar — y la ventana exacta que tenes para cambiar el interruptor.',
       mwEndWorkout: 'Fin del ejercicio',
       mwCriticalZone: 'La zona critica',
@@ -443,7 +501,53 @@ const I18n = (() => {
       mwMyth4: '<strong>"Comer antes de dormir te hace engordar."</strong> Nunca comas proteina de noche.',
       mwReality4: 'La caseina pre-sueno aumenta la <strong>sintesis de proteina muscular nocturna en un 22%</strong> sin almacenamiento de grasa — los aminoacidos se usan para reparacion, no se almacenan. (Res 2012, Snijders 2015)',
       mwEvidenceNote: '<strong>\u26a0\ufe0f Nota de evidencia para usuarios:</strong> El protocolo de proteina + carbohidratos post-ejercicio (Pasos 1\u20133) esta respaldado por >50 ensayos clinicos en humanos con ALTA confianza. La recomendacion de caseina pre-sueno tiene multiples ensayos dedicados de 12 semanas (ALTA confianza). La temporizacion especifica por cronotipo es una extrapolacion informada por evidencia de biologia circadiana + investigacion de rendimiento — aun no probada directamente como protocolo combinado.',
-      mwEvidenceRefs: 'Referencias clave: Areta et al. 2013 (J Physiol) \u00b7 Aragon & Schoenfeld 2013 (JISSN) \u00b7 Res et al. 2012 (MSSE) \u00b7 Snijders et al. 2015 (J Nutr) \u00b7 Morton et al. 2018 (Br J Sports Med) \u00b7 Mamerow et al. 2014 (J Nutr) \u00b7 Morris et al. 2015 (PNAS)'
+      mwEvidenceRefs: 'Referencias clave: Areta et al. 2013 (J Physiol) \u00b7 Aragon & Schoenfeld 2013 (JISSN) \u00b7 Res et al. 2012 (MSSE) \u00b7 Snijders et al. 2015 (J Nutr) \u00b7 Morton et al. 2018 (Br J Sports Med) \u00b7 Mamerow et al. 2014 (J Nutr) \u00b7 Morris et al. 2015 (PNAS)',
+
+      // ── Auth page ──
+      backHome: '\u2190 Inicio',
+      authSubtitle: 'Inicia sesion para guardar tu plan y acceder desde cualquier dispositivo',
+      signIn: 'Iniciar Sesion',
+      signUp: 'Registrarse',
+      emailLabel: 'Email',
+      passwordLabel: 'Contrasena',
+      orContinueWith: 'o continuar con',
+      continueWithGoogle: 'Continuar con Google',
+      continueAsGuest: 'Continuar como invitado (sin cuenta)',
+      checkEmail: 'Revisa tu email para el enlace de confirmacion!',
+      signOut: 'Cerrar Sesion',
+      myAccount: 'Mi Cuenta',
+
+      // ── Admin page ──
+      adminPanel: 'PANEL DE ADMIN',
+      adminDesc: 'Gestionar usuarios y ver perfiles registrados',
+      totalUsers: 'Usuarios Totales',
+      recentSignups: 'Registros Recientes (7d)',
+      adminUserList: 'USUARIOS REGISTRADOS',
+      adminEmail: 'Email',
+      adminCreated: 'Creado',
+      adminChronotype: 'Cronotipo',
+      adminGoal: 'Objetivo',
+      adminWeight: 'Peso',
+      adminNoAccess: 'Acceso denegado. Se requieren privilegios de administrador.',
+      adminLoading: 'Cargando...',
+
+      // ── Feedback widget ──
+      feedbackButtonLabel: 'Feedback',
+      feedbackTitle: 'Enviar Feedback',
+      feedbackType: 'Tipo',
+      feedbackTypeBug: 'Bug / Problema',
+      feedbackTypeImprovement: 'Mejora / Idea',
+      feedbackTypePositive: 'Algo Positivo',
+      feedbackDescriptionLabel: 'Describi lo que viste',
+      feedbackDescriptionPlaceholder: 'Contanos que paso, que esperabas, o que te gusto...',
+      feedbackNameLabel: 'Nombre o alias',
+      feedbackEmailLabel: 'Email (opcional)',
+      feedbackPageLabel: 'Pagina actual',
+      feedbackSubmit: 'Enviar Feedback',
+      feedbackCancel: 'Cancelar',
+      feedbackSuccess: 'Gracias por tu feedback! Nos ayuda a mejorar ChronoProtein.',
+      feedbackError: 'No se pudo enviar el feedback. Intenta de nuevo.',
+      feedbackSendAnother: 'Enviar otro'
     }
   };
 

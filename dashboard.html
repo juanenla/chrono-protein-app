@@ -7,6 +7,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/design-system.css">
 <style>
+  .nav-back {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 100;
+    padding: 6px 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background: var(--card);
+    color: var(--muted);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-back:hover { color: var(--text); border-color: var(--green); }
+
+  .protein-anchors-info {
+    margin-bottom: 20px;
+    padding: 14px 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(0,194,124,0.2);
+    background: rgba(0,194,124,0.05);
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.6;
+  }
+
   .lang-toggle {
     position: fixed; top: 16px; right: 16px; z-index: 100;
     display: flex; border-radius: 100px; overflow: hidden;
@@ -129,6 +158,8 @@
 </head>
 <body>
 
+<a href="index.html" class="nav-back" data-i18n="navHome">Home</a>
+
 <div class="lang-toggle">
   <button class="active" data-lang="en" onclick="switchLang('en')">EN</button>
   <button data-lang="es" onclick="switchLang('es')">ES</button>
@@ -176,7 +207,8 @@
 
     <!-- Window cards -->
     <div class="section-label" data-i18n="proteinWindows">PROTEIN WINDOWS</div>
-    <div class="section-sub" data-i18n="windowsDesc">Tap any window for food suggestions and leucine check</div>
+    <div class="section-sub" data-i18n="windowsDesc">These are your protein anchors — eat normally between windows, hit these targets at each marked time</div>
+    <div class="protein-anchors-info" data-i18n="proteinAnchorsInfo">Your protein plan shows minimum protein targets per window. Between windows, continue your normal eating habits. Total daily food intake should meet your calorie needs — protein timing optimizes when you build muscle, not how much you eat overall.</div>
     <div id="window-cards"></div>
 
     <!-- Evidence -->
@@ -189,6 +221,7 @@
 </div>
 
 <script src="js/i18n.js"></script>
+<script src="js/feedback.js"></script>
 <script src="js/chronotype.js"></script>
 <script src="js/protein-classes.js"></script>
 <script src="js/calculator.js"></script>
@@ -265,6 +298,7 @@
   })();
 
   // ── Init on load ──
+  Feedback.init();
   init();
 </script>
 

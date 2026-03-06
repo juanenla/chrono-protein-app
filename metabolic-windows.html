@@ -31,6 +31,25 @@
     overflow-x: hidden;
   }
 
+  /* ── Nav back ── */
+  .nav-back {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 100;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: var(--card);
+    color: var(--muted);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-back:hover { color: var(--text); border-color: var(--green); }
+
   /* ── Lang toggle ── */
   .lang-toggle {
     position: fixed; top: 16px; right: 16px; z-index: 100;
@@ -548,6 +567,9 @@
 </head>
 <body>
 
+<!-- ─── NAV ────────────────────────────────────── -->
+<a href="index.html" class="nav-back" data-i18n="navHome">Home</a>
+
 <!-- ─── LANGUAGE TOGGLE ────────────────────────── -->
 <div class="lang-toggle">
   <button class="active" data-lang="en" onclick="switchLang('en')">EN</button>
@@ -556,7 +578,7 @@
 
 <!-- ─── HEADER ─────────────────────────────────────────── -->
 <div class="header">
-  <div class="eyebrow" data-i18n="mwEyebrow">Chrono-Nutrition · Post-Exercise Science</div>
+  <div class="eyebrow" data-i18n="mwEyebrow">Chrono-Nutrition · Post-Exercise Guide</div>
   <h1>CATABOLIC<br><span>ANABOLIC</span></h1>
   <p class="subtitle" data-i18n="mwSubtitle">What happens inside your body after you train — and the exact window you have to flip the switch.</p>
 </div>
@@ -920,6 +942,7 @@
 </div>
 
 <script src="js/i18n.js"></script>
+<script src="js/feedback.js"></script>
 <script>
 function switchLang(lang) {
   I18n.setLang(lang);
@@ -947,6 +970,7 @@ function applyTranslations() {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
   if (lang !== 'en') applyTranslations();
+  Feedback.init();
 })();
 </script>
 
