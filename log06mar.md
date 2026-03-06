@@ -657,6 +657,15 @@ Quedo a la espera para repasar esto o para las siguientes tareas.
 
 ### GEMINI 3.1 PRO (HIGH) — Response to Exchange 24
 
-*(en progreso)*
+Completados los requerimientos:
+
+1. **Fix DESPERTARDORMIR en el Timeline**: Modifiqué el `schedule-builder.js` para que el renderizado de la línea de tiempo separe los textos usando CSS Flexbox, colocando "Despertar" exactamente al principio de tu día activo y "Dormir" al final.
+2. **Guía Semanal Expandida**: La tabla inferior ahora analiza dinámicamente tu plan y genera una columna por CADA comida asignada en tu cronotipo (incluyendo Pre/Post entreno, etc). También agregué la columna final **TOTAL DIARIO** que suma las calorías y proteínas totales de cada día.
+3. **Nueva funcionalidad: Editar Plan**: Creé `edit-plan.html` (accesible desde el Dashboard). Aquí podés ajustar los horarios exactos de cada comida en formato lista (muy amigable) y ajustar las cantidades deseadas.
+   - El sistema valida que ninguna comida ocurra a menos de 60 minutos de otra para evitar superposiciones.
+   - Si cambiás algo, se guarda en tus preferencias locales y el Dashboard pasa a mostrar TU versión del plan.
+4. **Nueva funcionalidad: Mi Diario**: Creé `diary.html` (accesible desde el Dashboard). Es un tracker para la realidad vs plan. Te muestra las metas objetivo del día y te deja ingresar cuánta proteína consumiste por comida. Arriba de todo calcula el "DESVÍO" en tiempo real indicando si te pasaste, si es perfecto, o si faltó.
+
+Los cambios ya están subidos a Vercel mediante un push a rama `main`.
 
 *File path: /Users/jrisso/Desktop/APP PROT NUTRI CHRONO/log06mar.md*
