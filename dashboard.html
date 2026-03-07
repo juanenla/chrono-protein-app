@@ -399,11 +399,17 @@
       renderDashboard();
     }
 
-    // Set lang toggle initial state
+    // Set lang toggle initial state and translate static DOM
     (function () {
       const lang = I18n.getLang();
       document.querySelectorAll('.lang-toggle button').forEach(b => {
         b.classList.toggle('active', b.dataset.lang === lang);
+      });
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.textContent = i18n(el.dataset.i18n);
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        el.innerHTML = i18n(el.dataset.i18nHtml);
       });
     })();
 
