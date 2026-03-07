@@ -348,15 +348,13 @@
         if (customPrefs && profile.isTrainingDay) {
           const overrides = JSON.parse(customPrefs);
           plan.windows = overrides;
-          // Recalculate totals
+          // Recalculate Prot total, but KEEP the engine's TDEE for calories
           let totalProt = 0;
-          let totalKcal = 0;
           Object.values(overrides).forEach(w => {
             totalProt += (w.grams || 0);
-            totalKcal += (w.grams > 0) ? (w.grams * 14) : 400;
           });
           plan.summary.totalGrams = totalProt;
-          plan.summary.estimatedKcal = totalKcal;
+          // Keep plan.summary.estimatedKcal from ChronoCalculator.calculate
         }
       } catch (e) { console.warn('Could not apply custom plan', e); }
 

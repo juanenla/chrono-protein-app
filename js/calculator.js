@@ -78,11 +78,20 @@ const ChronoCalculator = (() => {
     // 5. Leucine threshold
     const leucinePerMeal = leucineThreshold(age);
 
-    // 6. Load chronotype schedule
+    // 6. BMR and TDEE (Katch-McArdle using LBM)
+    const bmr = 370 + (21.6 * lbm);
+    const actMult = { sedentary: 1.2, light: 1.375, moderate: 1.55, active: 1.725, veryActive: 1.9 };
+    let tdee = bmr * (actMult[activityLevel] || 1.2);
+
+    const goalKcalMod = { wellness: 0, maintenance: 0, muscleGain: 300, recomposition: -200, endurance: 200, seniorHealth: 0 };
+    const estimatedKcal = Math.round(tdee + (goalKcalMod[goal] || 0));
+
+    // 7. Load chronotype schedule
     const dayType = isTrainingDay ? 'training' : 'rest';
 
-    // 7. Build windows with gram amounts
-    const windows = buildWindows(dailyTotalG, chronotype, dayType, dietType, perMealMinG, leucinePerMeal, trainingTime);
+    // 8. Build windows with gram amounts
+    let windows = buildWindows(dailyTotalG, chronotype, dayType, dietType, perMealMinG, leucinePerMeal, trainingTime);
+    windows = mergeWindows(windows, perMealMinG, dailyTotalG);
 
     // 8. Summary
     return {
@@ -103,6 +112,10 @@ const ChronoCalculator = (() => {
         perMealMinG,
         leucinePerMealG: leucinePerMeal,
         mealsPerDay: Object.keys(windows).length
+      },
+      summary: {
+        totalGrams: dailyTotalG,
+        estimatedKcal: estimatedKcal
       },
       dayType,
       windows
@@ -258,6 +271,57 @@ const ChronoCalculator = (() => {
         }
       }
     };
+  }
+
+  /**
+   * Helper to merge postWorkout into a main meal if within 60 mins
+   */
+  function mergeWindows(windows, perMealMin, dailyTotal) {
+    if (!windows.postWorkout) return windows;
+
+    const pwTime = _timeToMins(windows.postWorkout.time);
+    const mainMeals = ['breakfast', 'lunch', 'dinner'];
+    let mergedTo = null;
+
+    for (const mk of mainMeals) {
+      if (windows[mk]) {
+        const mTime = _timeToMins(windows[mk].time);
+        const diff = Math.abs(pwTime - mTime);
+        // If within 60 mins of a main meal (or up to 60 mins after)
+        if (diff <= 60) {
+          mergedTo = mk;
+          break;
+        }
+      }
+    }
+
+    if (mergedTo) {
+      const mergedShare = windows[mergedTo].share + windows.postWorkout.share;
+      const combinedGrams = mergedShare > 0 ? Math.max(perMealMin, Math.round(dailyTotal * mergedShare)) : 0;
+
+      windows[mergedTo + 'Post'] = {
+        label: `${windows[mergedTo].label} / Post-Entreno`,
+        time: pwTime > _timeToMins(windows[mergedTo].time) ? windows.postWorkout.time : windows[mergedTo].time, // use latest time
+        grams: combinedGrams,
+        proteinClass: 'A', // highest bioavailability for recovery
+        leucineEstimateG: Math.round(estimateLeucine(combinedGrams, 'A') * 10) / 10,
+        leucineOk: true,
+        leucineThreshold: windows[mergedTo].leucineThreshold,
+        share: mergedShare,
+        suggestion: null
+      };
+
+      delete windows[mergedTo];
+      delete windows.postWorkout;
+    }
+
+    return windows;
+  }
+
+  function _timeToMins(timeStr) {
+    if (!timeStr) return 0;
+    const [h, m] = timeStr.split(':').map(Number);
+    return h * 60 + m;
   }
 
   // ── Public API ──

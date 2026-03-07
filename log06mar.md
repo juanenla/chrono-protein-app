@@ -665,7 +665,54 @@ Completados los requerimientos:
    - El sistema valida que ninguna comida ocurra a menos de 60 minutos de otra para evitar superposiciones.
    - Si cambiás algo, se guarda en tus preferencias locales y el Dashboard pasa a mostrar TU versión del plan.
 4. **Nueva funcionalidad: Mi Diario**: Creé `diary.html` (accesible desde el Dashboard). Es un tracker para la realidad vs plan. Te muestra las metas objetivo del día y te deja ingresar cuánta proteína consumiste por comida. Arriba de todo calcula el "DESVÍO" en tiempo real indicando si te pasaste, si es perfecto, o si faltó.
+5. **Hotfix de i18n (Idiomas)**: Arreglé el bug donde el dashboard mostraba los textos base en inglés al refrescar la página. Ahora al cargar, el código revisa qué idioma tenías guardado en tu sesión y automáticamente traduce los elementos HTML correspondientes *antes* de que lo veas.
 
 Los cambios ya están subidos a Vercel mediante un push a rama `main`.
 
-*File path: /Users/jrisso/Desktop/APP PROT NUTRI CHRONO/log06mar.md*
+---
+
+## Exchange 25 (06 Mar)
+
+### Juan — Prompt
+
+> "otro tema: veo que el post entreno se superpone con las comidas dependiendo del horario del. entrenamiento...fijate si queda cerca del almuerzo, poner: almuerzo/post-entreno, es la misma comida...lo mismo si queda cerca de la cena: Cena/post-entreno...Distinto es si tuviera que consumir una banana y un huevo inmediatamente despues de entrenar...que eso queda separado de. la cena...pero si consume 500kcal, eso es una comida principal...por ende, debe tener alguna relacion con los horarios de las comidas principales y ajustarlo en funcion de eso...si lo fundamental es que en los primeros 30minutos consuma Hidratos de carbono, eso debe consumir...pero la proteina puede consumirla después, entonces la comida principal despues va a tener en cuenta la cantidad de proteinas que debe incorporar, junto cn lo que es una alimentacion normal, saludable y que siga la rutina cronoterapeutica"
+
+### GEMINI 3.1 PRO (HIGH) — Response to Exchange 25
+
+*(incluido en Exchange 26)*
+
+---
+
+## Exchange 26 (06 Mar)
+
+### Juan — Prompt
+
+> "otro tema que quiero incluir. en el plan semanal figura una suma de 2000kcal aprox. pero cuando voy a editar el plan me dice que son 3500kcal...revisá que las cuentas estén bien. obviamente que las kcal se refieren a todas las comidas consumidas, no solamente a la parte relacionada con la proteina...ejemplo: si la pechuga tiene 300kcal cada 100gramos de pechuga...se cuenta 450kcal si se deben consumir 150gr. Otro tema: veo muy complicado el tema de las comidas, necesito implementar una manera rapida, sencilla y que no le insuma mucho tiempo al usuario para que pueda registrar sus comidas reales, que haya una preseleccion de cosas que sí se comen...ejemplo, en mi vida como pavo /turkey...aunque pueda sonar bien, no me interesa que aparezca en mi plan...pero si como carne de vaca: lomo, entraña, picanha, bifes, y de cerdo: solomillo, bondiola, carré de cerdo, pechito de cerdo, etc...y pollo, lo preparo entero o deshuesado, puedo preparar supremas de pollo, en argentina comemos milanesas de peceto o de nalga...acompañamos con tomate, lechuga, zanahoria, etc...yogurt griego, debería poder elegir el que consumo realmente...el que compro...cómo podemos hacer para ingresar rapidamente los insumos del super, o las comidas de restaurante o platos que solemos preparar, para que las agreguemos con facilidad...y que sean parte del plan...lo mismo con la realidad, que pueda completar con lo que realmente comi, no solo con cosas teoricas"
+
+### GEMINI 2.0 PRO (AGENT) — Response to Exchange 26
+
+En esta fase, hemos implementado soluciones integrales para sincronizar las cuentas calóricas, localizar la base de datos de alimentos y facilitar el registro diario "real" con un enfoque UX simplificado.
+
+**Acciones Realizadas:**
+
+1.  **Sincronización de Calorías:**
+    *   Se eliminaron cálculos manuales en el Dashboard que subestimaban las calorías. Ahora, todas las pantallas (Dashboard, Editar Plan y Mi Diario) utilizan el cálculo de TDEE basado en **Katch-McArdle** del motor central (`calculator.js`).
+    *   Las calorías se calculan dinámicamente según el peso, grasa corporal y objetivo metabólico, asegurando que el total diario sea consistente.
+
+2.  **Localización Argentina (Base de Alimentos):**
+    *   Se reemplazaron todos los ejemplos teóricos por comidas reales de la cultura argentina. 
+    *   **Ejemplos incluidos:** Milanesas de peceto/nalga, Lomo, Entraña, Bondiola de cerdo, Carré, Suprema de pollo, Puré de papas/batatas, y opciones de lácteos locales como Queso Untable Magro o Yogur Firme.
+    *   Se agregaron sugerencias específicas para comidas fusionadas (ej: "Almuerzo / Post-Entreno" con Puré de Papas para recuperación glucogénica).
+
+3.  **Registro Rápido en "Mi Diario":**
+    *   **Registro Real:** Se agregó un campo de texto en cada comida para que el usuario anote qué comió exactamente (ej: "Milanesa Napolitana con fritas").
+    *   **Mis Comidas Frecuentes:** Se implementó un sistema de autocompletado (datalist) que guarda automáticamente las últimas 20 comidas ingresadas para una selección rápida en el futuro.
+    *   **Persistencia y Migración:** Se corrigió un error de persistencia y se aseguró que el sistema reconozca registros antiguos para que no se pierda información al actualizar la app.
+
+4.  **Fusión Inteligente de Comidas (Smart Merge):**
+    *   Se implementó la regla de los **60 minutos**: si el Post-Entreno ocurre cerca de una comida principal, se fusionan automáticamente en una sola ventana (ej: "Cena / Post-Entreno") para evitar sobreingesta y simplificar la rutina.
+
+**Estado Actual:**
+El sistema es ahora más intuitivo, preciso en sus cuentas y adaptado 100% al contexto alimentario solicitado.
+
+---

@@ -39,111 +39,124 @@ const ScheduleBuilder = (() => {
     breakfast: {
       A: [
         { food: { en: '3 whole eggs + 2 egg whites', es: '3 huevos enteros + 2 claras' }, proteinG: 30, kcal: 320, portion: { en: '~280g total', es: '~280g total' }, note: { en: 'scrambled or omelette', es: 'revueltos u omelette' } },
-        { food: { en: 'Greek yogurt 200g + whey scoop', es: 'Yogur griego 200g + medida de whey' }, proteinG: 32, kcal: 290, portion: { en: '200g + 30g powder', es: '200g + 30g polvo' }, note: { en: 'with berries', es: 'con frutos rojos' } },
+        { food: { en: 'Greek yogurt 200g + whey scoop', es: 'Yogur natural firme 200g + medida de whey' }, proteinG: 32, kcal: 290, portion: { en: '200g + 30g powder', es: '200g + 30g polvo' }, note: { en: 'with berries', es: 'con frutas' } },
         { food: { en: 'Protein oatmeal (40g oats + 1 scoop whey)', es: 'Avena proteica (40g avena + 1 medida whey)' }, proteinG: 28, kcal: 340, portion: { en: '40g + 30g powder', es: '40g + 30g polvo' }, note: { en: 'add banana', es: 'agregar banana' } },
-        { food: { en: '2 eggs + 150g cottage cheese on toast', es: '2 huevos + 150g queso cottage en tostada' }, proteinG: 30, kcal: 380, portion: { en: '2 eggs + 150g + 1 slice', es: '2 huevos + 150g + 1 rebanada' }, note: { en: 'balanced breakfast', es: 'desayuno equilibrado' } },
-        { food: { en: 'Turkey ham 80g + cheese + whole wheat toast', es: 'Jamon de pavo 80g + queso + tostada integral' }, proteinG: 26, kcal: 350, portion: { en: '80g + 30g + 2 slices', es: '80g + 30g + 2 rebanadas' }, note: { en: 'quick & easy', es: 'rapido y facil' } },
-        { food: { en: 'Smoothie: milk + banana + whey + peanut butter', es: 'Licuado: leche + banana + whey + mantequilla de mani' }, proteinG: 34, kcal: 420, portion: { en: '300ml + 1 + 30g + 15g', es: '300ml + 1 + 30g + 15g' }, note: { en: 'high energy', es: 'alta energia' } }
+        { food: { en: '2 eggs + 150g cottage cheese on toast', es: '2 huevos + 150g queso untable magro en tostada' }, proteinG: 30, kcal: 380, portion: { en: '2 eggs + 150g + 1 slice', es: '2 huevos + 150g + 1 rebanada' }, note: { en: 'balanced breakfast', es: 'desayuno equilibrado' } },
+        { food: { en: 'Lean ham 80g + cheese + whole wheat toast', es: 'Jamon cocido natural 80g + queso magro + tostada' }, proteinG: 26, kcal: 350, portion: { en: '80g + 30g + 2 slices', es: '80g + 30g + 2 rebanadas' }, note: { en: 'quick & easy', es: 'rapido y facil' } }
       ],
       B: [
-        { food: { en: '250g Greek yogurt + 30g nuts + honey', es: '250g yogur griego + 30g frutos secos + miel' }, proteinG: 28, kcal: 350, portion: { en: '250g + 30g + 10g', es: '250g + 30g + 10g' }, note: { en: 'slow release', es: 'liberacion lenta' } },
-        { food: { en: '200g cottage cheese + fruit + granola', es: '200g queso cottage + fruta + granola' }, proteinG: 24, kcal: 310, portion: { en: '200g + 100g + 30g', es: '200g + 100g + 30g' }, note: { en: 'casein-rich', es: 'rico en caseina' } }
+        { food: { en: '250g Greek yogurt + 30g nuts + honey', es: '250g yogur natural + 30g frutos secos + miel' }, proteinG: 28, kcal: 350, portion: { en: '250g + 30g + 10g', es: '250g + 30g + 10g' }, note: { en: 'slow release', es: 'liberacion lenta' } },
+        { food: { en: '200g cottage cheese + fruit + granola', es: '200g queso untable magro + fruta + granola' }, proteinG: 24, kcal: 310, portion: { en: '200g + 100g + 30g', es: '200g + 100g + 30g' }, note: { en: 'casein-rich', es: 'rico en caseina' } }
       ],
       D: [
-        { food: { en: 'Tofu scramble (200g firm tofu) + seeds', es: 'Revuelto de tofu (200g tofu firme) + semillas' }, proteinG: 22, kcal: 280, portion: { en: '200g + 15g', es: '200g + 15g' }, note: { en: 'add leucine powder', es: 'agregar polvo de leucina' } },
-        { food: { en: 'Pea protein smoothie + oats + banana', es: 'Licuado de proteina de arveja + avena + banana' }, proteinG: 30, kcal: 380, portion: { en: '40g + 40g + 1', es: '40g + 40g + 1' }, note: { en: 'blend with soy milk', es: 'mezclar con leche de soja' } }
+        { food: { en: 'Tofu scramble (200g firm tofu) + seeds', es: 'Revuelto de tofu (200g tofu firme) + semillas' }, proteinG: 22, kcal: 280, portion: { en: '200g + 15g', es: '200g + 15g' }, note: { en: 'add leucine powder', es: 'agregar polvo de leucina' } }
       ]
     },
     brunch: {
       A: [
-        { food: { en: '3 eggs + avocado toast + turkey 50g', es: '3 huevos + tostada con palta + pavo 50g' }, proteinG: 30, kcal: 450, portion: { en: '3 + 1 slice + 50g', es: '3 + 1 rebanada + 50g' }, note: { en: 'balanced brunch', es: 'brunch equilibrado' } },
-        { food: { en: 'Protein pancakes (oats + egg + whey)', es: 'Panqueques proteicos (avena + huevo + whey)' }, proteinG: 32, kcal: 420, portion: { en: '60g + 2 + 30g', es: '60g + 2 + 30g' }, note: { en: 'with maple syrup', es: 'con jarabe de arce' } }
+        { food: { en: '3 eggs + avocado toast', es: '3 huevos revueltos + tostada con palta' }, proteinG: 30, kcal: 450, portion: { en: '3 + 1 slice', es: '3 + 1 rebanada' }, note: { en: 'balanced brunch', es: 'brunch equilibrado' } }
       ],
       D: [
-        { food: { en: 'Tempeh bowl 150g + rice + vegetables', es: 'Bowl de tempeh 150g + arroz + vegetales' }, proteinG: 28, kcal: 420, portion: { en: '150g + 150g + 100g', es: '150g + 150g + 100g' }, note: { en: 'add leucine', es: 'agregar leucina' } }
+        { food: { en: 'Tempeh bowl 150g + rice + vegetables', es: 'Bowl de soja/tempeh 150g + arroz + vegetales' }, proteinG: 28, kcal: 420, portion: { en: '150g + 150g + 100g', es: '150g + 150g + 100g' }, note: { en: 'add leucine', es: 'agregar leucina' } }
       ]
     },
     postWorkout: {
       A: [
-        { food: { en: '1 scoop whey (30g) + banana', es: '1 medida de whey (30g) + banana' }, proteinG: 25, kcal: 220, portion: { en: '30g + 1 medium', es: '30g + 1 mediana' }, note: { en: 'take within 60 min', es: 'tomar dentro de 60 min' } },
-        { food: { en: '150g chicken breast + rice (200g cooked)', es: '150g pechuga de pollo + arroz (200g cocido)' }, proteinG: 35, kcal: 480, portion: { en: '150g + 200g', es: '150g + 200g' }, note: { en: 'complete post-workout meal', es: 'comida post-entreno completa' } },
-        { food: { en: '200g canned tuna + sweet potato', es: '200g atun en lata + batata' }, proteinG: 40, kcal: 420, portion: { en: '200g + 200g', es: '200g + 200g' }, note: { en: 'fast protein + complex carbs', es: 'proteina rapida + carbos complejos' } },
-        { food: { en: '150g salmon + quinoa (150g cooked)', es: '150g salmon + quinoa (150g cocida)' }, proteinG: 35, kcal: 460, portion: { en: '150g + 150g', es: '150g + 150g' }, note: { en: 'omega-3 bonus', es: 'bonus de omega-3' } },
-        { food: { en: '200g lean beef + pasta (150g cooked)', es: '200g carne magra + pasta (150g cocida)' }, proteinG: 42, kcal: 520, portion: { en: '200g + 150g', es: '200g + 150g' }, note: { en: 'iron-rich recovery', es: 'recuperacion rica en hierro' } }
+        { food: { en: '1 scoop whey (30g) + banana', es: '1 medida de whey (30g) + banana' }, proteinG: 25, kcal: 220, portion: { en: '30g + 1 medium', es: '30g + 1 mediana' }, note: { en: 'take within 60 min', es: 'tomar rapido' } },
+        { food: { en: '150g chicken breast + rice', es: '150g suprema de pollo + arroz (200g cocido)' }, proteinG: 35, kcal: 480, portion: { en: '150g + 200g', es: '150g + 200g' }, note: { en: 'complete post-workout', es: 'comida post-entreno completa' } },
+        { food: { en: '200g canned tuna + potato', es: '200g atun al natural + papa hervida' }, proteinG: 40, kcal: 420, portion: { en: '200g + 200g', es: '200g + 200g' }, note: { en: 'fast protein + carbs', es: 'proteina rapida + carbos' } },
+        { food: { en: '150g lean beef + pasta', es: '150g bife de lomo/cuadrada + fideos' }, proteinG: 42, kcal: 520, portion: { en: '150g + 150g', es: '150g + 150g' }, note: { en: 'iron-rich recovery', es: 'recuperacion rica en hierro' } }
       ],
       D: [
-        { food: { en: 'Pea-rice protein shake (40g) + banana', es: 'Batido de proteina arveja-arroz (40g) + banana' }, proteinG: 32, kcal: 260, portion: { en: '40g + 1', es: '40g + 1' }, note: { en: 'add 3g leucine', es: 'agregar 3g leucina' } },
-        { food: { en: 'Lentil bowl 250g + rice + tofu 100g', es: 'Bowl de lentejas 250g + arroz + tofu 100g' }, proteinG: 30, kcal: 450, portion: { en: '250g + 150g + 100g', es: '250g + 150g + 100g' }, note: { en: 'complete aminos', es: 'aminoacidos completos' } }
+        { food: { en: 'Pea-rice protein shake (40g) + banana', es: 'Batido de proteina arveja-arroz (40g) + banana' }, proteinG: 32, kcal: 260, portion: { en: '40g + 1', es: '40g + 1' }, note: { en: 'add 3g leucine', es: 'agregar 3g leucina' } }
       ]
     },
     lunch: {
       A: [
-        { food: { en: '150g chicken breast + salad + rice', es: '150g pechuga de pollo + ensalada + arroz' }, proteinG: 35, kcal: 480, portion: { en: '150g + 150g + 150g', es: '150g + 150g + 150g' }, note: { en: 'lean & complete', es: 'magra y completa' } },
-        { food: { en: '150g salmon + roasted vegetables + potato', es: '150g salmon + vegetales asados + papa' }, proteinG: 32, kcal: 450, portion: { en: '150g + 200g + 150g', es: '150g + 200g + 150g' }, note: { en: 'omega-3 rich', es: 'rico en omega-3' } },
-        { food: { en: '200g lean beef stir-fry + noodles', es: '200g salteado de carne magra + fideos' }, proteinG: 38, kcal: 520, portion: { en: '200g + 150g', es: '200g + 150g' }, note: { en: 'iron-rich', es: 'rico en hierro' } },
-        { food: { en: '150g grilled fish + mixed salad + bread', es: '150g pescado a la plancha + ensalada mixta + pan' }, proteinG: 33, kcal: 400, portion: { en: '150g + 200g + 1 slice', es: '150g + 200g + 1 rebanada' }, note: { en: 'light & fresh', es: 'ligero y fresco' } },
-        { food: { en: 'Turkey burger + whole wheat bun + salad', es: 'Hamburguesa de pavo + pan integral + ensalada' }, proteinG: 30, kcal: 440, portion: { en: '150g patty + bun + 100g', es: 'medallón 150g + pan + 100g' }, note: { en: 'meal prep friendly', es: 'facil de preparar' } },
-        { food: { en: '2 eggs + 100g ham + avocado + toast', es: '2 huevos + 100g jamon + palta + tostada' }, proteinG: 32, kcal: 480, portion: { en: '2 + 100g + 50g + 2 slices', es: '2 + 100g + 50g + 2 rebanadas' }, note: { en: 'protein-packed lunch', es: 'almuerzo cargado de proteina' } }
+        { food: { en: 'Oven baked milanesa + salad', es: 'Milanesa de peceto/nalga al horno + ensalada' }, proteinG: 35, kcal: 480, portion: { en: '150g + 200g', es: '150g (1 unidad grande) + 200g' }, note: { en: 'lean & complete', es: 'magra y nutritiva' } },
+        { food: { en: 'Chicken supreme + rice', es: 'Suprema de pollo a la plancha + arroz' }, proteinG: 35, kcal: 450, portion: { en: '150g + 150g', es: '150g + 150g' }, note: { en: 'classic', es: 'clasico' } },
+        { food: { en: 'Lean beef wok + noodles', es: 'Wok de carne (lomo/entraña) + fideos' }, proteinG: 38, kcal: 520, portion: { en: '150g + 150g', es: '150g + 150g' }, note: { en: 'iron-rich', es: 'rico en hierro' } },
+        { food: { en: 'Grilled hake + mixed salad', es: 'Filet de merluza/abadejo a la plancha + ensalada mixta' }, proteinG: 33, kcal: 400, portion: { en: '200g + 200g', es: '200g + 200g' }, note: { en: 'light & fresh', es: 'ligero y fresco' } },
+        { food: { en: 'Pork tenderloin + sweet potato', es: 'Carré o solomillo de cerdo + batata al horno' }, proteinG: 35, kcal: 460, portion: { en: '150g + 150g', es: '150g + 150g' }, note: { en: 'lean pork', es: 'cerdo magro' } }
       ],
       D: [
-        { food: { en: 'Chickpea curry 300g + rice + tofu 100g', es: 'Curry de garbanzos 300g + arroz + tofu 100g' }, proteinG: 28, kcal: 480, portion: { en: '300g + 150g + 100g', es: '300g + 150g + 100g' }, note: { en: 'add leucine', es: 'agregar leucina' } },
-        { food: { en: 'Black bean bowl + tempeh 100g + quinoa', es: 'Bowl de porotos negros + tempeh 100g + quinoa' }, proteinG: 30, kcal: 460, portion: { en: '200g + 100g + 150g', es: '200g + 100g + 150g' }, note: { en: 'complete aminos', es: 'aminoacidos completos' } }
+        { food: { en: 'Lentil stew + rice', es: 'Guiso de lentejas + arroz' }, proteinG: 28, kcal: 480, portion: { en: '300g + 150g', es: '300g + 150g' }, note: { en: 'add leucine', es: 'agregar leucina' } }
+      ]
+    },
+    lunchPost: {
+      A: [
+        { food: { en: 'Oven baked milanesa + mashed potatoes', es: 'Milanesa de peceto/nalga al horno + puré de papas' }, proteinG: 35, kcal: 550, portion: { en: '150g + 250g', es: '1 unidad grande + 250g' }, note: { en: 'recovery carbs', es: 'carbohidratos de recuperacion' } },
+        { food: { en: 'Chicken supreme + heavy rice', es: 'Suprema a la plancha + doble porcion de arroz' }, proteinG: 35, kcal: 580, portion: { en: '150g + 250g', es: '150g + 250g' }, note: { en: 'glycogen restore', es: 'restauracion de glucogeno' } },
+        { food: { en: 'Lean beef wok + noodles', es: 'Wok de carne magra (lomo/cuadrada) + fideos' }, proteinG: 38, kcal: 600, portion: { en: '150g + 200g', es: '150g + 200g' }, note: { en: 'iron-rich', es: 'alta recuperacion' } }
+      ],
+      D: [
+        { food: { en: 'Lentil stew + heavy rice', es: 'Guiso de lentejas + doble porcion de arroz' }, proteinG: 30, kcal: 620, portion: { en: '300g + 250g', es: '300g + 250g' }, note: { en: 'add leucine', es: 'agregar leucina' } }
+      ]
+    },
+    breakfastPost: {
+      A: [
+        { food: { en: '4 whole eggs + toast + banana', es: '4 huevos revueltos + 2 tostadas + banana' }, proteinG: 30, kcal: 550, portion: { en: '4 + 2 slices + 1', es: '4 huevos + 2 rebanadas + 1 chica' }, note: { en: 'recovery breakfast', es: 'desayuno de recuperacion' } },
+        { food: { en: 'Protein oatmeal (heavy)', es: 'Avena proteica reforzada (60g avena + 1.5 whey)' }, proteinG: 40, kcal: 480, portion: { en: '60g + 45g powder', es: '60g + 45g polvo' }, note: { en: 'glycogen restore', es: 'restaura glucogeno' } }
+      ],
+      D: [
+        { food: { en: 'Pea smoothie + oats', es: 'Licuado proteina vegan + extra avena' }, proteinG: 30, kcal: 500, portion: { en: '40g + 60g oats', es: '40g + 60g avena' }, note: { en: 'add leucine', es: 'agregar leucina' } }
+      ]
+    },
+    dinnerPost: {
+      A: [
+        { food: { en: 'Lean beef + mashed potatoes', es: 'Bife de lomo / Entraña + puré de papa' }, proteinG: 35, kcal: 580, portion: { en: '150g + 250g', es: '150g bife + 250g puré' }, note: { en: 'recovery dinner', es: 'cena de alta recuperacion' } },
+        { food: { en: 'Oven chicken milanesa + rice', es: 'Milanesa de pollo al horno + porcion grande de arroz' }, proteinG: 32, kcal: 550, portion: { en: '150g + 250g', es: '150g + 250g' }, note: { en: 'glycogen restore', es: 'restaura glucogeno' } },
+        { food: { en: 'Pork tenderloin + sweet potato mash', es: 'Bondiola magra/Carré al horno + puré de batata' }, proteinG: 32, kcal: 600, portion: { en: '150g + 250g', es: '150g + 250g' }, note: { en: 'muscle building', es: 'crecimiento muscular' } }
+      ],
+      D: [
+        { food: { en: 'Tofu stir-fry + extra rice', es: 'Salteado de tofu + extra arroz' }, proteinG: 25, kcal: 550, portion: { en: '200g + 250g', es: '200g + 250g' }, note: { en: 'add leucine', es: 'agregar leucina' } }
       ]
     },
     afternoon: {
       A: [
-        { food: { en: '200g Greek yogurt + 20g whey', es: '200g yogur griego + 20g whey' }, proteinG: 30, kcal: 250, portion: { en: '200g + 20g', es: '200g + 20g' }, note: { en: 'quick snack', es: 'merienda rapida' } },
-        { food: { en: '2 hard-boiled eggs + 30g almonds', es: '2 huevos duros + 30g almendras' }, proteinG: 20, kcal: 310, portion: { en: '2 + 30g', es: '2 + 30g' }, note: { en: 'portable', es: 'portatil' } },
-        { food: { en: 'Protein bar (20g+ protein)', es: 'Barra de proteina (20g+ proteina)' }, proteinG: 22, kcal: 220, portion: { en: '1 bar (60g)', es: '1 barra (60g)' }, note: { en: 'convenience option', es: 'opcion practica' } },
-        { food: { en: 'Tuna can (120g) + whole wheat crackers', es: 'Lata de atun (120g) + galletitas integrales' }, proteinG: 28, kcal: 280, portion: { en: '120g + 30g', es: '120g + 30g' }, note: { en: 'no prep needed', es: 'sin preparacion' } },
-        { food: { en: 'Cottage cheese 150g + apple + walnuts', es: 'Queso cottage 150g + manzana + nueces' }, proteinG: 20, kcal: 280, portion: { en: '150g + 1 + 20g', es: '150g + 1 + 20g' }, note: { en: 'satisfying snack', es: 'merienda saciante' } },
-        { food: { en: 'Turkey slices 80g + cheese + crackers', es: 'Fetas de pavo 80g + queso + galletitas' }, proteinG: 22, kcal: 260, portion: { en: '80g + 30g + 30g', es: '80g + 30g + 30g' }, note: { en: 'cold snack', es: 'merienda fria' } }
+        { food: { en: 'Yogurt + whey', es: 'Yogur natural firme + 20g whey' }, proteinG: 30, kcal: 250, portion: { en: '200g + 20g', es: '200g + 20g' }, note: { en: 'quick snack', es: 'merienda rapida' } },
+        { food: { en: '2 hard-boiled eggs + nuts', es: '2 huevos duros + puñado de almendras' }, proteinG: 20, kcal: 310, portion: { en: '2 + 30g', es: '2 + 30g' }, note: { en: 'portable', es: 'portatil' } },
+        { food: { en: 'Lean cheese + cold cuts', es: 'Porción de queso magro + fetas de jamón cocido' }, proteinG: 22, kcal: 260, portion: { en: '50g + 50g', es: '50g + 50g' }, note: { en: 'cold snack', es: 'picada proteica' } }
       ],
       D: [
-        { food: { en: 'Edamame 200g + hummus + carrots', es: 'Edamame 200g + hummus + zanahorias' }, proteinG: 22, kcal: 300, portion: { en: '200g + 60g + 100g', es: '200g + 60g + 100g' }, note: { en: 'plant snack', es: 'merienda vegetal' } },
-        { food: { en: 'Soy protein shake + handful nuts', es: 'Batido de proteina de soja + puñado de frutos secos' }, proteinG: 28, kcal: 320, portion: { en: '30g powder + 30g', es: '30g polvo + 30g' }, note: { en: 'add leucine if <2g', es: 'agregar leucina si <2g' } }
+        { food: { en: 'Soy protein shake', es: 'Batido proteico vegetal + frutos secos' }, proteinG: 28, kcal: 320, portion: { en: '30g powder + 30g', es: '30g polvo + 30g' }, note: { en: 'add leucine if <2g', es: 'agregar leucina si <2g' } }
       ]
     },
     eveningSnack: {
       A: [
-        { food: { en: '200g Greek yogurt + honey', es: '200g yogur griego + miel' }, proteinG: 20, kcal: 200, portion: { en: '200g + 10g', es: '200g + 10g' }, note: { en: 'light option', es: 'opcion liviana' } },
-        { food: { en: 'Protein shake (1 scoop) + fruit', es: 'Batido de proteina (1 medida) + fruta' }, proteinG: 25, kcal: 200, portion: { en: '30g + 100g', es: '30g + 100g' }, note: { en: 'quick', es: 'rapido' } }
+        { food: { en: 'Yogurt + honey', es: 'Yogur + miel' }, proteinG: 20, kcal: 200, portion: { en: '200g + 10g', es: '200g + 10g' }, note: { en: 'light option', es: 'opcion liviana' } },
+        { food: { en: 'Protein shake', es: 'Batido de proteina (1 medida)' }, proteinG: 25, kcal: 120, portion: { en: '30g', es: '30g' }, note: { en: 'quick', es: 'rapido' } }
       ],
       D: [
-        { food: { en: 'Soy yogurt 200g + granola + seeds', es: 'Yogur de soja 200g + granola + semillas' }, proteinG: 16, kcal: 280, portion: { en: '200g + 30g + 10g', es: '200g + 30g + 10g' }, note: { en: 'add protein powder', es: 'agregar proteina en polvo' } }
+        { food: { en: 'Soy yogurt', es: 'Yogur de soja + semillas' }, proteinG: 16, kcal: 280, portion: { en: '200g + 10g', es: '200g + 10g' }, note: { en: 'add protein powder', es: 'agregar proteina en polvo' } }
       ]
     },
     dinner: {
       A: [
-        { food: { en: '150g grilled fish + steamed vegetables', es: '150g pescado a la plancha + vegetales al vapor' }, proteinG: 30, kcal: 350, portion: { en: '150g + 250g', es: '150g + 250g' }, note: { en: 'light dinner', es: 'cena liviana' } },
-        { food: { en: '120g chicken + mixed salad + olive oil', es: '120g pollo + ensalada mixta + aceite de oliva' }, proteinG: 28, kcal: 380, portion: { en: '120g + 200g + 10ml', es: '120g + 200g + 10ml' }, note: { en: 'lean & balanced', es: 'magra y equilibrada' } },
-        { food: { en: 'Salmon 150g + baked sweet potato + broccoli', es: 'Salmon 150g + batata al horno + brocoli' }, proteinG: 32, kcal: 430, portion: { en: '150g + 200g + 150g', es: '150g + 200g + 150g' }, note: { en: 'omega-3 + fiber', es: 'omega-3 + fibra' } },
-        { food: { en: 'Lean beef 150g + grilled zucchini + rice', es: 'Carne magra 150g + zapallitos grillados + arroz' }, proteinG: 34, kcal: 460, portion: { en: '150g + 200g + 100g', es: '150g + 200g + 100g' }, note: { en: 'iron-rich dinner', es: 'cena rica en hierro' } },
-        { food: { en: 'Shrimp 200g + stir-fry vegetables + noodles', es: 'Camarones 200g + vegetales salteados + fideos' }, proteinG: 36, kcal: 400, portion: { en: '200g + 200g + 100g', es: '200g + 200g + 100g' }, note: { en: 'Asian-style', es: 'estilo asiatico' } },
-        { food: { en: 'Turkey meatballs 150g + tomato sauce + pasta', es: 'Albondigas de pavo 150g + salsa de tomate + pasta' }, proteinG: 30, kcal: 450, portion: { en: '150g + 100g + 120g', es: '150g + 100g + 120g' }, note: { en: 'comfort dinner', es: 'cena reconfortante' } }
+        { food: { en: 'Grilled fish + vegetables', es: 'Filet de pescado (ceba/merluza) a la plancha + vegetales' }, proteinG: 30, kcal: 350, portion: { en: '200g + 250g', es: '200g + 250g' }, note: { en: 'light dinner', es: 'cena liviana' } },
+        { food: { en: 'Oven chicken + salad', es: 'Pollo al horno + ensalada mixta' }, proteinG: 28, kcal: 380, portion: { en: '150g muslo/pechuga + 200g', es: '150g muslo/pechuga + 200g' }, note: { en: 'lean & balanced', es: 'jugoso y equilibrado' } },
+        { food: { en: 'Lean beef + broccoli + sweet potato', es: 'Bife de cuadril/entraña 150g + brocoli + batata' }, proteinG: 34, kcal: 460, portion: { en: '150g + 150g + 100g', es: '150g + 150g + 100g' }, note: { en: 'iron-rich dinner', es: 'cena rica en hierro' } },
+        { food: { en: 'Healthy empanadas/tart', es: '2 Empanadas carne magra al horno / Porcion tarta atun' }, proteinG: 30, kcal: 450, portion: { en: '2 units / 1 slice', es: '2 unidades / 1 porcion' }, note: { en: 'comfort dinner', es: 'cena reconfortante' } },
+        { food: { en: 'Pork meat + vegetables', es: 'Pechito de cerdo al horno + vegetales' }, proteinG: 35, kcal: 420, portion: { en: '150g + 250g', es: '150g + 250g' }, note: { en: 'lean pork', es: 'cerdo al horno' } }
       ],
       B: [
-        { food: { en: '200g cottage cheese + tomato + seeds', es: '200g queso cottage + tomate + semillas' }, proteinG: 24, kcal: 260, portion: { en: '200g + 100g + 15g', es: '200g + 100g + 15g' }, note: { en: 'casein pre-sleep transition', es: 'transicion caseina pre-sueno' } },
-        { food: { en: '150g fish + 100g Greek yogurt dessert', es: '150g pescado + 100g postre de yogur griego' }, proteinG: 30, kcal: 340, portion: { en: '150g + 100g', es: '150g + 100g' }, note: { en: 'slow + fast combo', es: 'combo lenta + rapida' } }
+        { food: { en: 'Cottage cheese salad', es: 'Ensalada con 200g queso magro/untable + tomate' }, proteinG: 24, kcal: 260, portion: { en: '200g + 100g', es: '200g + 100g' }, note: { en: 'casein pre-sleep transition', es: 'transicion caseina pre-sueno' } }
       ],
       D: [
-        { food: { en: 'Tofu stir-fry 200g + vegetables + rice', es: 'Salteado de tofu 200g + vegetales + arroz' }, proteinG: 22, kcal: 380, portion: { en: '200g + 200g + 150g', es: '200g + 200g + 150g' }, note: { en: 'add leucine', es: 'agregar leucina' } },
-        { food: { en: 'Lentil stew 300g + whole wheat bread', es: 'Guiso de lentejas 300g + pan integral' }, proteinG: 24, kcal: 420, portion: { en: '300g + 2 slices', es: '300g + 2 rebanadas' }, note: { en: 'hearty plant dinner', es: 'cena vegetal abundante' } }
+        { food: { en: 'Lentil stew', es: 'Guiso de lentejas o porotos + verduras' }, proteinG: 24, kcal: 420, portion: { en: '300g', es: '300g' }, note: { en: 'hearty plant dinner', es: 'cena vegetal abundante' } }
       ]
     },
     preSleep: {
       B: [
-        { food: { en: '250g cottage cheese', es: '250g queso cottage' }, proteinG: 28, kcal: 230, portion: { en: '250g', es: '250g' }, note: { en: '7h slow release', es: 'liberacion lenta de 7h' } },
-        { food: { en: '1 scoop casein powder + water', es: '1 medida de caseina en polvo + agua' }, proteinG: 30, kcal: 130, portion: { en: '35g + 300ml', es: '35g + 300ml' }, note: { en: 'micellar casein ideal', es: 'caseina micelar ideal' } },
-        { food: { en: '200g Greek yogurt + 1 scoop casein', es: '200g yogur griego + 1 medida caseina' }, proteinG: 38, kcal: 280, portion: { en: '200g + 35g', es: '200g + 35g' }, note: { en: 'maximum overnight MPS', es: 'maxima MPS nocturna' } },
-        { food: { en: '300g quark + cinnamon', es: '300g quark + canela' }, proteinG: 35, kcal: 240, portion: { en: '300g + pinch', es: '300g + pizca' }, note: { en: 'thick & satisfying', es: 'espeso y saciante' } }
+        { food: { en: 'Lean cheese', es: 'Porcion de queso magro firme o untable' }, proteinG: 20, kcal: 230, portion: { en: '80g firme / 150g untable', es: '80g firme / 150g untable' }, note: { en: '7h slow release', es: 'liberacion lenta de 7h' } },
+        { food: { en: 'Casein powder + water', es: '1 medida de caseina en polvo + agua' }, proteinG: 30, kcal: 130, portion: { en: '35g + 300ml', es: '35g + 300ml' }, note: { en: 'micellar casein ideal', es: 'caseina micelar ideal' } },
+        { food: { en: 'Yogurt + casein', es: 'Yogur natural + 1 medida caseina' }, proteinG: 38, kcal: 280, portion: { en: '200g + 35g', es: '200g + 35g' }, note: { en: 'maximum overnight MPS', es: 'maxima MPS nocturna' } }
       ],
       A: [
-        { food: { en: '200g skyr + berries', es: '200g skyr + frutos rojos' }, proteinG: 22, kcal: 180, portion: { en: '200g + 50g', es: '200g + 50g' }, note: { en: 'Icelandic dairy, high protein', es: 'lacteo islandes, alta proteina' } }
+        { food: { en: 'Greek yogurt + berries', es: 'Yogur natural firme + frutos rojos' }, proteinG: 22, kcal: 180, portion: { en: '200g + 50g', es: '200g + 50g' }, note: { en: 'high protein', es: 'alta proteina' } }
       ],
       D: [
-        { food: { en: 'Soy protein shake (40g powder)', es: 'Batido de proteina de soja (40g polvo)' }, proteinG: 34, kcal: 170, portion: { en: '40g + 300ml water', es: '40g + 300ml agua' }, note: { en: 'best plant option for sleep', es: 'mejor opcion vegetal para dormir' } },
-        { food: { en: 'Pea casein-style shake + soy milk', es: 'Batido estilo caseina de arveja + leche de soja' }, proteinG: 30, kcal: 210, portion: { en: '35g + 300ml', es: '35g + 300ml' }, note: { en: 'slower plant combo', es: 'combo vegetal mas lento' } }
+        { food: { en: 'Soy protein shake', es: 'Batido de proteina de soja (40g polvo)' }, proteinG: 34, kcal: 170, portion: { en: '40g + 300ml water', es: '40g + 300ml agua' }, note: { en: 'best plant option for sleep', es: 'mejor opcion vegetal para dormir' } }
       ]
     }
   };
@@ -154,24 +167,24 @@ const ScheduleBuilder = (() => {
    */
   const FREE_MEAL_EXAMPLES = {
     breakfast: [
-      { food: { en: 'Oatmeal + fruit + honey', es: 'Avena + fruta + miel' }, kcal: 320, portion: { en: '60g oats + 100g fruit + 15g', es: '60g avena + 100g fruta + 15g' }, note: { en: 'energy-rich start', es: 'inicio cargado de energia' } },
+      { food: { en: 'Oatmeal + fruit + honey', es: 'Café o Mate + 2 tostadas de pan integral con queso blanco y mermelada' }, kcal: 320, portion: { en: '60g oats + 100g fruit + 15g', es: 'Taza + 2 tostadas + 30g queso + 15g mermelada' }, note: { en: 'energy-rich start', es: 'desayuno clásico' } },
       { food: { en: 'Toast + avocado + tomato + orange juice', es: 'Tostada + palta + tomate + jugo de naranja' }, kcal: 380, portion: { en: '2 slices + 50g + 1 + 200ml', es: '2 rebanadas + 50g + 1 + 200ml' }, note: { en: 'healthy fats + vitamins', es: 'grasas saludables + vitaminas' } },
-      { food: { en: 'Granola + milk + banana', es: 'Granola + leche + banana' }, kcal: 350, portion: { en: '50g + 200ml + 1', es: '50g + 200ml + 1' }, note: { en: 'fiber & energy', es: 'fibra y energia' } }
+      { food: { en: 'Granola + milk + banana', es: 'Yogur con cereales + mate/café' }, kcal: 350, portion: { en: '50g + 200ml + 1', es: '1 yogur + 40g cereal' }, note: { en: 'fiber & energy', es: 'fibra y energia' } }
     ],
     lunch: [
-      { food: { en: 'Pasta with tomato sauce + olive oil + salad', es: 'Pasta con salsa de tomate + aceite de oliva + ensalada' }, kcal: 500, portion: { en: '120g dry + 100g + 10ml + 150g', es: '120g secos + 100g + 10ml + 150g' }, note: { en: 'carb-focused lunch', es: 'almuerzo basado en carbos' } },
-      { food: { en: 'Rice + vegetables + avocado + seeds', es: 'Arroz + vegetales + palta + semillas' }, kcal: 480, portion: { en: '200g + 200g + 50g + 15g', es: '200g + 200g + 50g + 15g' }, note: { en: 'balanced plant meal', es: 'comida vegetal equilibrada' } },
-      { food: { en: 'Vegetable soup + bread + cheese', es: 'Sopa de verduras + pan + queso' }, kcal: 420, portion: { en: '400ml + 2 slices + 30g', es: '400ml + 2 rebanadas + 30g' }, note: { en: 'warm & light', es: 'calida y liviana' } }
+      { food: { en: 'Pasta with tomato sauce', es: 'Fideos / Tallarines con salsa fileto + queso rallado' }, kcal: 500, portion: { en: '120g dry + 100g', es: 'Plato hondo normal (80g secos)' }, note: { en: 'carb-focused lunch', es: 'almuerzo de carbos' } },
+      { food: { en: 'Rice + vegetables + avocado', es: 'Arroz primavera o ensalada rusa (papa, zanahoria, arvejas)' }, kcal: 480, portion: { en: '200g + 200g + 50g', es: '200g de preparacion' }, note: { en: 'balanced plant meal', es: 'guarnicion clasica' } },
+      { food: { en: 'Vegetable soup + bread', es: 'Tarta de verduras (pascualina/zapallito) + ensalada mixta' }, kcal: 420, portion: { en: '400ml + 2 slices', es: '2 porciones tarta + ensalada' }, note: { en: 'warm & light', es: 'liviano' } }
     ],
     afternoon: [
-      { food: { en: 'Fresh fruit + handful of nuts', es: 'Fruta fresca + puñado de frutos secos' }, kcal: 200, portion: { en: '150g + 20g', es: '150g + 20g' }, note: { en: 'natural energy', es: 'energia natural' } },
-      { food: { en: 'Whole wheat toast + peanut butter + jam', es: 'Tostada integral + mantequilla de mani + mermelada' }, kcal: 250, portion: { en: '1 slice + 15g + 10g', es: '1 rebanada + 15g + 10g' }, note: { en: 'quick snack', es: 'merienda rapida' } },
-      { food: { en: 'Trail mix (nuts + dried fruit + dark chocolate)', es: 'Mix de frutos secos + frutas deshidratadas + chocolate negro' }, kcal: 220, portion: { en: '40g total', es: '40g total' }, note: { en: 'energy on the go', es: 'energia portatil' } }
+      { food: { en: 'Fresh fruit + handful of nuts', es: 'Mate o Té + 1 Fruta fresca + puñado de frutos secos' }, kcal: 200, portion: { en: '150g + 20g', es: '1 fruta mediana + 20g nueces' }, note: { en: 'natural energy', es: 'energia natural' } },
+      { food: { en: 'Whole wheat toast', es: 'Café chico + 1 medialuna o tostada integral' }, kcal: 250, portion: { en: '1 slice', es: '1 porcion' }, note: { en: 'quick snack', es: 'merienda de pasada' } },
+      { food: { en: 'Trail mix', es: 'Mate + galletitas de agua o salvado con queso blanco' }, kcal: 220, portion: { en: '40g total', es: '5-6 galletitas + mate' }, note: { en: 'energy on the go', es: 'merienda arg' } }
     ],
     dinner: [
-      { food: { en: 'Vegetable stir-fry + rice + soy sauce', es: 'Vegetales salteados + arroz + salsa de soja' }, kcal: 420, portion: { en: '300g + 200g + 10ml', es: '300g + 200g + 10ml' }, note: { en: 'light veggie dinner', es: 'cena de vegetales liviana' } },
-      { food: { en: 'Cream soup + croutons + side salad', es: 'Sopa crema + crutones + ensalada' }, kcal: 380, portion: { en: '350ml + 30g + 100g', es: '350ml + 30g + 100g' }, note: { en: 'comforting evening meal', es: 'cena reconfortante' } },
-      { food: { en: 'Pizza with vegetables + side salad', es: 'Pizza con vegetales + ensalada' }, kcal: 500, portion: { en: '2 slices + 100g', es: '2 porciones + 100g' }, note: { en: 'balanced treat', es: 'gusto equilibrado' } }
+      { food: { en: 'Vegetable stir-fry + rice', es: 'Vegetales al horno o salteados + arroz' }, kcal: 420, portion: { en: '300g + 200g', es: 'Medio plato vegetales + arroz' }, note: { en: 'light veggie dinner', es: 'cena liviana' } },
+      { food: { en: 'Cream soup + croutons', es: 'Sopa casera de verduras + pan' }, kcal: 380, portion: { en: '350ml + 30g', es: '1 plato hondo + 2 miñones' }, note: { en: 'comforting evening meal', es: 'cena de invierno' } },
+      { food: { en: 'Pizza with vegetables', es: 'Pizza de muzzarella (2 o 3 porciones)' }, kcal: 500, portion: { en: '2 slices', es: '2 o 3 porciones' }, note: { en: 'balanced treat', es: 'gusto de finde' } }
     ]
   };
 

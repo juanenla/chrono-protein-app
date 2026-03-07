@@ -44,9 +44,6 @@
         }
 
         .meal-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             padding: 16px;
             border-bottom: 1px solid var(--border);
         }
@@ -55,9 +52,32 @@
             border-bottom: none;
         }
 
+        .meal-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
         .meal-icon {
             font-size: 24px;
             margin-right: 12px;
+        }
+
+        .meal-logging {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
         }
 
         input[type="number"] {
@@ -66,12 +86,15 @@
             color: var(--text);
             padding: 8px;
             border-radius: 6px;
-            width: 60px;
+            width: 70px;
             font-family: var(--font-mono);
             font-size: 14px;
             text-align: center;
         }
     </style>
+    <datalist id="frequent-foods">
+        <!-- populated by js -->
+    </datalist>
 </head>
 
 <body>

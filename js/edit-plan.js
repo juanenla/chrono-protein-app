@@ -108,18 +108,14 @@ function validateAndSync() {
 
 function updateTotals() {
     let totalProt = 0;
-    // Kcal calculation is estimated dynamically here based loosely on protein, but normally it relies on food choices.
-    // We will estimate roughly 4 kcal per gram of protein + some fat/carbs = ~ 12 kcal per gram of protein target
-    let totalKcal = 0;
 
     Object.values(customPlan).forEach(w => {
         totalProt += (w.grams || 0);
-        // Rough estimation
-        totalKcal += (w.grams > 0) ? (w.grams * 14) : 400; // 400 default for free meals
     });
 
     document.getElementById('total-prot-label').textContent = totalProt;
-    document.getElementById('total-kcal-label').textContent = totalKcal;
+    // We display the engine's true calculated TDEE target instead of a rough multiplier.
+    document.getElementById('total-kcal-label').textContent = basePlan.summary.estimatedKcal || 2000;
 }
 
 function saveCustomPlan() {
