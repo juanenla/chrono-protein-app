@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>My Meals | ChronoProtein</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css">
+  <style>
+    .page-container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 100px 20px 60px;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    /* Meal list */
+    .meal-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .meal-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .meal-card-header {
+      padding: 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    .meal-card-header:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .meal-card-name {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .meal-card-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--sub);
+      margin-top: 4px;
+    }
+
+    .meal-card-body {
+      display: none;
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .meal-card.expanded .meal-card-body {
+      display: block;
+    }
+
+    .meal-ing-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      font-size: 13px;
+    }
+
+    .meal-ing-row:last-child {
+      border-bottom: none;
+    }
+
+    .meal-totals {
+      display: flex;
+      gap: 16px;
+      padding: 12px 0;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--green);
+      border-top: 1px solid var(--border);
+      margin-top: 8px;
+    }
+
+    .meal-links {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .meal-links a {
+      font-size: 11px;
+      color: var(--teal);
+      text-decoration: none;
+      padding: 4px 8px;
+      border: 1px solid var(--teal);
+      border-radius: var(--radius-sm);
+    }
+
+    /* Builder modal */
+    .builder-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .builder-overlay.active {
+      display: block;
+    }
+
+    .builder-panel {
+      max-width: 600px;
+      margin: 80px auto 40px;
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .builder-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .builder-field {
+      margin-bottom: 16px;
+    }
+
+    .builder-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--sub);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .builder-field input,
+    .builder-field select,
+    .builder-field textarea {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .builder-field textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .builder-field input:focus,
+    .builder-field select:focus,
+    .builder-field textarea:focus {
+      border-color: var(--green);
+    }
+
+    /* Ingredient search inside builder */
+    .ing-search-results {
+      max-height: 200px;
+      overflow-y: auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-top: 4px;
+    }
+
+    .ing-search-result {
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .ing-search-result:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .builder-ingredients-list {
+      margin-top: 12px;
+    }
+
+    .builder-ing-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 13px;
+    }
+
+    .builder-ing-item input[type="number"] {
+      width: 70px;
+      padding: 6px 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .builder-ing-remove {
+      background: none;
+      border: none;
+      color: #ff6b6b;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0 4px;
+    }
+
+    .builder-summary {
+      background: rgba(0, 194, 124, 0.08);
+      border: 1px solid var(--green);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-top: 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .builder-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <div
+    style="position:fixed;top:0;left:0;right:0;height:70px;background:rgba(8,11,15,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:900;display:flex;align-items:center;padding:0 24px;justify-content:space-between">
+    <a href="dashboard.html" class="btn"
+      style="background:transparent;border:1px solid var(--border);color:var(--text);font-size:12px;padding:6px 14px"
+      data-i18n="navBack">Back</a>
+    <div style="display:flex;gap:12px;align-items:center">
+      <a href="ingredients.html" class="btn"
+        style="background:transparent;border:1px solid var(--border);color:var(--text);font-size:12px;padding:6px 14px"
+        data-i18n="ingredientsTitle">Ingredients</a>
+      <div class="lang-toggle"
+        style="display:flex;border-radius:100px;overflow:hidden;border:1px solid var(--border);background:var(--card)">
+        <button data-lang="en" onclick="switchLang('en')"
+          style="padding:6px 12px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;border:none;background:transparent;color:var(--muted);cursor:pointer">EN</button>
+        <button data-lang="es" onclick="switchLang('es')"
+          style="padding:6px 12px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;border:none;background:transparent;color:var(--muted);cursor:pointer">ES</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-container">
+    <div class="page-header">
+      <div>
+        <h1
+          style="font-family:var(--font-display); font-size:32px; color:var(--text); line-height:1.1; letter-spacing:-0.5px"
+          data-i18n="myMeals">MY MEALS</h1>
+        <div style="color:var(--sub); font-size:14px; margin-top:4px" data-i18n="mealsDesc">Build meals from ingredients
+        </div>
+      </div>
+      <button class="btn"
+        style="background:var(--green);color:black;font-size:13px;font-weight:600"
+        onclick="Meals.openBuilder()" data-i18n="newMeal">+ New Meal</button>
+    </div>
+
+    <!-- Meal list -->
+    <div class="meal-list" id="meal-list">
+      <div class="empty-state" data-i18n="loadingMeals">Loading meals...</div>
+    </div>
+  </div>
+
+  <!-- Builder overlay -->
+  <div class="builder-overlay" id="builder-overlay">
+    <div class="builder-panel">
+      <div class="builder-title" data-i18n="createMeal">CREATE MEAL</div>
+
+      <div class="builder-field">
+        <label data-i18n="mealNameEn">Name (EN)</label>
+        <input type="text" id="meal-name-en" placeholder="e.g., Grilled Chicken with Rice">
+      </div>
+      <div class="builder-field">
+        <label data-i18n="mealNameEs">Name (ES)</label>
+        <input type="text" id="meal-name-es" placeholder="ej., Pollo a la plancha con arroz">
+      </div>
+      <div style="display:flex;gap:12px">
+        <div class="builder-field" style="flex:1">
+          <label data-i18n="mealTypeLabel">Meal Type</label>
+          <select id="meal-type">
+            <option value="breakfast">Breakfast / Desayuno</option>
+            <option value="brunch">Brunch</option>
+            <option value="lunch">Lunch / Almuerzo</option>
+            <option value="afternoon">Snack / Merienda</option>
+            <option value="dinner">Dinner / Cena</option>
+            <option value="preSleep">Pre-Sleep</option>
+            <option value="postWorkout">Post-Workout</option>
+            <option value="preWorkout">Pre-Workout</option>
+            <option value="snack">Snack</option>
+          </select>
+        </div>
+        <div class="builder-field" style="flex:1">
+          <label data-i18n="proteinClassLabel">Protein Class</label>
+          <select id="meal-class">
+            <option value="">Auto</option>
+            <option value="A">A - Fast</option>
+            <option value="B">B - Slow</option>
+            <option value="D">D - Plant</option>
+            <option value="N">N - Balanced</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px">
+        <div class="builder-field" style="flex:1">
+          <label data-i18n="prepTime">Prep Time (min)</label>
+          <input type="number" id="meal-prep-time" min="0" placeholder="10">
+        </div>
+        <div class="builder-field" style="flex:1">
+          <label data-i18n="cookTime">Cook Time (min)</label>
+          <input type="number" id="meal-cook-time" min="0" placeholder="20">
+        </div>
+      </div>
+
+      <div class="builder-field">
+        <label data-i18n="recipeUrl">Recipe URL (optional)</label>
+        <input type="url" id="meal-recipe-url" placeholder="https://...">
+      </div>
+      <div class="builder-field">
+        <label data-i18n="videoUrl">Video URL (optional)</label>
+        <input type="url" id="meal-video-url" placeholder="https://youtube.com/...">
+      </div>
+
+      <!-- Ingredients section -->
+      <div class="builder-field">
+        <label data-i18n="addIngredients">Ingredients</label>
+        <input type="text" id="ing-search" placeholder="Search ingredient..." oninput="Meals.searchIngredient()">
+        <div class="ing-search-results" id="ing-search-results" style="display:none"></div>
+      </div>
+
+      <div class="builder-ingredients-list" id="builder-ingredients"></div>
+
+      <div class="builder-summary" id="builder-summary" style="display:none">
+        <span id="sum-prot">0g prot</span>
+        <span id="sum-carb">0g carb</span>
+        <span id="sum-fat">0g fat</span>
+        <span id="sum-kcal">0 kcal</span>
+        <span id="sum-leu">0g leucine</span>
+      </div>
+
+      <div class="builder-actions">
+        <button class="btn" style="background:var(--green);color:black;font-weight:600;flex:1"
+          onclick="Meals.save()" data-i18n="saveMeal">Save Meal</button>
+        <button class="btn btn-secondary" style="flex:0 0 auto"
+          onclick="Meals.closeBuilder()" data-i18n="feedbackCancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/meals.js"></script>
+  <script>
+    function switchLang(lang) {
+      I18n.setLang(lang);
+      document.querySelectorAll('.lang-toggle button').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+      });
+      Meals.render();
+    }
+
+    (function () {
+      const lang = I18n.getLang();
+      document.querySelectorAll('.lang-toggle button').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+      });
+    })();
+  </script>
+</body>
+
+</html>

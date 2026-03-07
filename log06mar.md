@@ -803,3 +803,393 @@ El sistema es ahora más intuitivo, preciso en sus cuentas y adaptado 100% al co
 [CONTEXTO]: 7 tablas nuevas creadas en Supabase, 47 ingredientes seed insertados. Commit y push pendiente.
 
 ---
+
+## Exchange 30 (06 Mar)
+
+### Juan — Prompt
+
+> dale, perfecto
+
+### CLAUDE OPUS 4.6 — Response to Exchange 30
+
+[TAREA]: Construir UI para ingredientes y comidas (buscar ingredientes en DB, armar comidas con ingredientes + cantidades)
+[ESTADO]: Completado
+[CONTEXTO]: Siguiente paso logico despues de crear el schema. Juan confirmo proceder.
+
+**Archivos nuevos creados:**
+
+**1. `ingredients.html`** — Pagina de explorar/buscar ingredientes desde Supabase
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Ingredients | ChronoProtein</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css">
+  <style>
+    .page-container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 100px 20px 60px;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 12px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      outline: none;
+    }
+
+    .search-bar input:focus {
+      border-color: var(--green);
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .filter-row select {
+      padding: 8px 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .ingredient-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ingredient-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .ingredient-card:hover {
+      border-color: var(--sub);
+    }
+
+    .ingredient-card.expanded {
+      border-color: var(--green);
+    }
+
+    /* ... mas estilos para ing-top, ing-name, ing-category, ing-macros, ing-detail,
+       detail-grid, ing-actions, btn-fav, btn-add-meal, class-badge,
+       empty-state, results-count, tab-bar ... */
+  </style>
+</head>
+
+<body>
+  <!-- Header fijo con nav back, link a My Meals, lang toggle -->
+  <!-- Tabs: All / Favorites -->
+  <!-- Search bar con data-i18n-placeholder -->
+  <!-- Filtros: categoria, protein class, diet -->
+  <!-- Results count -->
+  <!-- Ingredient list (populated by JS) -->
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/ingredients.js"></script>
+  <script>
+    function switchLang(lang) {
+      I18n.setLang(lang);
+      document.querySelectorAll('.lang-toggle button').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+      });
+      Ingredients.render();
+    }
+
+    (function () {
+      const lang = I18n.getLang();
+      document.querySelectorAll('.lang-toggle button').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+      });
+    })();
+  </script>
+</body>
+</html>
+```
+
+**2. `js/ingredients.js`** — Modulo IIFE: carga desde Supabase `ingredients`, gestiona `user_favorites`, busqueda bilingue, filtros, tabs
+
+```javascript
+const Ingredients = (() => {
+  let allIngredients = [];
+  let userFavoriteIds = new Set();
+  let currentTab = 'all';
+  let currentUser = null;
+
+  async function init() {
+    try { currentUser = await Auth.getUser(); } catch (e) { currentUser = null; }
+    await loadIngredients();
+    if (currentUser) await loadFavorites();
+    search();
+  }
+
+  async function loadIngredients() {
+    const { data, error } = await sb
+      .from('ingredients')
+      .select('*')
+      .order('category')
+      .order('name_en');
+    if (error) throw error;
+    allIngredients = data || [];
+  }
+
+  async function loadFavorites() {
+    if (!currentUser) return;
+    const { data, error } = await sb
+      .from('user_favorites')
+      .select('ingredient_id')
+      .eq('user_id', currentUser.id);
+    if (error) throw error;
+    userFavoriteIds = new Set((data || []).map(f => f.ingredient_id));
+  }
+
+  function search() {
+    // Filtra por: query texto, categoria, protein class, dieta, tab (all/favorites)
+    // Llama renderList() con los resultados
+  }
+
+  function renderList(items) {
+    // Renderiza cards con: nombre bilingue, categoria, macros por 100g,
+    // badge de clase proteica, estrella de favorito
+    // Detalle expandible con: leucina, fibra, absorcion, clase, micros,
+    // tags de dieta, botones Favorito y Agregar a Comida
+  }
+
+  function toggle(id) { /* expand/collapse card */ }
+
+  async function toggleFav(ingredientId) {
+    // Si no logueado -> auth.html
+    // Si favorito -> DELETE de user_favorites
+    // Si no -> INSERT en user_favorites
+    // Re-render
+  }
+
+  function addToMeal(ingredientId) {
+    // Guarda en sessionStorage y redirige a meals.html?add=ID
+  }
+
+  function switchTab(tab) { /* all / favorites */ }
+  function render() { search(); translateStatic(); }
+
+  // Helpers: getClassColor, getClassName, getCategoryLabel, escapeHtml
+  // getById(id) y getAll() para uso desde meals.js
+
+  document.addEventListener('DOMContentLoaded', init);
+
+  return { search, toggle, toggleFav, addToMeal, switchTab, render, getById, getAll };
+})();
+```
+
+**3. `meals.html`** — Pagina de constructor de comidas
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Meals | ChronoProtein</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css">
+  <style>
+    /* Estilos para: page-container, meal-list, meal-card, meal-card-header,
+       meal-card-body, meal-ing-row, meal-totals, meal-links,
+       builder-overlay, builder-panel, builder-field, ing-search-results,
+       builder-ingredients-list, builder-ing-item, builder-summary,
+       builder-actions */
+  </style>
+</head>
+<body>
+  <!-- Header fijo con nav back, link a Ingredients, lang toggle -->
+  <!-- Lista de comidas guardadas -->
+  <!-- Boton "+ New Meal" -->
+
+  <!-- Builder overlay modal con:
+    - Nombre EN/ES
+    - Tipo de comida (select)
+    - Clase proteica (select)
+    - Prep time / Cook time
+    - Recipe URL / Video URL
+    - Buscador de ingredientes con dropdown
+    - Lista de ingredientes agregados con cantidad en gramos
+    - Resumen de macros en vivo
+    - Guardar / Cancelar -->
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/meals.js"></script>
+</body>
+</html>
+```
+
+**4. `js/meals.js`** — Modulo IIFE: crear, ver y gestionar comidas desde ingredientes
+
+```javascript
+const Meals = (() => {
+  let allMeals = [];
+  let allIngredients = [];
+  let currentUser = null;
+  let builderIngredients = []; // [{ingredient, quantity_g}]
+  let editingMealId = null;
+
+  async function init() {
+    try { currentUser = await Auth.getUser(); } catch (e) { currentUser = null; }
+    await Promise.all([loadIngredients(), loadMeals()]);
+    renderMealList();
+
+    // Si viene de ingredients.html con ?add=ID, abre builder con ese ingrediente
+    const params = new URLSearchParams(window.location.search);
+    const addId = params.get('add');
+    if (addId) {
+      openBuilder();
+      const ing = allIngredients.find(i => i.id === addId);
+      if (ing) addIngredientToBuilder(ing, 100);
+    }
+  }
+
+  async function loadIngredients() {
+    const { data } = await sb.from('ingredients').select('*').order('name_en');
+    allIngredients = data || [];
+  }
+
+  async function loadMeals() {
+    const { data } = await sb
+      .from('meals')
+      .select('*, meal_ingredients(*, ingredients(*))')
+      .order('created_at', { ascending: false });
+    allMeals = data || [];
+  }
+
+  function renderMealList() {
+    // Renderiza cards expandibles con:
+    // - Nombre bilingue, tipo, clase, tiempos prep/cook
+    // - Protein total y kcal en header
+    // - Body expandible: lista de ingredientes con cantidad/prot/kcal
+    // - Totales (prot/carb/fat/kcal/leucina)
+    // - Links a receta y video si existen
+    // - Botones Editar / Eliminar (solo para comidas propias)
+  }
+
+  function openBuilder(mealData) {
+    // Si mealData: carga datos para edicion
+    // Si no: formulario vacio
+    // Muestra overlay con formulario
+  }
+
+  function closeBuilder() { /* oculta overlay, limpia state */ }
+  function edit(mealId) { /* busca meal y abre builder con datos */ }
+
+  async function remove(mealId) {
+    // Confirma con usuario, DELETE de meals, re-render
+  }
+
+  function searchIngredient() {
+    // Busca en allIngredients por texto, muestra dropdown
+  }
+
+  function selectIngredient(ingId) {
+    // Agrega ingrediente al builder con 100g default
+  }
+
+  function addIngredientToBuilder(ingredient, qty) {
+    builderIngredients.push({ ingredient, quantity_g: qty });
+    renderBuilderIngredients();
+  }
+
+  function renderBuilderIngredients() {
+    // Muestra lista con: nombre, input de gramos, proteina calculada, boton remove
+    // Actualiza resumen de macros
+  }
+
+  function updateBuilderSummary() {
+    // Calcula totales: prot, carb, fat, kcal, leucina
+    // Muestra en builder-summary
+  }
+
+  async function save() {
+    // Validaciones: nombre EN+ES, al menos 1 ingrediente
+    // Calcula totales
+    // Si editando: UPDATE meal + DELETE old ingredients
+    // Si nuevo: INSERT meal
+    // INSERT meal_ingredients con macros calculados por cantidad
+    // Cierra builder, recarga meals
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+
+  return {
+    toggleMeal, openBuilder, closeBuilder, edit, remove,
+    searchIngredient, selectIngredient,
+    removeIng: removeIngredientFromBuilder,
+    updateQty: updateIngredientQty,
+    save, render
+  };
+})();
+```
+
+**5. Claves i18n agregadas a `js/i18n.js`** (~40 claves nuevas EN + ES):
+
+EN: `ingredientsTitle`, `ingredientsDesc`, `myMeals`, `mealsDesc`, `allIngredients`, `myFavorites`, `searchPlaceholder`, `allCategories`, `allClasses`, `allDiets`, `loadingIngredients`, `loadingMeals`, `newMeal`, `createMeal`, `mealNameEn`, `mealNameEs`, `mealTypeLabel`, `proteinClassLabel`, `prepTime`, `cookTime`, `recipeUrl`, `videoUrl`, `addIngredients`, `saveMeal`, `cat_meat`, `cat_poultry`, `cat_fish`, `cat_dairy`, `cat_eggs`, `cat_legumes`, `cat_grains`, `cat_vegetables`, `cat_fruits`, `cat_nuts`, `cat_supplements`, `cat_other`, `myIngredients`, `myMealsNav`
+
+ES: `ingredientsTitle: 'INGREDIENTES'`, `ingredientsDesc: 'Explora datos nutricionales por 100g'`, `myMeals: 'MIS COMIDAS'`, `mealsDesc: 'Arma comidas con ingredientes'`, `allIngredients: 'Todos'`, `myFavorites: 'Mis Favoritos'`, `searchPlaceholder: 'Buscar...'`, `allCategories: 'Todas las categorias'`, etc.
+
+**6. `dashboard.html`** — Agregados links de navegacion:
+
+```html
+<a href="ingredients.html" class="btn btn-secondary" style="font-size:13px"
+  data-i18n="myIngredients">My Ingredients</a>
+<a href="meals.html" class="btn btn-secondary" style="font-size:13px"
+  data-i18n="myMealsNav">My Meals</a>
+```
+
+**Resumen de lo construido:**
+
+- **ingredients.html + js/ingredients.js**: Pagina para explorar los 47 ingredientes seed desde Supabase con filtros (categoria, clase proteica, dieta), cards expandibles con macros + micros completos, acciones de favorito y agregar a comida
+- **meals.html + js/meals.js**: Pagina para ver comidas guardadas, crear nuevas comidas via builder overlay que permite buscar ingredientes, setear cantidades (g), y ver totales de macros en vivo. Soporta recipe/video URLs, prep/cook times, editar y eliminar
+- **js/i18n.js**: ~40 claves nuevas EN+ES para ambas paginas
+- **dashboard.html**: Botones "My Ingredients" y "My Meals" agregados en la barra de controles
+
+**Flujo del usuario:** Dashboard -> Ingredients (explorar/favorito) -> boton "Add to meal" -> redirige a Meals con ingrediente precargado en el builder. Tambien se pueden crear comidas directamente desde Meals.
+
+---

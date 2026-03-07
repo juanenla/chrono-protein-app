@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Ingredients | ChronoProtein</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css">
+  <style>
+    .page-container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 100px 20px 60px;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 12px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      outline: none;
+    }
+
+    .search-bar input:focus {
+      border-color: var(--green);
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .filter-row select {
+      padding: 8px 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .ingredient-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ingredient-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .ingredient-card:hover {
+      border-color: var(--sub);
+    }
+
+    .ingredient-card.expanded {
+      border-color: var(--green);
+    }
+
+    .ing-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ing-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .ing-category {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .ing-macros {
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--sub);
+    }
+
+    .ing-macros span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .macro-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .ing-detail {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      display: none;
+    }
+
+    .ingredient-card.expanded .ing-detail {
+      display: block;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--sub);
+    }
+
+    .detail-grid .label {
+      color: var(--muted);
+    }
+
+    .ing-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .btn-fav {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--sub);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-fav:hover,
+    .btn-fav.active {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .btn-add-meal {
+      background: rgba(0, 194, 124, 0.1);
+      border: 1px solid var(--green);
+      color: var(--green);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .class-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.08em;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+
+    .results-count {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+    }
+
+    .tab-bar {
+      display: flex;
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .tab-bar button {
+      flex: 1;
+      padding: 10px 16px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      border: none;
+      background: var(--card);
+      color: var(--sub);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-bar button.active {
+      background: var(--green);
+      color: var(--dark);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <div
+    style="position:fixed;top:0;left:0;right:0;height:70px;background:rgba(8,11,15,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:900;display:flex;align-items:center;padding:0 24px;justify-content:space-between">
+    <a href="dashboard.html" class="btn"
+      style="background:transparent;border:1px solid var(--border);color:var(--text);font-size:12px;padding:6px 14px"
+      data-i18n="navBack">Back</a>
+    <div style="display:flex;gap:12px;align-items:center">
+      <a href="meals.html" class="btn"
+        style="background:var(--green);color:black;font-size:12px;padding:6px 14px;font-weight:600"
+        data-i18n="myMeals">My Meals</a>
+      <div class="lang-toggle" style="display:flex;border-radius:100px;overflow:hidden;border:1px solid var(--border);background:var(--card)">
+        <button data-lang="en" onclick="switchLang('en')" style="padding:6px 12px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;border:none;background:transparent;color:var(--muted);cursor:pointer">EN</button>
+        <button data-lang="es" onclick="switchLang('es')" style="padding:6px 12px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;border:none;background:transparent;color:var(--muted);cursor:pointer">ES</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-container">
+    <div class="page-header">
+      <div>
+        <h1 style="font-family:var(--font-display); font-size:32px; color:var(--text); line-height:1.1; letter-spacing:-0.5px"
+          data-i18n="ingredientsTitle">INGREDIENTS</h1>
+        <div style="color:var(--sub); font-size:14px; margin-top:4px" data-i18n="ingredientsDesc">Browse nutritional data per 100g</div>
+      </div>
+    </div>
+
+    <!-- Tabs: All / Favorites -->
+    <div class="tab-bar">
+      <button class="active" id="tab-all" onclick="Ingredients.switchTab('all')" data-i18n="allIngredients">All</button>
+      <button id="tab-favorites" onclick="Ingredients.switchTab('favorites')" data-i18n="myFavorites">My Favorites</button>
+    </div>
+
+    <!-- Search -->
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search..." data-i18n-placeholder="searchPlaceholder" oninput="Ingredients.search()">
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-row">
+      <select id="filter-category" onchange="Ingredients.search()">
+        <option value="" data-i18n="allCategories">All Categories</option>
+        <option value="meat" data-i18n="cat_meat">Meat</option>
+        <option value="poultry" data-i18n="cat_poultry">Poultry</option>
+        <option value="fish" data-i18n="cat_fish">Fish</option>
+        <option value="dairy" data-i18n="cat_dairy">Dairy</option>
+        <option value="eggs" data-i18n="cat_eggs">Eggs</option>
+        <option value="legumes" data-i18n="cat_legumes">Legumes</option>
+        <option value="grains" data-i18n="cat_grains">Grains</option>
+        <option value="vegetables" data-i18n="cat_vegetables">Vegetables</option>
+        <option value="fruits" data-i18n="cat_fruits">Fruits</option>
+        <option value="nuts_seeds" data-i18n="cat_nuts">Nuts & Seeds</option>
+        <option value="supplements" data-i18n="cat_supplements">Supplements</option>
+        <option value="other" data-i18n="cat_other">Other</option>
+      </select>
+      <select id="filter-class" onchange="Ingredients.search()">
+        <option value="" data-i18n="allClasses">All Classes</option>
+        <option value="A">A - Fast (Whey)</option>
+        <option value="B">B - Slow (Casein)</option>
+        <option value="C">C - Leucine</option>
+        <option value="D">D - Plant</option>
+        <option value="E">E - Collagen</option>
+        <option value="N">N - Balanced</option>
+      </select>
+      <select id="filter-diet" onchange="Ingredients.search()">
+        <option value="" data-i18n="allDiets">All Diets</option>
+        <option value="vegetarian" data-i18n="vegetarian">Vegetarian</option>
+        <option value="vegan" data-i18n="vegan">Vegan</option>
+      </select>
+    </div>
+
+    <!-- Results count -->
+    <div class="results-count" id="results-count"></div>
+
+    <!-- Ingredient list -->
+    <div class="ingredient-list" id="ingredient-list">
+      <div class="empty-state" data-i18n="loadingIngredients">Loading ingredients...</div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/ingredients.js"></script>
+  <script>
+    function switchLang(lang) {
+      I18n.setLang(lang);
+      document.querySelectorAll('.lang-toggle button').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+      });
+      Ingredients.render();
+    }
+
+    // Set initial lang toggle state
+    (function () {
+      const lang = I18n.getLang();
+      document.querySelectorAll('.lang-toggle button').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+      });
+    })();
+  </script>
+</body>
+
+</html>
