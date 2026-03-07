@@ -18,7 +18,7 @@ async function initDiary() {
 
     // Render Date
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById('current-date').textContent = new Date().toLocaleDateString(I18n.currentLang, dateOptions);
+    document.getElementById('current-date').textContent = new Date().toLocaleDateString(I18n.getLang() === 'es' ? 'es-AR' : 'en-US', dateOptions);
 
     renderDiaryMeals(plan);
     updateMacros(plan);

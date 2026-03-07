@@ -201,10 +201,28 @@ const ScheduleBuilder = (() => {
     const offset = (dayIndex || 0) % classFoods.length;
     const rotated = [...classFoods.slice(offset), ...classFoods.slice(0, offset)];
 
-    // Return up to 2 suggestions, preferring those close to the target grams
+    // Return up to 2 suggestions, SCALED to match the target protein
     return rotated
       .sort((a, b) => Math.abs(a.proteinG - targetGrams) - Math.abs(b.proteinG - targetGrams))
-      .slice(0, 2);
+      .slice(0, 2)
+      .map(s => scaleFoodToTarget(s, targetGrams));
+  }
+
+  /**
+   * Scale a food suggestion proportionally so its protein matches the window target
+   */
+  function scaleFoodToTarget(food, targetGrams) {
+    if (!targetGrams || !food.proteinG || food.proteinG === targetGrams) return food;
+    const ratio = targetGrams / food.proteinG;
+    // Don't scale more than 2x or less than 0.5x — outside that range it's not realistic
+    if (ratio > 2 || ratio < 0.5) return food;
+    return {
+      ...food,
+      proteinG: targetGrams,
+      kcal: Math.round(food.kcal * ratio),
+      portionScaled: true,
+      originalProteinG: food.proteinG
+    };
   }
 
   /**
@@ -308,8 +326,16 @@ const ScheduleBuilder = (() => {
       const isProteinWindow = w.grams > 0;
 
       if (isProteinWindow) {
+        // Determine leucine food source based on protein class
+        const leucineFoodSources = {
+          A: { en: 'whey, eggs, chicken, beef, fish', es: 'whey, huevos, pollo, carne, pescado' },
+          B: { en: 'casein powder, cottage cheese, Greek yogurt', es: 'caseina en polvo, queso untable, yogur natural' },
+          D: { en: 'pea/soy protein, tempeh, lentils + leucine supp.', es: 'proteina de arveja/soja, tempeh, lentejas + supl. leucina' },
+          E: { en: 'collagen (low leucine — add supplement)', es: 'colageno (baja leucina — agregar suplemento)' }
+        };
+        const leucineSource = leucineFoodSources[w.proteinClass] || leucineFoodSources.A;
         const leucineStatus = w.leucineOk
-          ? `<span class="badge badge-anabolic">${i18n('leucineOk')} (${w.leucineEstimateG}g)</span>`
+          ? `<span class="badge badge-anabolic" title="${tx(leucineSource)}">${i18n('leucineOk')} (${w.leucineEstimateG}g — ${tx(leucineSource)})</span>`
           : `<span class="badge badge-catabolic">${i18n('leucineLow')} (${w.leucineEstimateG}g / ${w.leucineThreshold}g ${i18n('needed')})</span>`;
 
         html += `
@@ -334,6 +360,7 @@ const ScheduleBuilder = (() => {
               <span class="badge badge-transition">${Math.round(w.share * 100)}% ${i18n('ofDaily')}</span>
             </div>
             ${w.suggestion ? `<div style="padding:0 20px 14px;font-size:12px;color:var(--amber)">⚠️ ${i18n('addLeucine').replace('{g}', Math.ceil(w.leucineThreshold - w.leucineEstimateG))}</div>` : ''}
+            ${(w.proteinClass === 'B') ? `<div style="padding:0 20px 8px;font-size:11px;color:var(--teal)">ℹ️ ${i18n('caseinSource')}</div>` : ''}
             ${renderFoodSuggestions(key, w.proteinClass, w.grams, dayIndex)}
           </div>`;
       } else {
@@ -371,14 +398,13 @@ const ScheduleBuilder = (() => {
     const t = plan.targets;
     const p = plan.profile;
 
-    // Estimate daily calories from protein (rough: protein * 4 cal + rest)
-    const proteinKcal = t.dailyTotalG * 4;
-    const estimatedDailyKcal = Math.round(proteinKcal / 0.25); // protein ~25% of total
+    // Use TDEE from calculator (Katch-McArdle) — single source of truth for calories
+    const estimatedDailyKcal = (plan.summary && plan.summary.estimatedKcal) || Math.round((t.dailyTotalG * 4) / 0.25);
 
     const stats = [
       { value: `${t.dailyTotalG}g`, unit: i18n('dailyTarget'), color: 'var(--green)' },
       { value: `${t.proteinPerKg}`, unit: 'g/kg/' + i18n('dayUnit'), color: 'var(--teal)' },
-      { value: `~${estimatedDailyKcal}`, unit: i18n('estimatedKcal'), color: 'var(--amber)' },
+      { value: `${estimatedDailyKcal}`, unit: i18n('estimatedKcal'), color: 'var(--amber)' },
       { value: `${t.leucinePerMealG}g`, unit: i18n('leucineMinMeal'), color: 'var(--orange)' },
       { value: `${p.weightKg}kg`, unit: i18n('bodyWeightLabel'), color: 'var(--sub)' },
       { value: `${p.lbm}kg`, unit: i18n('leanMass'), color: 'var(--sub)' }
@@ -408,16 +434,28 @@ const ScheduleBuilder = (() => {
       <div class="mono" style="font-size:10px;color:var(--muted);margin-bottom:8px">${i18n('foodExamples')}</div>`;
 
     suggestions.forEach(s => {
+      const scaledNote = s.portionScaled
+        ? `<span style="color:var(--amber);font-size:10px;margin-left:4px">(${i18n('portionAdjusted')})</span>`
+        : '';
       html += `
-        <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12.5px">
+        <div class="food-suggestion-item" style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12.5px;cursor:pointer;padding:4px;border-radius:6px;transition:background 0.15s" onclick="this.querySelector('.food-detail')?.classList.toggle('hidden')">
           <span style="color:var(--green);flex-shrink:0;margin-top:1px">•</span>
-          <span style="color:var(--sub)">
-            <strong style="color:var(--text);font-size:13.5px">${tx(s.food)}</strong>
+          <span style="color:var(--sub);width:100%">
+            <strong style="color:var(--text);font-size:13.5px">${tx(s.food)}</strong>${scaledNote}
             <div style="margin-top:3px;display:flex;gap:6px;align-items:center;flex-wrap:wrap">
               <span class="badge" style="background:var(--card);border:1px solid var(--border);color:var(--text)">🍱 ${s.proteinG}g ${i18n('proteinLabel')}</span>
               <span class="badge" style="background:var(--card);border:1px solid var(--border);color:var(--amber)">🔥 ${s.kcal} kcal</span>
               ${s.portion ? `<span class="badge" style="background:var(--card);border:1px solid var(--border);color:var(--sub)">⚖️ ${tx(s.portion)}</span>` : ''}
               ${s.note ? `<span style="color:var(--muted);font-style:italic;font-size:11px">— ${tx(s.note)}</span>` : ''}
+            </div>
+            <div class="food-detail hidden" style="margin-top:6px;padding:8px 10px;background:var(--bg);border:1px solid var(--border);border-radius:6px;font-size:11px;color:var(--sub)">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+                <span>${i18n('proteinLabel')}: <strong>${s.proteinG}g</strong></span>
+                <span>${i18n('estimatedKcal')}: <strong>${s.kcal}</strong></span>
+                <span>${i18n('carbsEst')}: ~${Math.round(s.kcal * 0.45 / 4)}g</span>
+                <span>${i18n('fatsEst')}: ~${Math.round(s.kcal * 0.30 / 9)}g</span>
+              </div>
+              ${s.portionScaled ? `<div style="margin-top:4px;color:var(--amber);font-size:10px">${i18n('portionAdjustedDetail').replace('{orig}', s.originalProteinG).replace('{target}', s.proteinG)}</div>` : ''}
             </div>
           </span>
         </div>`;
@@ -567,9 +605,12 @@ const ScheduleBuilder = (() => {
         }
       });
 
+      // Use TDEE from calculator for daily calorie total (not sum of food examples)
+      const dayTdee = dayPlan.summary ? dayPlan.summary.estimatedKcal : dayKcal;
+      const dayProtTarget = dayPlan.targets ? dayPlan.targets.dailyTotalG : dayProt;
       html += `<td style="padding:8px 6px;color:var(--sub);font-size:11px;text-align:right">
-          <div style="font-weight:600;color:var(--text)">${dayProt}g</div>
-          <div style="color:var(--amber);font-size:10px">${dayKcal} kcal</div>
+          <div style="font-weight:600;color:var(--text)">${dayProtTarget}g</div>
+          <div style="color:var(--amber);font-size:10px">${dayTdee} kcal</div>
       </td>`;
       html += `</tr>`;
     }

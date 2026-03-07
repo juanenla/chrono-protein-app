@@ -716,3 +716,90 @@ En esta fase, hemos implementado soluciones integrales para sincronizar las cuen
 El sistema es ahora más intuitivo, preciso en sus cuentas y adaptado 100% al contexto alimentario solicitado.
 
 ---
+
+## Exchange 27 (06 Mar)
+
+### Juan — Prompt
+
+> Bien. Mientras preparás todo, vamos a armar una lista de menú super completa...ahí vamos a poner Todas las sugerencias acorde a la cantidad de proteina que se debe consumir. A su vez, si la persona quisiera editar su lista, puede ingresar en el plato y seleccionar los ingredientes y las cantidades para ajustar así el plato con la realidad y que vaya cambiando la cantidad de proteinas. Tenemos que tener en base de datos: los ingredientes que utiliza esa persona para su día a día, los platos sugeridos de su menu, la tabla nutricional de cada ingrediente/insumo. y la parte de cocina: la preparación, links a videos o recetas donde pueda prepararla. Tiene que ser algo vivo, no estático, quiero que tenga la mejor forma de optimizar sus rutinas o tratamientos acorde a dosis/cantidades y horarios...todo personalizado...
+>
+> Algo importante, las calorias totales por día en la agenda semanal no coinciden con las calorias que se mencionan en el resumen del perfil ni coinciden cuando uno quiere editar el plan. Cual es la correcta?? favor de unificar y poner valores verdaderos y correctos. Otro punto: la propuesta de comida con cubre las necesidades proteicas de la comida en si: ejemplo, me propone una comida con 32 g de proteina y debo consumir 49g en esa misma comida, no coincide, confunde, hay que arreglarlo. Otro punto: los alimentos debo poder marcarlos y cuando lo haga que me aparezca el detalle nutricional de ese alimento...como para entender cuanto aporta en macro o micronutrientes, y cuantas calorias tengo con eso. Otro punto: la leucina, no se entiende de donde viene, con qué alimento se consume, se debe dar más detalles de eso, lo mismo que con la caseina, deben tener nombre de alimnto tambien...o sea, si se consume x plato para cumplir con y valor de leucina, debe estar más claro en la app. Otro punto: cuando modifico entre día de entreno y dia de descanso, no me cambia en el panel la cantidad de calorias a consumir...y eso está mal.
+
+### CLAUDE OPUS 4.6 — Response to Exchange 27
+
+[TAREA]: Fix criticos de calorías, proteínas, y UX
+[ESTADO]: Completado
+[CONTEXTO]: 7 fixes aplicados
+
+**Fixes realizados:**
+
+1. **Calorías unificadas (TDEE Katch-McArdle):** `renderSummary` en `schedule-builder.js` ahora usa `plan.summary.estimatedKcal` del calculator (TDEE real) en vez de calcular `proteinKcal / 0.25` (estimación mala). Ya no hay discrepancia entre dashboard summary, edit-plan y diary.
+
+2. **Comidas ajustadas a meta proteica:** Nueva función `scaleFoodToTarget()` en `schedule-builder.js` escala las porciones proporcionalmente para que el ejemplo de comida coincida con los gramos de proteína de la ventana. Ej: si la base es 32g y la meta es 49g, escala la porción y kcal (ratio 0.5–2x para ser realista). Muestra badge "(porcion ajustada)" cuando se escala.
+
+3. **Calorías en guía semanal:** La columna TOTAL DIARIO de `renderWeeklyGuide` ahora muestra el TDEE del calculator (`dayPlan.summary.estimatedKcal`) y los gramos proteicos del target (`dayPlan.targets.dailyTotalG`), no la suma de kcal de los ejemplos de comida individuales.
+
+4. **Leucina con nombre de alimento:** Las tarjetas de proteína ahora muestran de qué alimentos proviene la leucina según la clase proteica. Ej: Clase A → "whey, huevos, pollo, carne, pescado". Clase B → "caseina en polvo, queso untable, yogur natural".
+
+5. **Caseína explicada:** Las ventanas Clase B ahora muestran un info line: "Caseina (proteina lenta) proviene de: queso untable, yogur natural, caseina micelar en polvo, quark".
+
+6. **Detalle nutricional al hacer click:** Cada sugerencia de comida es ahora clickeable. Al tocar se expande un panel con: proteína, kcal, carbos estimados, grasas estimadas. Si la porción fue escalada, muestra el detalle de escalado.
+
+7. **Bugs corregidos de Gemini:**
+   - `edit-plan.html` y `diary.html` referenciaban `js/chronotypes.js` (plural) que no existe → corregido a `js/chronotype.js`
+   - `diary.html` usaba `I18n.setLanguage()` que no existe → corregido a `I18n.setLang()`
+   - `diary.js` usaba `I18n.currentLang` (variable privada) → corregido a `I18n.getLang()`
+
+8. **Nuevas claves i18n (EN + ES):** `portionAdjusted`, `portionAdjustedDetail`, `carbsEst`, `fatsEst`, `tapForDetail`, `leucineSource`, `leucineFromFood`, `caseinSource`, `leucineExplained`, `addLeucine` (actualizado con formato `{g}`)
+
+**Archivos modificados:** `js/schedule-builder.js`, `js/i18n.js`, `js/diary.js`, `dashboard.html`, `edit-plan.html`, `diary.html`
+
+**Pendiente próximo exchange:** Diseño de DB schema para ingredientes personalizados, platos del usuario, tabla nutricional, recetas y links.
+
+---
+
+## Exchange 28 (06 Mar)
+
+### Juan — Prompt
+
+> sí
+
+### CLAUDE OPUS 4.6 — Response to Exchange 28
+
+[TAREA]: Diseño de schema de base de datos para sistema de comidas personalizado
+[ESTADO]: Completado
+[CONTEXTO]: Schema completo creado en `data/meal-system-setup.sql`
+
+**Schema creado — 7 tablas nuevas:**
+
+1. **`ingredients`** — DB nutricional maestra (por 100g): macros, leucina, clase, absorcion, micros (calcio, hierro, zinc, magnesio, vit D, omega-3), dieta, bilingue
+2. **`user_favorites`** — Ingredientes que el usuario compra/usa con nombre custom y marca
+3. **`meals`** — Plantillas de comidas (sistema + usuario): bilingue, totales, cocina (prep/cook time, instrucciones, recipe_url, video_url, image_url), diet_tags
+4. **`meal_ingredients`** — Ingredientes de cada comida con cantidad en gramos y macros calculados
+5. **`user_meal_plan`** — Plan semanal: 7 dias x ventanas x training/rest, con multiplicador de porcion
+6. **`daily_log`** — Registro diario real con totales vs targets
+7. **`daily_log_entries`** — Entradas por comida con desviacion calculada automatica
+
+**Seed:** 47 ingredientes iniciales (proteinas del sistema + cortes argentinos + ingredientes base + productos argentinos)
+
+**RLS:** Ingredientes lectura publica, favoritos/plan/log solo propios, comidas sistema+propias
+
+**Archivo creado:** `data/meal-system-setup.sql`
+
+**Proximos pasos:** Juan ejecuta SQL en Supabase → UI de ingredientes y comidas → conectar con plan semanal
+
+---
+
+## Exchange 29 (06 Mar)
+
+### Juan — Prompt
+
+> listo, ejecutada
+
+### CLAUDE OPUS 4.6 — Response to Exchange 29
+
+[TAREA]: Confirmar ejecucion SQL y hacer commit+push de todos los cambios
+[ESTADO]: Completado
+[CONTEXTO]: 7 tablas nuevas creadas en Supabase, 47 ingredientes seed insertados. Commit y push pendiente.
+
+---

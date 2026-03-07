@@ -135,6 +135,16 @@ const I18n = (() => {
       proteinLabel: 'protein',
       estimatedKcal: 'est. KCAL',
       dayUnit: 'day',
+      portionAdjusted: 'adjusted portion',
+      portionAdjustedDetail: 'Portion scaled from {orig}g to {target}g protein to match your target',
+      carbsEst: 'Carbs (est.)',
+      fatsEst: 'Fats (est.)',
+      tapForDetail: 'Tap for nutritional detail',
+      leucineSource: 'Leucine source',
+      leucineFromFood: 'Your {g}g of leucine come from: {food}',
+      caseinSource: 'Casein (slow protein) from: cottage cheese, Greek yogurt, micellar casein powder, quark',
+      leucineExplained: 'Leucine is an amino acid found in protein foods. You need {threshold}g per meal to activate muscle building (mTORC1). Rich sources: whey protein (~10%), eggs (~8.5%), chicken (~7.8%), beef (~8%).',
+      addLeucine: 'Add {g}g free leucine supplement to reach threshold',
       scienceBasis: '<strong>Science basis:</strong> Your schedule is built from 113 scientific references including Mamerow 2014 (protein distribution), Morton 2018 (total intake meta-analysis), Trommelen 2023 (pre-sleep protein RCT), Negri 2025 (chrono-nutrition review), and the 2025 MDPI timing meta-analysis. Leucine thresholds from Norton 2006 and Churchward-Venne 2012, adjusted for age per Katsanos 2006.',
 
       // ── Chronotype quiz ──
@@ -434,6 +444,16 @@ const I18n = (() => {
       proteinLabel: 'proteína',
       estimatedKcal: 'KCAL est.',
       dayUnit: 'día',
+      portionAdjusted: 'porcion ajustada',
+      portionAdjustedDetail: 'Porcion escalada de {orig}g a {target}g de proteina para cumplir tu meta',
+      carbsEst: 'Carbos (est.)',
+      fatsEst: 'Grasas (est.)',
+      tapForDetail: 'Toca para ver detalle nutricional',
+      leucineSource: 'Fuente de leucina',
+      leucineFromFood: 'Tus {g}g de leucina provienen de: {food}',
+      caseinSource: 'Caseina (proteina lenta) proviene de: queso untable, yogur natural, caseina micelar en polvo, quark',
+      leucineExplained: 'La leucina es un aminoacido presente en alimentos proteicos. Necesitas {threshold}g por comida para activar la construccion muscular (mTORC1). Fuentes ricas: whey (~10%), huevos (~8.5%), pollo (~7.8%), carne vacuna (~8%).',
+      addLeucine: 'Agregar {g}g de suplemento de leucina libre para alcanzar el umbral',
       scienceBasis: '<strong>Base cientifica:</strong> Tu plan esta construido a partir de 113 referencias cientificas incluyendo Mamerow 2014 (distribucion de proteinas), Morton 2018 (meta-analisis de ingesta total), Trommelen 2023 (ensayo de proteina pre-sueno), Negri 2025 (revision de crono-nutricion), y el meta-analisis de timing 2025 de MDPI. Umbrales de leucina de Norton 2006 y Churchward-Venne 2012, ajustados por edad segun Katsanos 2006.',
 
       // ── Chronotype quiz ──
